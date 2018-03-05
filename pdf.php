@@ -1,7 +1,28 @@
 <?php
+
+require_once 'config.php';
+
+$con = $link;
+
+
+if (!$con) {
+    echo "Error: " . mysqli_connect_error();
+	exit();
+}
+
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
+
+
+$sql = "SELECT id, type, content, date_created FROM fillable WHERE id=" . $id . ";";
+
+
+$query 	= mysqli_query($con, $sql);
+
+$data = json_decode(mysqli_fetch_array($query)[2]);
+
+
 require('fpdf/fpdf.php');
 
-$data = json_decode(json_encode($_POST));
 
 class PDF extends FPDF
 {

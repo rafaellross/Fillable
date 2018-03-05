@@ -29,7 +29,7 @@
         <?php
             $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
             $username = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_SPECIAL_CHARS);
-            echo '<form method="post" name="fillable_form" action="../pdf.php?type='.$type.'&user='.$username.'">';
+            echo '<form method="post" name="fillable_form" action="../submit.php?type='.$type.'&user='.$username.'">';
         ?>            
                 <div class="form-group">
                     <label for="empname">
@@ -264,7 +264,7 @@
                                 <script src="../js/jSignature.min.js"></script>
                                 <div id="signature"></div>
                                 <input type="hidden" name="empSign" id="output" required>
-                                <input type="button" value="Clear" id="btnClearSign">
+                                <input type="button" value="Clear" id="btnClearSign" class="btn btn-danger">
                                 <script>
                                     $(document).ready(function() {
                                         var $sigdiv = $("#signature")

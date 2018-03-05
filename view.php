@@ -79,7 +79,7 @@ $resul = array();
       <th scope="col">Date</th>
 
 <?php
-	if($type == "Timesheet.php"){
+	if($type == "TimeSheet.php"){
 		echo '<th scope="col">Employee</th>';
 		echo '<th scope="col">Week End</th>';		
 	}
@@ -98,17 +98,17 @@ $resul = array();
         <td>'.$row['username'].'</td>
         <td>'.$row['date_created'].'</td>';
 
-	if($type == "Timesheet.php"){
+	if($type == "TimeSheet.php"){
 		$data = json_decode($row['content']);
 		
 		echo '<td>'.$data->empname.'</td>';
 		$tsDate = explode("-", $data->weestart);
-		echo "<td> $tsDate[2]/$tsDate[1]/$tsDate[0]</td>";		
+		echo "<td> $data->weestart</td>";		
 	}
 
 
         echo '<td style="text-align: center;">
-            <a class="btn btn-info" href="read/'.$type.'?id=' . $row['id'] .'">View</a>
+            <a class="btn btn-info" href="pdf.php?id=' . $row['id'] .'" target="_blank">View</a>
             <a id="' . $row['id'] .'" class="btn btn-danger delete" >Delete</a>
         </td>
         </tr>
