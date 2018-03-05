@@ -79,36 +79,58 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style type="text/css">
         body{ font: 14px sans-serif; }
-        .wrapper{ 
-            width: 25%; 
-            padding: 20px; 
-            margin-left: 37.5%;
+        .wrapper {
+            min-width: 500px;
+            position: absolute;
+            text-align: left;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.0rem
         }
+
+        img {
+            display: block;
+            margin: 0 auto;
+            padding-bottom: 10px;
+        }
+        @media (max-width: 500px) {
+            .wrapper {
+            min-width: 90%;
+        }
+    
         
     </style>
 </head>
 <body>
+
     <div class="wrapper">
-        <h2>Login</h2>
-        <p>Please fill in your credentials to login.</p>
+    
+        <div>
+            <img src="html/images/logo.jpg" alt=""/>    
+            <h2>Login</h2>
+        <p>Please fill in your credentials to login.</p>            
+        </div>
+        
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
-                <input type="text" name="username"class="form-control" value="<?php echo $username; ?>">
+                <input type="text" name="username"class="form-control form-control-lg" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $username_err; ?></span>
             </div>    
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
                 <label>Password</label>
-                <input type="password" name="password" class="form-control">
+                <input type="password" name="password" class="form-control form-control-lg">
                 <span class="help-block"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
-            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+
         </form>
     </div>    
 </body>

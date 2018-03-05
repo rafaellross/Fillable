@@ -102,7 +102,7 @@ $resul = array();
 		$data = json_decode($row['content']);
 		
 		echo '<td>'.$data->empname.'</td>';
-		$tsDate = explode("-", $data->weestart);
+		//$tsDate = explode("-", $data->weestart);
 		echo "<td> $data->weestart</td>";		
 	}
 

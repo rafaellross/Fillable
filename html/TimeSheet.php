@@ -44,17 +44,24 @@
                     <input type="text" class="form-control form-control-lg date-picker" name="weestart" id="weestart" required value="01/03/2018">                    
                 </div>      
                 <!-- Start Group Prefill-->                 
-                <div class="form-group alert alert-info" role="alert" id="groupMonday">                                        
+                <div class="form-group alert alert-info" role="alert" id="groupPre">                                        
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="pre">
+                                <strong style="padding-left: 5px;"> Special Leave?</strong>
+                            </div>
+                        </div>                    
+                
                     <h4 style="text-align: center;">Prefill Time Sheet</h4>                    
                     
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 col-12 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time" id="preStart" value="07:00">
+                                <input type="text" class="form-control form-control-lg time" id="preStart" name="preStart" value="07:00">
                             </div>
                             <div class="col-md-6 col-12 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time" id="preEnd" value="15:15">
+                                <input type="text" class="form-control form-control-lg time" id="preEnd" name="preEnd" value="15:15">
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -80,7 +87,14 @@
                 </div>               
                 <!-- Start Group Monday-->                 
                 <div class="form-group alert alert-success" role="alert" id="groupMonday">                                        
-                    <h4 style="text-align: center;">Monday</h4>                    
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="mon">
+                                <strong style="padding-left: 5px;"> Special Leave?</strong>
+                            </div>
+                        </div>                    
+                
+                        <h4 style="text-align: center;">Monday</h4>                    
                     
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 col-12 mb-3">
@@ -107,6 +121,13 @@
                 <!--End Group Monday -->
                 <!-- Start Group Tuesday-->                 
                 <div class="form-group alert alert-success" role="alert" id="groupTuesday">                                        
+                    <div class="input-group-prepend">
+                        <div class="input-group-text" >
+                            <input type="checkbox" id="tue">
+                            <strong style="padding-left: 5px;"> Special Leave?</strong>
+                        </div>
+                    </div>                    
+                
                     <h4 style="text-align: center;">Tuesday</h4>                    
                     
                         <div class="form-row" style="text-align: center;">
@@ -134,6 +155,13 @@
                 <!--End Group Tuesday -->
                 <!-- Start Group Wednesday-->                 
                 <div class="form-group alert alert-success" role="alert" id="groupWednesday">                                        
+                <div class="input-group-prepend">
+                        <div class="input-group-text" >
+                            <input type="checkbox" id="wed">
+                            <strong style="padding-left: 5px;"> Special Leave?</strong>
+                        </div>
+                    </div>                    
+
                     <h4 style="text-align: center;">Wednesday</h4>                    
                     
                         <div class="form-row" style="text-align: center;">
@@ -161,8 +189,14 @@
                 <!--End Group Wednesday -->
                 <!-- Start Group Thursday-->                 
                 <div class="form-group alert alert-success" role="alert" id="groupThursday">                                        
-                    <h4 style="text-align: center;">Thursday</h4>                    
-                    
+                <div class="input-group-prepend">
+                        <div class="input-group-text" >
+                            <input type="checkbox" id="thu">
+                            <strong style="padding-left: 5px;"> Special Leave?</strong>
+                        </div>
+                    </div>                    
+                
+                    <h4 style="text-align: center;">Thursday</h4>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
@@ -188,6 +222,12 @@
                 <!--End Group Thursday -->                
                 <!-- Start Group Friday-->                 
                 <div class="form-group alert alert-success" role="alert" id="groupFriday">                                        
+                <div class="input-group-prepend">
+                        <div class="input-group-text" >
+                            <input type="checkbox" id="fri">
+                            <strong style="padding-left: 5px;"> Special Leave?</strong>
+                        </div>
+                    </div>                                    
                     <h4 style="text-align: center;">Friday</h4>                    
                     
                         <div class="form-row" style="text-align: center;">
@@ -314,23 +354,48 @@
 
     <script>
         $(document).ready(function(){
+
+            $('input[type=checkbox]').change(function(){
+                
+                let nameEnd = $(this).attr('id') + 'End';
+                let nameStart = $(this).attr('id') + 'Start';
+                console.log(nameEnd);
+                if ($(this).prop('checked')) {
+                    $('input[name=' + nameEnd + ']').val("").parent().hide();
+                    $('input[name=' + nameStart + ']').parent().removeClass( "col-md-6" ).addClass( "col-md-12" );
+                    $('input[name=' + nameStart + ']').val("").unmask().siblings().empty().append("Description");    
+                    
+                } else {
+                    $('input[name=' + nameEnd + ']').parent().show();
+                    $('input[name=' + nameStart + ']').parent().removeClass( "col-md-12" ).addClass( "col-md-6" );
+                    $('input[name=' + nameStart + ']').mask('00:00').siblings().empty().append("Start");                        
+                }
+            });
+
+            $('#btnPreFill').click(function(){
+                if($('#pre').prop('checked')){
+                    $('input[type=checkbox]').not('#pre').attr('checked', true);
+                    $('input[type=checkbox]').not('#pre').trigger('change');
+                }
+            });
+
             $('#weestart').datepicker({format: 'dd/mm/yyyy'});
             $('#empDate').datepicker({format: 'dd/mm/yyyy'});
             $('.time').mask('00:00');		
 
             $('#btnPreFill').click(function(){
                 let preStart = $('#preStart').val();
-                console.log(preStart);
-                $('.start').val(preStart);
+       
+                $('.start').not('input[name=satStart]').val(preStart);
 
                 let preEnd = $('#preEnd').val();
-                $('.end').val(preEnd);
+                $('.end').not('input[name=satEnd]').val(preEnd);
                 
                 let preJob = $('#preJob').val();
-                $('.job').val(preJob);
+                $('.job').not('input[name=jobSat]').val(preJob);
 
                 let preHours = $('#preHours').val();
-                $('.hours').val(preHours);
+                $('.hours').not('input[name=hrsSat]').val(preHours);
 
                 let preTotalHours = $('#preTotalHours').val();
                 $('.totalWeek').val(preTotalHours);                
