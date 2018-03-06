@@ -1,11 +1,12 @@
 <?php
 // Include config file
+
 require_once 'config.php';
  
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
- 
+$administrator = "" ;
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
  
@@ -32,6 +33,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $username_err = "This username is already taken.";
                 } else{
                     $username = trim($_POST["username"]);
+                    $administrator = (isset($_POST['chkAdministrator'])) ? $_POST['chkAdministrator'] : "0" ;                     
                 }
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
@@ -65,11 +67,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $sql = "INSERT INTO users (username, password, administrator) VALUES (?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
+            mysqli_stmt_bind_param($stmt, "sss", $param_username, $param_password, $administrator);
             
             // Set parameters
             $param_username = $username;
@@ -128,6 +130,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
                 <span class="help-block"><?php echo $confirm_password_err; ?></span>
             </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="chkAdministrator" value="1">
+                <label class="form-check-label" for="chkAdministrator">Administrator?</label>
+            </div>
+            <hr>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-default" value="Reset">

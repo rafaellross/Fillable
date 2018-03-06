@@ -11,7 +11,7 @@ if (!$con) {
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
 $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
-$sql = "DELETE FROM FILLABLE WHERE id=" . $id . ";";
+$sql = "DELETE FROM FILLABLE WHERE id in (" . $id . ");";
 mysqli_query($con, $sql);
 
 

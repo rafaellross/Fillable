@@ -18,4 +18,3 @@ $sql = "SELECT id, type, content, date_created FROM fillable WHERE id=" . $id . 
 
 $query 	= mysqli_query($con, $sql);
 
-print_r($query)[2]);

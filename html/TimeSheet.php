@@ -1,3 +1,45 @@
+<?php
+// Initialize the session
+session_start();
+ 
+// If session variable is not set it will redirect to login page
+if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
+  header("location: login.php");
+  exit;
+}
+
+    $empId = filter_input(INPUT_GET, 'empId', FILTER_SANITIZE_SPECIAL_CHARS);
+    $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
+        
+    require_once '../config.php';
+    
+    $con = $link;
+    
+    
+    if (!$con) {
+        echo "Error: " . mysqli_connect_error();
+        exit();
+    }
+    //Check if there is employee id as param
+    if ($empId != "") {
+        $sql = "SELECT id, name FROM employees WHERE id =" . $empId . ";";
+    } else {
+        //Load Time Sheet
+        $sql = "SELECT id, type, content, date_created FROM fillable WHERE id in (" . $id . ");";
+    }
+   
+        
+    $query 	= mysqli_query($con, $sql);    
+    
+    if ($empId != "") {
+        $empName =  mysqli_fetch_array($query)[1];
+    } else {
+        $data = mysqli_fetch_array($query);
+        $data = json_decode($data['content']);        
+        $empName = $data->empname;
+    }
+//print_r($data);    
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +58,11 @@
     <title>Time Sheet</title>
 </head>
 <body>
+
+<?php
+include '../navbar.php';
+?>
+
     <div class="container">
         <!-- Logo -->        
             <div class="col-xs-12 col-sm-12 col-md-12" style="text-align: center">    
@@ -31,17 +78,18 @@
             $username = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_SPECIAL_CHARS);
             echo '<form method="post" name="fillable_form" action="../submit.php?type='.$type.'&user='.$username.'">';
         ?>            
+                <input type="hidden" name="timeSheetId" value="<?= ($id != "") ? $id : "" ;?>">                    
                 <div class="form-group">
                     <label for="empname">
                         <h5>Name:</h5>
                     </label>
-                    <input type="text" class="form-control form-control-lg" name="empname" id="empname" placeholder="Type employee name" value="Rafael" required>                    
+                    <input readonly type="text" class="form-control form-control-lg" name="empname" id="empname" placeholder="Type employee name" value="<?= $empName;?>" required>                    
                 </div>       
                 <div class="form-group">
                     <label for="empname">
                         <h5>Week End:</h5>
                     </label>                    
-                    <input type="text" class="form-control form-control-lg date-picker" name="weestart" id="weestart" required value="01/03/2018">                    
+                    <input type="text" class="form-control form-control-lg date-picker" name="weestart" id="weestart" required value="<?= (isset($data->weestart)) ? $data->weestart : "" ;?>">                    
                 </div>      
                 <!-- Start Group Prefill-->                 
                 <div class="form-group alert alert-info" role="alert" id="groupPre">                                        
@@ -99,21 +147,21 @@
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 col-12 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="monStart">
+                                <input type="text" class="form-control form-control-lg time start" name="monStart" value="<?= (isset($data->monStart)) ? $data->monStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 col-12 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="monEnd">
+                                <input type="text" class="form-control form-control-lg time end" name="monEnd" value="<?= (isset($data->monEnd)) ? $data->monEnd : "" ;?>">                    
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobMon">
+                                <input type="text" class="form-control form-control-lg job" name="jobMon" value="<?= (isset($data->jobMon)) ? $data->jobMon : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsMon">
+                                <input type="text" class="form-control form-control-lg time hours" name="hrsMon" value="<?= (isset($data->hrsMon)) ? $data->hrsMon : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -133,21 +181,21 @@
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="tueStart">
+                                <input type="text" class="form-control form-control-lg time start" name="tueStart" value="<?= (isset($data->tueStart)) ? $data->tueStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="tueEnd">
+                                <input type="text" class="form-control form-control-lg time end" name="tueEnd" value="<?= (isset($data->tueEnd)) ? $data->hrsMon : "" ;?>">                    
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobTue">
+                                <input type="text" class="form-control form-control-lg job" name="jobTue" value="<?= (isset($data->jobTue)) ? $data->jobTue : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsTue">
+                                <input type="text" class="form-control form-control-lg time hours" name="hrsTue" value="<?= (isset($data->hrsTue)) ? $data->hrsTue : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -167,21 +215,21 @@
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="wedStart">
+                                <input type="text" class="form-control form-control-lg time start" name="wedStart" value="<?= (isset($data->wedStart)) ? $data->wedStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="wedEnd">
+                                <input type="text" class="form-control form-control-lg time end" name="wedEnd" value="<?= (isset($data->wedEnd)) ? $data->wedEnd : "" ;?>">                    
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobWed">
+                                <input type="text" class="form-control form-control-lg job" name="jobWed" value="<?= (isset($data->jobWed)) ? $data->jobWed : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsWed">
+                                <input type="text" class="form-control form-control-lg time hours" name="hrsWed" value="<?= (isset($data->hrsWed)) ? $data->hrsWed : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -200,21 +248,21 @@
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="thuStart">
+                                <input type="text" class="form-control form-control-lg time start" name="thuStart" value="<?= (isset($data->thuStart)) ? $data->thuStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="thuEnd">
+                                <input type="text" class="form-control form-control-lg time end" name="thuEnd" value="<?= (isset($data->thuEnd)) ? $data->thuEnd : "" ;?>">                    
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobThu">
+                                <input type="text" class="form-control form-control-lg job" name="jobThu" value="<?= (isset($data->jobThu)) ? $data->jobThu : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsThu">
+                                <input type="text" class="form-control form-control-lg time hours" name="hrsThu" value="<?= (isset($data->hrsThu)) ? $data->hrsThu : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -233,21 +281,21 @@
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="friStart">
+                                <input type="text" class="form-control form-control-lg time start" name="friStart" value="<?= (isset($data->friStart)) ? $data->friStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="friEnd">
+                                <input type="text" class="form-control form-control-lg time end" name="friEnd" value="<?= (isset($data->friEnd)) ? $data->friEnd : "" ;?>">                    
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobFri">
+                                <input type="text" class="form-control form-control-lg job" name="jobFri" value="<?= (isset($data->jobFri)) ? $data->jobFri : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsFri">
+                                <input type="text" class="form-control form-control-lg time hours" name="hrsFri" value="<?= (isset($data->hrsFri)) ? $data->hrsFri : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -259,21 +307,21 @@
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="satStart">
+                                <input type="text" class="form-control form-control-lg time start" name="satStart" value="<?= (isset($data->satStart)) ? $data->satStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="satEnd">
+                                <input type="text" class="form-control form-control-lg time end" name="satEnd" value="<?= (isset($data->satEnd)) ? $data->satEnd : "" ;?>">                    
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobSat">
+                                <input type="text" class="form-control form-control-lg job" name="jobSat" value="<?= (isset($data->jobSat)) ? $data->jobSat : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsSat">
+                                <input type="text" class="form-control form-control-lg time hours" name="hrsSat" value="<?= (isset($data->hrsSat)) ? $data->hrsSat : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -285,7 +333,7 @@
                     
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-12 mb-3">                                
-                                <input type="text" class="form-control form-control-lg time totalWeek" name="totalWeek">
+                                <input type="text" class="form-control form-control-lg time totalWeek" name="totalWeek" value="<?= (isset($data->totalWeek)) ? $data->totalWeek : "" ;?>">                    
                             </div>
                         </div>                                        
                     
@@ -302,9 +350,19 @@
                                 <script type="text/javascript" src="../js/flashcanvas.js"></script>
                                 <![endif]-->
                                 <script src="../js/jSignature.min.js"></script>
-                                <div id="signature"></div>
-                                <input type="hidden" name="empSign" id="output" required>
-                                <input type="button" value="Clear" id="btnClearSign" class="btn btn-danger">
+                                
+                                <input type="hidden" name="empSign" id="output" value="<?= (isset($data->empSign)) ? $data->empSign : "" ;?>">
+                                <?php
+                                    if (isset($data->empSign)) {
+                                       echo '<img src="'.$data->empSign.'">';
+                                    } else {
+                                       echo '<div id="signature"></div>';
+                                       
+                                       echo '<input type="button" value="Clear" id="btnClearSign" class="btn btn-danger" >';
+
+                                    }
+                                                                    
+                                ?>
                                 <script>
                                     $(document).ready(function() {
                                         var $sigdiv = $("#signature")
@@ -319,14 +377,12 @@
                                        });
                                     });
                                 </script>                                
-                                <!--
-                                <input type="text" class="form-control form-control-lg time" name="empSign">
--->
+
                             </div>
                         </div>   
                                                                               
                 </div>                                             
-                <!-- Start Group Signature-->                 
+                <!-- Start Group Date-->                 
                 <div class="form-group alert alert-success" role="alert" id="groupFriday">                                        
                     <h4 style="text-align: center;">Date</h4>                    
                     
@@ -336,11 +392,28 @@
                             </div>
                         </div>                                                                                    
                 </div>                                             
+                <!-- Start Group Date-->                 
+                <div class="form-group alert alert-success" role="alert" id="groupStatus" style="<?= (!$_SESSION['administrator'] ? "display:none" : "" ) ?>">                                        
+                    <h4 style="text-align: center;">Status</h4>                    
+                    
+                        <div class="form-row" style="text-align: center;">
+                            <div class="col-md-12 mb-3">                                
+                                <div class="form-group">
+                                  <label for="status">Status</label>
+                                  <select class="form-control" name="status" id="">
+                                    <option value="P" selected>Pending</option>
+                                    <option value="A">Approved</option>
+                                    <option value="C">Cancelled</option>
+                                  </select>
+                                </div>
+                            </div>
+                        </div>                                                                                    
+                </div>                                             
                 
                 <!--End Group Total -->                       
                 <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <button type="button" class="btn btn-secondary btn-lg btn-block">Cancel</button>
+                                <a href="../index.php" class="btn btn-secondary btn-lg btn-block">Cancel</a>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>

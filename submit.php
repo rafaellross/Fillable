@@ -1,5 +1,10 @@
 <?php
 
+$status = $_POST['status'];
+unset($_POST['status']);
+
+
+
 $con = @mysqli_connect('localhost', 'root', '', 'fillable');
 
 if (!$con) {
@@ -9,7 +14,15 @@ if (!$con) {
 
 $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
 $username = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_SPECIAL_CHARS);
-$sql = "INSERT INTO fillable (type, content, date_created, username) VALUES ('". $type . "', '". json_encode($_POST) ."', now(), '" . $username . "');";
+
+if ($_POST['timeSheetId'] == "") {
+    $sql = "INSERT INTO fillable (type, content, date_created, username, ts_status, empSign) VALUES ('". $type . "', '". json_encode($_POST) ."', now(), '" . $username . "', '" . $status . "', '".$_POST['empSign']."');";
+} else {
+    $sql = "UPDATE fillable Set content = '" . json_encode($_POST) . "' WHERE id = " . $_POST['timeSheetId'];
+}
+
+    
+
 mysqli_query($con, $sql);
 
 
@@ -17,7 +30,8 @@ mysqli_query($con, $sql);
 // Close connection
 mysqli_close ($con);
 
-
+//print_r($_POST);
+//echo $sql;
 header("location: view.php?type=" . $type);
 
 
