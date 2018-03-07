@@ -1,12 +1,14 @@
 <?php
-// Include config file
 
+$username = filter_input(INPUT_GET, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+
+// Include config file
 require_once 'config.php';
  
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = "";
+$password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
-$administrator = "" ;
+ 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
  
@@ -29,11 +31,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 /* store result */
                 mysqli_stmt_store_result($stmt);
                 
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    $username_err = "This username is already taken.";
+                if(mysqli_stmt_num_rows($stmt) < 1){
+                    $username_err = "This username doesn't exists!";
                 } else{
                     $username = trim($_POST["username"]);
-                    $administrator = (isset($_POST['chkAdministrator'])) ? $_POST['chkAdministrator'] : "0" ;                     
                 }
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
@@ -67,11 +68,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password, administrator) VALUES (?, ?, ?)";
+        $sql = "UPDATE users SET password = ?, administrator = ? WHERE username = ?";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sss", $param_username, $param_password, $administrator);
+            mysqli_stmt_bind_param($stmt, "sss", $param_password, $_POST['chkAdministrator'], $param_username);
             
             // Set parameters
             $param_username = $username;
@@ -79,8 +80,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
-                // Redirect to login page
-                header("location: users.php");
+                // Redirect to login page                
+                
+                echo "<script>";
+                echo " alert('Password successfully changed!');      
+                        window.location.href='users.php';
+                     </script>";               
+                
             } else{
                 echo "Something went wrong. Please try again later.";
             }
@@ -99,7 +105,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up</title>
+    <title>Change Password</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
         body{ font: 14px sans-serif; }
@@ -112,12 +118,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 <body>
     <div class="wrapper">
-        <h2>Sign Up</h2>
-        <p>Please fill this form to create an account.</p>
+        <h2>Change Password</h2>
+        <p>Please fill this form to update your password.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
-                <input type="text" name="username"class="form-control" value="<?php echo $username; ?>">
+                <input type="text" name="username"class="form-control" value="<?php echo $username; ?>" readonly>
                 <span class="help-block"><?php echo $username_err; ?></span>
             </div>    
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">

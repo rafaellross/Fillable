@@ -212,7 +212,7 @@ while($data = mysqli_fetch_array($query)){
     $pdf->Line(11, 106, 80, 106);
     $pdf->Line(89, 106, 105, 106);
     
-    $pdf->Image('html/images/Site Diary_img_0.jpg', 150, 85, 40);
+    $pdf->Image('images/Site Diary_img_0.jpg', 150, 85, 40);
     $pdf->SetFont('Arial','B',15);
     $pdf->Text(209, 90,'TIME SHEET');
     $pdf->SetFont('Arial','',8);

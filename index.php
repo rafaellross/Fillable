@@ -35,7 +35,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
     <?php
     include 'navbar.php';
     echo '<div class="container">';
-    $dir = "html";
+    $dir = "./";
 
     // Sort in ascending order - this is default
     $files = scandir($dir);

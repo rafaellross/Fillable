@@ -34,7 +34,7 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
                     let emp = `
                     
                         <div class="card">
-                            <a href="html/TimeSheet.php?user=rafaellross&type=TimeSheet.php&empId=` + val.id + ` ">
+                            <a href="TimeSheet.php?type=TimeSheet.php&empId=` + val.id + ` ">
                             <div class="card-body">
                                 `+ val.name +`                                
                             </div>                            

@@ -30,8 +30,8 @@ mysqli_query($con, $sql);
 // Close connection
 mysqli_close ($con);
 
-//print_r($_POST);
-//echo $sql;
+
+
 header("location: view.php?type=" . $type);
 
 

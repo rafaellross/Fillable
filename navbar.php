@@ -18,10 +18,13 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="index.php">Home</span></a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" style="<?= ($_SESSION['administrator'] == "1") ? "display: block;" : "display: none;" ;?>">
         <a class="nav-link" href="users.php">Users</a>
+      </li>
+      <li class="nav-item" style="<?= ($_SESSION['administrator'] == "1") ? "display: block;" : "display: none;" ;?>">
+        <a class="nav-link" href="employees.php">Employees</a>
       </li>
       
     </ul>

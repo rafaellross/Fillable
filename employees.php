@@ -7,7 +7,6 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
   header("location: login.php");
   exit;
 }
-$type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +14,7 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?php echo $type;?></title>
+    <title>Employees</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -33,17 +32,15 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
         @media only screen and (max-width: 568px) {
             .mobile {
                 display: none;
-            }
-            
-
+            }            
         }        
     </style>
     <script>
         $(document).ready(function(){
             $('.delete').click(function(){                 
-                var result = confirm("Are you sure you want to delete this document (#" + $(this).attr('id')  + ")?");                
+                var result = confirm("Are you sure you want to delete this employee?");                
                 if (result == true) {                
-                    $(location).attr('href', 'delete.php' + window.location.search + '&id=' + $(this).attr('id'));
+                    $(location).attr('href', 'register_employee.php?action=delete&id=' + $(this).attr('id'));
                 }                
             });
             
@@ -52,37 +49,24 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
                 checkBoxes.prop("checked", !checkBoxes.prop("checked"));
             });                  
 
-            $('#btnPrint').click(function(){
-                let url = "pdf.php?id=";
-                let ids = Array();
-                $("input[type=checkbox]:checked").not('#chkRow').each(function(){
-                    ids.push(this.id.split("-")[1]);                    
-                });
-
-                window.open(url + ids.join(","), '_blank');
-
-            });
 
             $('#btnDelete').click(function(){
                 let selecteds = $("input[type=checkbox]:checked").not('#chkRow').length;
                 if (selecteds > 0) {
-                    let url = 'delete.php' + window.location.search + '&id=';
+                    let url = 'register_employee.php?action=delete&id=';
                     let ids = Array();
                     $("input[type=checkbox]:checked").not('#chkRow').each(function(){
                         ids.push(this.id.split("-")[1]);                    
                     });
-                    var result = confirm("Are you sure you want to delete following documents: " + ids  + "?");                
-                    if (result == true) {    
-                        $(location).attr('href', url + ids.join(","));                                    
+                    var result = confirm("Are you sure you want to delete the selecteds employees?");                
+                    if (result == true) {                
+                        //window.open(url + ids.join(","), '_blank');
+                         $(location).attr('href', url + ids.join(","));
                     }                            
                 }
                 
 
             });
-
-
-
-
 
             $('#selectStatus').change(function(){
                 let url = window.location.href + "&status=" + $(this).val();
@@ -102,15 +86,7 @@ if (!$con) {
 	exit();
 }
 
-
-$filter_status = (isset($_GET['status']) && $_GET['status'] != 'all') ? "= '" . $_GET['status'] . "' " : "is not null" ;
-
-if ($_SESSION['administrator']) {
-    $sql = "SELECT id, type, DATE_FORMAT(date_created,'%H:%i - %d/%m/%Y') date_created, username, content, ts_status as status FROM fillable WHERE ts_status " . $filter_status . " and type='". $type ."' order by id desc";
-} else {
-    $sql = "SELECT id, type, DATE_FORMAT(date_created,'%H:%i - %d/%m/%Y') date_created, username, content, ts_status as status FROM fillable WHERE ts_status " . $filter_status . " and type='". $type ."' and username='".$_SESSION['username']."' order by id desc";
-}
-
+$sql = "SELECT id, name, phone from employees order by name desc";
 
 
 $query 	= mysqli_query($con, $sql);
@@ -119,52 +95,27 @@ $resul = array();
 
 ?>
 <div class="container">
-<?php
-    echo '<h2 style="text-align: center;">' .$type. '</h2>';
-?>
+
+<h2 style="text-align: center;">Employees</h2>
+
 <hr/>
 <div class="form-group row">
     <div class="col-md-12 col-lg-12 col-12">   
         <div class="col-md-3 col-lg-3 col-3 float-left">   
-            <?php echo '<a href="select-employee.php?user=' . $_SESSION['username'] . '&type='. $type.'" class="btn btn-primary btn-block">Create New</a>';    ?>
+            <a href="register_employee.php?action=new" class="btn btn-primary btn-block">Create New</a>
         </div>
         <div class="col-md-3 col-lg-3 col-3 float-left">   
-            <input type="button" class="btn btn-danger btn-block mobile" id="btnDelete" value="Delete Selected(s)">
-        </div>
-        <div class="col-md-3 col-lg-3 col-3 float-left">   
-            <input type="button" class="btn btn-info btn-block" id="btnPrint" value="Print Selected(s)">
-            
+            <a href="#" class="btn btn-danger btn-block mobile" id="btnDelete">Delete Selected(s)</a>
         </div>
 
-        <div class="col-md-3 col-lg-3 col-3 float-right">   
-            <select class="custom-select mr-sm-2" id="selectStatus">
-                <option selected>Status...</option>
-                <option value="all">All</option>
-                <option value="A">Approved</option>        
-                <option value="P">Pending</option>
-                <option value="C">Cancelled</option>
-            </select>            
-        </div>
     </div> 
-
-
-
-
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col" class="mobile"><input type="checkbox" id="chkRow"></th>    
-      <th scope="col" class="mobile">#</th>
-      <th scope="col" class="mobile">User</th>
-      <th scope="col" class="mobile">Date</th>
-
-<?php
-	if($type == "TimeSheet.php"){
-		echo '<th scope="col">Employee</th>';
-        echo '<th scope="col">Week End</th>';		
-		echo '<th scope="col">Status</th>';		        
-	}
-?>
+      <th scope="col"><input type="checkbox" id="chkRow"></th>          
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Phone</th>      
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -174,18 +125,11 @@ $resul = array();
 <?php
     while ($row = mysqli_fetch_array($query))
     {
-        echo '<tr class="'.$row['status'].'"><th class="mobile" ><input type="checkbox" id="chkRow-' . $row['id'] . '"></th>';
-        echo '<th class="mobile" scope="row">' .$row['id'] . '</th>
-        <td class="mobile">'.$row['username'].'</td>
-        <td class="mobile">'.$row['date_created'].'</td>';
+        echo '<tr><th ><input type="checkbox" id="chkRow-' . $row['id'] . '"></th>';
+        echo '<td>'.$row['id'].'</td>
+        <td>'.$row['name'].'</td>
+        <td>'.$row['phone'].'</td>';        
 
-	if($type == "TimeSheet.php"){
-		$data = json_decode($row['content']);		
-		echo '<td>'.$data->empname.'</td>';
-		
-        echo "<td> $data->weestart</td>";		
-		echo "<td>". $row['status']."</td>";		        
-	}
 
 
         echo '<td style="text-align: center;">
@@ -194,8 +138,8 @@ $resul = array();
                     Actions
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="pdf.php?id=' . $row['id'] .'" target="_blank">View</a>
-                    <a class="dropdown-item" href="TimeSheet.php?user=' . $_SESSION['username'] . '&type=TimeSheet.php&id=' . $row['id'] .'">Edit</a>                    
+                    
+                    <a class="dropdown-item" href="register_employee.php?action=update&id=' . $row['id'] .'">Edit</a>                    
                     <a href="#" id="' . $row['id'] .'" class="dropdown-item delete" >Delete</a>
                     
                     </div>

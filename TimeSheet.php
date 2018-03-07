@@ -11,7 +11,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
     $empId = filter_input(INPUT_GET, 'empId', FILTER_SANITIZE_SPECIAL_CHARS);
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
         
-    require_once '../config.php';
+    require_once 'config.php';
     
     $con = $link;
     
@@ -50,7 +50,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>    
-    <script src="../js/jquery.mask.js"></script>
+    <script src="js/jquery.mask.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">
     
@@ -60,7 +60,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
 <body>
 
 <?php
-include '../navbar.php';
+include 'navbar.php';
 ?>
 
     <div class="container">
@@ -75,8 +75,8 @@ include '../navbar.php';
         <div class="col-xs-12 col-sm-12 col-md-12">    
         <?php
             $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
-            $username = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_SPECIAL_CHARS);
-            echo '<form method="post" name="fillable_form" action="../submit.php?type='.$type.'&user='.$username.'">';
+            
+            echo '<form method="post" name="fillable_form" action="submit.php?type='.$type.'&user='.$_SESSION['username'].'">';
         ?>            
                 <input type="hidden" name="timeSheetId" value="<?= ($id != "") ? $id : "" ;?>">                    
                 <div class="form-group">
@@ -347,9 +347,9 @@ include '../navbar.php';
 
                                 <!-- you load jquery somewhere above here ... -->
                                 <!--[if lt IE 9]>
-                                <script type="text/javascript" src="../js/flashcanvas.js"></script>
+                                <script type="text/javascript" src="js/flashcanvas.js"></script>
                                 <![endif]-->
-                                <script src="../js/jSignature.min.js"></script>
+                                <script src="js/jSignature.min.js"></script>
                                 
                                 <input type="hidden" name="empSign" id="output" value="<?= (isset($data->empSign)) ? $data->empSign : "" ;?>">
                                 <?php
@@ -413,7 +413,7 @@ include '../navbar.php';
                 <!--End Group Total -->                       
                 <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <a href="../index.php" class="btn btn-secondary btn-lg btn-block">Cancel</a>
+                                <a href="index.php" class="btn btn-secondary btn-lg btn-block">Cancel</a>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
