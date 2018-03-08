@@ -80,6 +80,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel='shortcut icon' type='image/x-icon' href='brand.ico' />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style type="text/css">
@@ -91,7 +92,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2.0rem
+            font-size: 2.0rem;
         }
 
         img {
@@ -101,18 +102,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
         @media (max-width: 500px) {
             .wrapper {
-            min-width: 90%;
+                min-width: 90%;
+            }
         }
-    
         
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
-    
+    <div class="wrapper">    
         <div>
-            <img src="html/images/logo.jpg" alt=""/>    
+            <img src="images/logo.jpg" alt=""/>    
             <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>            
         </div>

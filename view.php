@@ -40,6 +40,30 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
     </style>
     <script>
         $(document).ready(function(){
+
+            $('#btnStatus').click(function(){
+                let selecteds = $("input[type=checkbox]:checked").not('#chkRow').length;
+                if (selecteds > 0) {                                    
+                    $('#modalChangeStatus').modal('show');
+                }
+            });          
+
+            $('#btnSaveStatus').click(function(){
+                let selecteds = $("input[type=checkbox]:checked").not('#chkRow').length;
+                if (selecteds > 0) {                                       
+                    let url = "TimeSheet.php?id=";
+                    let ids = Array();
+                    $("input[type=checkbox]:checked").not('#chkRow').each(function(){
+                        ids.push(this.id.split("-")[1]);                    
+                    });    
+                    let newStatus = $("select[name=changeStatus]").val();
+                    $(location).attr('href', url + ids.join(",") + "&action=update&newStatus=" + newStatus);                                    
+                }
+                
+            });
+
+          
+
             $('.delete').click(function(){                 
                 var result = confirm("Are you sure you want to delete this document (#" + $(this).attr('id')  + ")?");                
                 if (result == true) {                
@@ -53,14 +77,16 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
             });                  
 
             $('#btnPrint').click(function(){
-                let url = "pdf.php?id=";
-                let ids = Array();
-                $("input[type=checkbox]:checked").not('#chkRow').each(function(){
-                    ids.push(this.id.split("-")[1]);                    
-                });
+                let selecteds = $("input[type=checkbox]:checked").not('#chkRow').length;
+                if (selecteds > 0) {                
+                    let url = "pdf.php?id=";
+                    let ids = Array();
+                    $("input[type=checkbox]:checked").not('#chkRow').each(function(){
+                        ids.push(this.id.split("-")[1]);                    
+                    });
 
-                window.open(url + ids.join(","), '_blank');
-
+                    window.open(url + ids.join(","), '_blank');
+                }
             });
 
             $('#btnDelete').click(function(){
@@ -106,9 +132,9 @@ if (!$con) {
 $filter_status = (isset($_GET['status']) && $_GET['status'] != 'all') ? "= '" . $_GET['status'] . "' " : "is not null" ;
 
 if ($_SESSION['administrator']) {
-    $sql = "SELECT id, type, DATE_FORMAT(date_created,'%H:%i - %d/%m/%Y') date_created, username, content, ts_status as status FROM fillable WHERE ts_status " . $filter_status . " and type='". $type ."' order by id desc";
+    $sql = "SELECT id, type, DATE_FORMAT(date_created,'%d/%m/%Y') date_created, username, content, ts_status as status FROM fillable WHERE ts_status " . $filter_status . " and type='". $type ."' order by id desc";
 } else {
-    $sql = "SELECT id, type, DATE_FORMAT(date_created,'%H:%i - %d/%m/%Y') date_created, username, content, ts_status as status FROM fillable WHERE ts_status " . $filter_status . " and type='". $type ."' and username='".$_SESSION['username']."' order by id desc";
+    $sql = "SELECT id, type, DATE_FORMAT(date_created,'%d/%m/%Y') date_created, username, content, ts_status as status FROM fillable WHERE ts_status " . $filter_status . " and type='". $type ."' and username='".$_SESSION['username']."' order by id desc";
 }
 
 
@@ -123,29 +149,25 @@ $resul = array();
     echo '<h2 style="text-align: center;">' .$type. '</h2>';
 ?>
 <hr/>
-<div class="form-group row">
-    <div class="col-md-12 col-lg-12 col-12">   
-        <div class="col-md-3 col-lg-3 col-3 float-left">   
-            <?php echo '<a href="select-employee.php?user=' . $_SESSION['username'] . '&type='. $type.'" class="btn btn-primary btn-block">Create New</a>';    ?>
-        </div>
-        <div class="col-md-3 col-lg-3 col-3 float-left">   
-            <input type="button" class="btn btn-danger btn-block mobile" id="btnDelete" value="Delete Selected(s)">
-        </div>
-        <div class="col-md-3 col-lg-3 col-3 float-left">   
-            <input type="button" class="btn btn-info btn-block" id="btnPrint" value="Print Selected(s)">
-            
-        </div>
 
-        <div class="col-md-3 col-lg-3 col-3 float-right">   
-            <select class="custom-select mr-sm-2" id="selectStatus">
-                <option selected>Status...</option>
-                <option value="all">All</option>
-                <option value="A">Approved</option>        
-                <option value="P">Pending</option>
-                <option value="C">Cancelled</option>
-            </select>            
-        </div>
-    </div> 
+    <div class="col-md-12 col-lg-12 col-12">       
+    
+            <?php echo '<a href="select-employee.php?user=' . $_SESSION['username'] . '&type='. $type.'" class="btn btn-primary">Create New</a>';    ?>            
+            <button class="btn btn-danger mobile" id="btnDelete">Delete Selected(s)</button>
+            <button class="btn btn-info" id="btnPrint">Print Selected(s)</button>            
+            <button class="btn btn-secondary" id="btnStatus">Change Status</button>            
+            <div style="float: right;">
+                <select class="custom-select mb-4" id="selectStatus">
+                    <option selected>Status...</option>
+                    <option value="all">All</option>
+                    <option value="A">Approved</option>        
+                    <option value="P">Pending</option>
+                    <option value="C">Cancelled</option>
+                </select>            
+            
+            </div>    
+    </div>
+
 
 
 
@@ -222,5 +244,32 @@ $resul = array();
 mysqli_close ($con);
 
 ?>    
+
+<div class="modal" tabindex="-1" role="dialog" id="modalChangeStatus">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Select new status:</label>
+            <select class="form-control" name="changeStatus">
+                <option value="P">Pending</option>
+                <option value="A">Approved</option>
+                <option value="C">Cancelled</option>
+            </select>
+        </div>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnSaveStatus">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

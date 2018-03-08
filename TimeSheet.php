@@ -10,7 +10,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
 
     $empId = filter_input(INPUT_GET, 'empId', FILTER_SANITIZE_SPECIAL_CHARS);
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
-        
+    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS);        
     require_once 'config.php';
     
     $con = $link;
@@ -20,21 +20,41 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
         echo "Error: " . mysqli_connect_error();
         exit();
     }
+
+    if ($action == 'update') {
+        $newStatus = filter_input(INPUT_GET, 'newStatus', FILTER_SANITIZE_SPECIAL_CHARS); 
+        $sql = "UPDATE fillable Set TS_STATUS = '" . $newStatus . "' WHERE id in(" . $id . ");";
+        
+        mysqli_query($con, $sql);
+        
+        // Close connection
+        mysqli_close ($con);                
+
+        echo "<script>";
+        
+        echo " alert('Status successfully changed!');      
+                window.location.href='view.php?type=TimeSheet.php';
+             </script>";    
+    }
+
     //Check if there is employee id as param
     if ($empId != "") {
         $sql = "SELECT id, name FROM employees WHERE id =" . $empId . ";";
     } else {
         //Load Time Sheet
-        $sql = "SELECT id, type, content, date_created FROM fillable WHERE id in (" . $id . ");";
+        $sql = "SELECT id, type, content, date_created, ts_status, empSign FROM fillable WHERE id in (" . $id . ");";
     }
    
         
     $query 	= mysqli_query($con, $sql);    
     
+    //This if for new time sheet
     if ($empId != "") {
         $empName =  mysqli_fetch_array($query)[1];
     } else {
         $data = mysqli_fetch_array($query);
+        $ts_status = $data['ts_status'];
+        $empSign = $data['empSign'];
         $data = json_decode($data['content']);        
         $empName = $data->empname;
     }
@@ -79,6 +99,7 @@ include 'navbar.php';
             echo '<form method="post" name="fillable_form" action="submit.php?type='.$type.'&user='.$_SESSION['username'].'">';
         ?>            
                 <input type="hidden" name="timeSheetId" value="<?= ($id != "") ? $id : "" ;?>">                    
+                <input type="hidden" name="empId" value="<?= ($empId != "") ? $empId : "" ;?>">                    
                 <div class="form-group">
                     <label for="empname">
                         <h5>Name:</h5>
@@ -351,10 +372,10 @@ include 'navbar.php';
                                 <![endif]-->
                                 <script src="js/jSignature.min.js"></script>
                                 
-                                <input type="hidden" name="empSign" id="output" value="<?= (isset($data->empSign)) ? $data->empSign : "" ;?>">
+                                <input type="hidden" name="empSign" id="output" value="<?= (isset($empSign)) ? $empSign : "" ;?>">
                                 <?php
-                                    if (isset($data->empSign)) {
-                                       echo '<img src="'.$data->empSign.'">';
+                                    if (isset($empSign)) {
+                                       echo '<img src="'.$empSign.'">';
                                     } else {
                                        echo '<div id="signature"></div>';
                                        
@@ -395,15 +416,15 @@ include 'navbar.php';
                 <!-- Start Group Date-->                 
                 <div class="form-group alert alert-success" role="alert" id="groupStatus" style="<?= (!$_SESSION['administrator'] ? "display:none" : "" ) ?>">                                        
                     <h4 style="text-align: center;">Status</h4>                    
-                    
+                    <?php //print_r($ts_status);?>
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-12 mb-3">                                
                                 <div class="form-group">
                                   <label for="status">Status</label>
                                   <select class="form-control" name="status" id="">
-                                    <option value="P" selected>Pending</option>
-                                    <option value="A">Approved</option>
-                                    <option value="C">Cancelled</option>
+                                    <option <?= (!isset($ts_status) || $ts_status == "P") ? "selected" : "" ;?> value="P">Pending</option>
+                                    <option <?= ($ts_status == "A") ? "selected" : "" ;?> value="A">Approved</option>
+                                    <option <?= ($ts_status == "C") ? "selected" : "" ;?> value="C">Cancelled</option>
                                   </select>
                                 </div>
                             </div>

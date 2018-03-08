@@ -85,8 +85,13 @@ if (!$con) {
     echo "Error: " . mysqli_connect_error();
 	exit();
 }
+$order = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_SPECIAL_CHARS);
+if($order == ""){
+    $sql = "SELECT emp.id, emp.name, emp.phone, (select id from fillable where YEARWEEK(end_week) = YEARWEEK(now()) and employee  = emp.id order by id desc limit 1)  as last_ts from employees emp order by emp.name";    
+} else {
+    $sql = "SELECT emp.id, emp.name, emp.phone, (select id from fillable where YEARWEEK(end_week) = YEARWEEK(now()) and employee  = emp.id order by id desc limit 1)  as last_ts from employees emp order by " . $order ."";    
+}
 
-$sql = "SELECT id, name, phone from employees order by name desc";
 
 
 $query 	= mysqli_query($con, $sql);
@@ -113,9 +118,10 @@ $resul = array();
   <thead>
     <tr>
       <th scope="col"><input type="checkbox" id="chkRow"></th>          
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Phone</th>      
+      <th scope="col"><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?order=id"?>">#</a> </th>
+      <th scope="col"><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?order=name"?>">Name</a></th>
+      <th scope="col"><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?order=phone"?>">Phone</a></th>      
+      <th scope="col"><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?order=4 desc, name desc"?>">Time Sheet</a></th>                  
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -125,10 +131,11 @@ $resul = array();
 <?php
     while ($row = mysqli_fetch_array($query))
     {
-        echo '<tr><th ><input type="checkbox" id="chkRow-' . $row['id'] . '"></th>';
+        echo '<tr' . ($row['last_ts'] != "" ? "" : ' style="background-color: red; color: white;"' ) .' ><th ><input type="checkbox" id="chkRow-' . $row['id'] . '"></th>';
         echo '<td>'.$row['id'].'</td>
         <td>'.$row['name'].'</td>
-        <td>'.$row['phone'].'</td>';        
+        <td>'.$row['phone'].'</td>
+        <td>' . ($row['last_ts'] == "" ? "No Time Sheet this Week" : '<a class="btn btn-success" href="pdf.php?id='.$row['last_ts'].'" role="button">View</a></td>');        
 
 
 
