@@ -88,12 +88,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
 <body>
 <?php
 include 'navbar.php';
-$con = @mysqli_connect('localhost', 'root', '', 'fillable');
 
-if (!$con) {
-    echo "Error: " . mysqli_connect_error();
-	exit();
-}
 $order = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_SPECIAL_CHARS);
 if($order == ""){
     $sql = "SELECT emp.id, emp.name, emp.phone, (select id from fillable where YEARWEEK(end_week) = YEARWEEK(now()) and employee  = emp.id order by id desc limit 1)  as last_ts from employees emp order by emp.name";    
@@ -103,7 +98,7 @@ if($order == ""){
 
 
 
-$query 	= mysqli_query($con, $sql);
+$query 	= mysqli_query($link, $sql);
 
 $resul = array();
 
@@ -176,7 +171,7 @@ $resul = array();
         echo '<a href="read.php?id=' . $row['id'] .'">'. $row['date_created'] .'</a><br>';
     }
 // Close connection
-mysqli_close ($con);
+mysqli_close ($link);
 
 ?>    
 </div>

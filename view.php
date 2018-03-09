@@ -130,13 +130,7 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
 <body>
 <?php
 include 'navbar.php';
-$con = @mysqli_connect('localhost', 'root', '', 'fillable');
-
-if (!$con) {
-    echo "Error: " . mysqli_connect_error();
-	exit();
-}
-
+include 'config.php';
 
 $filter_status = (isset($_GET['status']) && $_GET['status'] != 'all') ? "= '" . $_GET['status'] . "' " : "is not null" ;
 
@@ -148,7 +142,7 @@ if ($_SESSION['administrator']) {
 
 
 
-$query 	= mysqli_query($con, $sql);
+$query 	= mysqli_query($link, $sql);
 
 $resul = array();
 
@@ -249,7 +243,7 @@ $resul = array();
         echo '<a href="read.php?id=' . $row['id'] .'">'. $row['date_created'] .'</a><br>';
     }
 // Close connection
-mysqli_close ($con);
+mysqli_close ($link);
 
 ?>    
 

@@ -5,11 +5,6 @@ require_once 'config.php';
 
 $con = $link;
 
-if (!$con) {
-    echo "Error: " . mysqli_connect_error();
-	exit();
-}
-
 // Define variables and initialize with empty values
 $name = $phone = "";
 $name_err = $phone_err = "";

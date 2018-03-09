@@ -4,7 +4,7 @@
 require_once(dirname(__FILE__) . '/config.php');
 include 'Employee.php';
 
-$con = @mysqli_connect('localhost', 'root', '', 'fillable');
+$con = $link;
 
 if (!$con) {
     echo "Error: " . mysqli_connect_error();

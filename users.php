@@ -79,16 +79,11 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
 <body>
 <?php
 include 'navbar.php';
-$con = @mysqli_connect('localhost', 'root', '', 'fillable');
 
-if (!$con) {
-    echo "Error: " . mysqli_connect_error();
-	exit();
-}
 
 $sql = "SELECT id, username, name, DATE_FORMAT(created_at,'%d/%m/%Y') as date_created, if(administrator=1,'Yes','No') as administrator FROM users order by username, name desc";
 
-$query 	= mysqli_query($con, $sql);
+$query 	= mysqli_query($link, $sql);
 
 $resul = array();
 
@@ -159,7 +154,7 @@ $resul = array();
         echo '<a href="read.php?id=' . $row['id'] .'">'. $row['date_created'] .'</a><br>';
     }
 // Close connection
-mysqli_close ($con);
+mysqli_close ($link);
 
 ?>    
 </body>
