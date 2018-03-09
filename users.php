@@ -99,16 +99,13 @@ $resul = array();
 
 <hr/>
 <div class="form-group row">
-    <div class="col-md-12 col-lg-12 col-12">   
-        <div class="col-md-3 col-lg-3 col-3 float-left">   
-            <a href="register.php?source=users" class="btn btn-primary btn-block">Create New</a>
-        </div>
-        <div class="col-md-3 col-lg-3 col-3 float-left">   
+        <div class="col-md-12 col-lg-12 col-12">                 
+            <a href="register.php?source=users" class="btn btn-primary btn-block">Create New</a>                
             <a href="#" class="btn btn-danger btn-block mobile" id="btnDelete">Delete Selected(s)</a>
         </div>
 
     </div> 
-<table class="table table-hover">
+<table class="table table-hover table-responsive-sm">
   <thead>
     <tr>
       <th scope="col"><input type="checkbox" id="chkRow"></th>          

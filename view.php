@@ -35,11 +35,22 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
                 display: none;
             }
             
+            .btn, #statusSelect {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
 
         }        
     </style>
     <script>
         $(document).ready(function(){
+
+            if ($(window).width() <= 868) {  
+
+                //$("table").addClass('.table-responsive');
+
+            }     
 
             $('#btnStatus').click(function(){
                 let selecteds = $("input[type=checkbox]:checked").not('#chkRow').length;
@@ -61,9 +72,7 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
                 }
                 
             });
-
           
-
             $('.delete').click(function(){                 
                 var result = confirm("Are you sure you want to delete this document (#" + $(this).attr('id')  + ")?");                
                 if (result == true) {                
@@ -150,13 +159,12 @@ $resul = array();
 ?>
 <hr/>
 
-    <div class="col-md-12 col-lg-12 col-12">       
-    
+    <div class="col-md-12 col-lg-12 col-12">           
             <?php echo '<a href="select-employee.php?user=' . $_SESSION['username'] . '&type='. $type.'" class="btn btn-primary">Create New</a>';    ?>            
             <button class="btn btn-danger mobile" id="btnDelete">Delete Selected(s)</button>
-            <button class="btn btn-info" id="btnPrint">Print Selected(s)</button>            
-            <button class="btn btn-secondary" id="btnStatus">Change Status</button>            
-            <div style="float: right;">
+            <button class="btn btn-info" id="btnPrint" style="<?= (!$_SESSION['administrator'] ? "display:none" : "" ) ?>">Print Selected(s)</button>            
+            <button class="btn btn-secondary" id="btnStatus" style="<?= (!$_SESSION['administrator'] ? "display:none" : "" ) ?>">Change Status</button>            
+            <div style="float: right;" id="statusSelect">
                 <select class="custom-select mb-4" id="selectStatus">
                     <option selected>Status...</option>
                     <option value="all">All</option>
@@ -172,12 +180,12 @@ $resul = array();
 
 
 
-<table class="table table-hover">
+<table class="table table-hover table-responsive-sm">
   <thead>
     <tr>
       <th scope="col" class="mobile"><input type="checkbox" id="chkRow"></th>    
       <th scope="col" class="mobile">#</th>
-      <th scope="col" class="mobile">User</th>
+      <th scope="col">User</th>
       <th scope="col" class="mobile">Date</th>
 
 <?php
@@ -198,7 +206,7 @@ $resul = array();
     {
         echo '<tr class="'.$row['status'].'"><th class="mobile" ><input type="checkbox" id="chkRow-' . $row['id'] . '"></th>';
         echo '<th class="mobile" scope="row">' .$row['id'] . '</th>
-        <td class="mobile">'.$row['username'].'</td>
+        <td>'.$row['username'].'</td>
         <td class="mobile">'.$row['date_created'].'</td>';
 
 	if($type == "TimeSheet.php"){

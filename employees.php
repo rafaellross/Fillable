@@ -11,11 +11,11 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Employees</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
@@ -28,14 +28,23 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
         .table-hover th, td {
             text-align: center;
         }
-
+        
         @media only screen and (max-width: 568px) {
             .mobile {
                 display: none;
-            }            
-        }        
+            }
+            
+            .btn, #statusSelect {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+        }
+        
     </style>
+    
     <script>
+        
         $(document).ready(function(){
             $('.delete').click(function(){                 
                 var result = confirm("Are you sure you want to delete this employee?");                
@@ -105,19 +114,16 @@ $resul = array();
 
 <hr/>
 <div class="form-group row">
-    <div class="col-md-12 col-lg-12 col-12">   
-        <div class="col-md-3 col-lg-3 col-3 float-left">   
-            <a href="register_employee.php?action=new" class="btn btn-primary btn-block">Create New</a>
-        </div>
-        <div class="col-md-3 col-lg-3 col-3 float-left">   
-            <a href="#" class="btn btn-danger btn-block mobile" id="btnDelete">Delete Selected(s)</a>
-        </div>
+<div class="col-md-12 col-lg-12 col-12">         
+    <a href="register_employee.php?action=new" class="btn btn-primary">Create New</a>                
+    <a href="#" class="btn btn-danger" id="btnDelete">Delete Selected(s)</a>        
+    
+</div> 
 
-    </div> 
-<table class="table table-hover">
+<table class="table table-hover table-responsive-sm">
   <thead>
     <tr>
-      <th scope="col"><input type="checkbox" id="chkRow"></th>          
+      <th scope="col"><input type="checkbox" id="chkRow"/></th>          
       <th scope="col"><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?order=id"?>">#</a> </th>
       <th scope="col"><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?order=name"?>">Name</a></th>
       <th scope="col"><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?order=phone"?>">Phone</a></th>      
@@ -131,20 +137,20 @@ $resul = array();
 <?php
     while ($row = mysqli_fetch_array($query))
     {
-        echo '<tr' . ($row['last_ts'] != "" ? "" : ' style="background-color: red; color: white;"' ) .' ><th ><input type="checkbox" id="chkRow-' . $row['id'] . '"></th>';
+        echo '<tr' . ($row['last_ts'] != "" ? "" : ' style="background-color: red; color: white;"' ) .' ><th ><input type="checkbox" id="chkRow-' . $row['id'] . '"/></th>';
         echo '<td>'.$row['id'].'</td>
         <td>'.$row['name'].'</td>
         <td>'.$row['phone'].'</td>
-        <td>' . ($row['last_ts'] == "" ? "No Time Sheet this Week" : '<a class="btn btn-success" href="pdf.php?id='.$row['last_ts'].'" role="button">View</a></td>');        
+        <td>' . ($row['last_ts'] == "" ? "No Time Sheet this Week" : '<a class="btn btn-success" href="pdf.php?id='.$row['last_ts'].'" role="button">View</a>').'</td>';        
 
 
 
         echo '<td style="text-align: center;">
                     <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton'.$row['id'].'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Actions
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton'.$row['id'].'">
                     
                     <a class="dropdown-item" href="register_employee.php?action=update&id=' . $row['id'] .'">Edit</a>                    
                     <a href="#" id="' . $row['id'] .'" class="dropdown-item delete" >Delete</a>
@@ -173,5 +179,6 @@ $resul = array();
 mysqli_close ($con);
 
 ?>    
+</div>
 </body>
 </html>
