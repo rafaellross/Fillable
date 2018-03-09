@@ -220,7 +220,8 @@ $resul = array();
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="pdf.php?id=' . $row['id'] .'" target="_blank">View</a>
                     <a class="dropdown-item" href="TimeSheet.php?user=' . $_SESSION['username'] . '&type=TimeSheet.php&id=' . $row['id'] .'">Edit</a>                    
-                    <a href="#" id="' . $row['id'] .'" class="dropdown-item delete" >Delete</a>
+
+                    <a href="#" id="' . $row['id'] .'" class="dropdown-item delete" style="'. (($_SESSION['administrator'] != "1" && $row['status'] != 'P') ? "display: none;" : "" ) .'">Delete</a>
                     
                     </div>
                 </div>        
@@ -229,6 +230,7 @@ $resul = array();
         </td>
         </tr>
         ';          
+
     }
 ?>    
     </tr>
