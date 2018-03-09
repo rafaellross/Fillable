@@ -79,7 +79,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
 <body>
 <?php
 include 'navbar.php';
-
+include 'config.php';
 
 $sql = "SELECT id, username, name, DATE_FORMAT(created_at,'%d/%m/%Y') as date_created, if(administrator=1,'Yes','No') as administrator FROM users order by username, name desc";
 
@@ -95,8 +95,8 @@ $resul = array();
 <hr/>
 <div class="form-group row">
         <div class="col-md-12 col-lg-12 col-12">                 
-            <a href="register.php?source=users" class="btn btn-primary btn-block">Create New</a>                
-            <a href="#" class="btn btn-danger btn-block mobile" id="btnDelete">Delete Selected(s)</a>
+            <a href="register.php?source=users" class="btn btn-primary">Create New</a>                
+            <a href="#" class="btn btn-danger mobile" id="btnDelete">Delete Selected(s)</a>
         </div>
 
     </div> 

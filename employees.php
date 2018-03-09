@@ -88,7 +88,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
 <body>
 <?php
 include 'navbar.php';
-
+include 'config.php';
 $order = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_SPECIAL_CHARS);
 if($order == ""){
     $sql = "SELECT emp.id, emp.name, emp.phone, (select id from fillable where YEARWEEK(end_week) = YEARWEEK(now()) and employee  = emp.id order by id desc limit 1)  as last_ts from employees emp order by emp.name";    
