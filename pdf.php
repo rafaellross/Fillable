@@ -13,7 +13,7 @@ if (!$con) {
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
 
 
-$sql = "SELECT id, type, content, date_created, empSign FROM fillable WHERE id in (" . $id . ");";
+$sql = "SELECT fillable.id, fillable.type, fillable.content, fillable.date_created, fillable.empSign FROM fillable inner join employees on employees.id = fillable.employee WHERE fillable.id in (" . $id . ") order by employees.name;";
 
 
 

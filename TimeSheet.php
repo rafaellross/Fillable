@@ -71,6 +71,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>    
     <script src="js/jquery.mask.js"></script>
+    <script src="js/jquery.mask.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">
     
@@ -121,16 +122,22 @@ include 'navbar.php';
                             </div>
                         </div>                    
                 
-                    <h4 style="text-align: center;">Prefill Time Sheet</h4>                    
+                    <h4 style="text-align: center;">Autofill Time Sheet</h4>                    
                     
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 col-12 mb-3">
                                 <label>Start</label>
+                                <!--
                                 <input type="text" class="form-control form-control-lg time" id="preStart" name="preStart" value="07:00">
+                                -->
+                                <select class="hour-start form-control form-control-lg custom-select " id="preStart"><option value="00:00">00:00</option><option value="00:15">00:15</option><option value="00:30">00:30</option><option value="00:45">00:45</option><option value="01:00">01:00</option><option value="01:15">01:15</option><option value="01:30">01:30</option><option value="01:45">01:45</option><option value="02:00">02:00</option><option value="02:15">02:15</option><option value="02:30">02:30</option><option value="02:45">02:45</option><option value="03:00">03:00</option><option value="03:15">03:15</option><option value="03:30">03:30</option><option value="03:45">03:45</option><option value="04:00">04:00</option><option value="04:15">04:15</option><option value="04:30">04:30</option><option value="04:45">04:45</option><option value="05:00">05:00</option><option value="05:15">05:15</option><option value="05:30">05:30</option><option value="05:45">05:45</option><option value="06:00">06:00</option><option value="06:15">06:15</option><option value="06:30">06:30</option><option value="06:45">06:45</option><option value="07:00">07:00</option><option value="07:15">07:15</option><option value="07:30">07:30</option><option value="07:45">07:45</option><option value="08:00">08:00</option><option value="08:15">08:15</option><option value="08:30">08:30</option><option value="08:45">08:45</option><option value="09:00">09:00</option><option value="09:15">09:15</option><option value="09:30">09:30</option><option value="09:45">09:45</option><option value="10:00">10:00</option><option value="10:15">10:15</option><option value="10:30">10:30</option><option value="10:45">10:45</option><option value="11:00">11:00</option><option value="11:15">11:15</option><option value="11:30">11:30</option><option value="11:45">11:45</option><option value="12:00">12:00</option><option value="12:15">12:15</option><option value="12:30">12:30</option><option value="12:45">12:45</option><option value="13:00">13:00</option><option value="13:15">13:15</option><option value="13:30">13:30</option><option value="13:45">13:45</option><option value="14:00">14:00</option><option value="14:15">14:15</option><option value="14:30">14:30</option><option value="14:45">14:45</option><option value="15:00">15:00</option><option value="15:15">15:15</option><option value="15:30">15:30</option><option value="15:45">15:45</option><option value="16:00">16:00</option><option value="16:15">16:15</option><option value="16:30">16:30</option><option value="16:45">16:45</option><option value="17:00">17:00</option><option value="17:15">17:15</option><option value="17:30">17:30</option><option value="17:45">17:45</option><option value="18:00">18:00</option><option value="18:15">18:15</option><option value="18:30">18:30</option><option value="18:45">18:45</option><option value="19:00">19:00</option><option value="19:15">19:15</option><option value="19:30">19:30</option><option value="19:45">19:45</option><option value="20:00">20:00</option><option value="20:15">20:15</option><option value="20:30">20:30</option><option value="20:45">20:45</option><option value="21:00">21:00</option><option value="21:15">21:15</option><option value="21:30">21:30</option><option value="21:45">21:45</option><option value="22:00">22:00</option><option value="22:15">22:15</option><option value="22:30">22:30</option><option value="22:45">22:45</option><option value="23:00">23:00</option><option value="23:15">23:15</option><option value="23:30">23:30</option><option value="23:45">23:45</option></select>                                
                             </div>
                             <div class="col-md-6 col-12 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time" id="preEnd" name="preEnd" value="15:15">
+                                <select class="hour-start form-control form-control-lg custom-select " id="preEnd" onchange="calc(preStart, preEnd, preHours)"><option value="00:00">00:00</option><option value="00:15">00:15</option><option value="00:30">00:30</option><option value="00:45">00:45</option><option value="01:00">01:00</option><option value="01:15">01:15</option><option value="01:30">01:30</option><option value="01:45">01:45</option><option value="02:00">02:00</option><option value="02:15">02:15</option><option value="02:30">02:30</option><option value="02:45">02:45</option><option value="03:00">03:00</option><option value="03:15">03:15</option><option value="03:30">03:30</option><option value="03:45">03:45</option><option value="04:00">04:00</option><option value="04:15">04:15</option><option value="04:30">04:30</option><option value="04:45">04:45</option><option value="05:00">05:00</option><option value="05:15">05:15</option><option value="05:30">05:30</option><option value="05:45">05:45</option><option value="06:00">06:00</option><option value="06:15">06:15</option><option value="06:30">06:30</option><option value="06:45">06:45</option><option value="07:00">07:00</option><option value="07:15">07:15</option><option value="07:30">07:30</option><option value="07:45">07:45</option><option value="08:00">08:00</option><option value="08:15">08:15</option><option value="08:30">08:30</option><option value="08:45">08:45</option><option value="09:00">09:00</option><option value="09:15">09:15</option><option value="09:30">09:30</option><option value="09:45">09:45</option><option value="10:00">10:00</option><option value="10:15">10:15</option><option value="10:30">10:30</option><option value="10:45">10:45</option><option value="11:00">11:00</option><option value="11:15">11:15</option><option value="11:30">11:30</option><option value="11:45">11:45</option><option value="12:00">12:00</option><option value="12:15">12:15</option><option value="12:30">12:30</option><option value="12:45">12:45</option><option value="13:00">13:00</option><option value="13:15">13:15</option><option value="13:30">13:30</option><option value="13:45">13:45</option><option value="14:00">14:00</option><option value="14:15">14:15</option><option value="14:30">14:30</option><option value="14:45">14:45</option><option value="15:00">15:00</option><option value="15:15">15:15</option><option value="15:30">15:30</option><option value="15:45">15:45</option><option value="16:00">16:00</option><option value="16:15">16:15</option><option value="16:30">16:30</option><option value="16:45">16:45</option><option value="17:00">17:00</option><option value="17:15">17:15</option><option value="17:30">17:30</option><option value="17:45">17:45</option><option value="18:00">18:00</option><option value="18:15">18:15</option><option value="18:30">18:30</option><option value="18:45">18:45</option><option value="19:00">19:00</option><option value="19:15">19:15</option><option value="19:30">19:30</option><option value="19:45">19:45</option><option value="20:00">20:00</option><option value="20:15">20:15</option><option value="20:30">20:30</option><option value="20:45">20:45</option><option value="21:00">21:00</option><option value="21:15">21:15</option><option value="21:30">21:30</option><option value="21:45">21:45</option><option value="22:00">22:00</option><option value="22:15">22:15</option><option value="22:30">22:30</option><option value="22:45">22:45</option><option value="23:00">23:00</option><option value="23:15">23:15</option><option value="23:30">23:30</option><option value="23:45">23:45</option></select>                                
+                                <!--
+                                <input type="text" class="form-control form-control-lg time end" id="preEnd" name="preEnd" value="15:15" onchange="calc(preStart, preEnd, preHours)">
+                                -->
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -140,17 +147,17 @@ include 'navbar.php';
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Hours</label>
-                                <input type="text" class="form-control form-control-lg time" id="preHours" value="08:00">
+                                <input readonly type="text" class="form-control form-control-lg time" id="preHours" value="08:00">
                             </div>                                        
                         </div> 
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-12 mb-3">
                                 <label>Total Hours Week</label>
-                                <input type="text" class="form-control form-control-lg time" id="preTotalHours" value="40:00">
+                                <input readonly type="text" class="form-control form-control-lg time" id="preTotalHours" value="40:00">
                             </div>                                        
                         </div>                                                                                        
                         <div class="col-md-12 mb-3">
-                                <button type="button" class="btn btn-secondary btn-lg btn-block" id="btnPreFill">Prefill Time Sheet</button>
+                                <button type="button" class="btn btn-secondary btn-lg btn-block" id="btnPreFill">Autofill Time Sheet</button>
                         </div>
                     
                 </div>               
@@ -168,11 +175,12 @@ include 'navbar.php';
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 col-12 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="monStart" value="<?= (isset($data->monStart)) ? $data->monStart : "" ;?>">                    
+                                
+                                <input type="text" class="form-control form-control-lg time start" name="monStart" id="monStart" value="<?= (isset($data->monStart)) ? $data->monStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 col-12 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="monEnd" value="<?= (isset($data->monEnd)) ? $data->monEnd : "" ;?>">                    
+                                <input  type="text" class="form-control form-control-lg time end" name="monEnd" id="monEnd" value="<?= (isset($data->monEnd)) ? $data->monEnd : "" ;?>" onchange="calc(monStart, monEnd, hrsMon)">                    
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -182,7 +190,7 @@ include 'navbar.php';
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsMon" value="<?= (isset($data->hrsMon)) ? $data->hrsMon : "" ;?>">                    
+                                <input readonly type="text" class="form-control form-control-lg time hours" name="hrsMon" value="<?= (isset($data->hrsMon)) ? $data->hrsMon : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -202,11 +210,11 @@ include 'navbar.php';
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="tueStart" value="<?= (isset($data->tueStart)) ? $data->tueStart : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg time start" name="tueStart" id="tueStart" value="<?= (isset($data->tueStart)) ? $data->tueStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="tueEnd" value="<?= (isset($data->tueEnd)) ? $data->hrsMon : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg time end" name="tueEnd" id="tueEnd" value="<?= (isset($data->tueEnd)) ? $data->hrsMon : "" ;?>" onchange="calc(tueStart, tueEnd, hrsTue)">                    
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -216,7 +224,7 @@ include 'navbar.php';
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsTue" value="<?= (isset($data->hrsTue)) ? $data->hrsTue : "" ;?>">                    
+                                <input readonly type="text" class="form-control form-control-lg time hours" name="hrsTue" value="<?= (isset($data->hrsTue)) ? $data->hrsTue : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -236,11 +244,11 @@ include 'navbar.php';
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="wedStart" value="<?= (isset($data->wedStart)) ? $data->wedStart : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg time start" name="wedStart" id="wedStart" value="<?= (isset($data->wedStart)) ? $data->wedStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="wedEnd" value="<?= (isset($data->wedEnd)) ? $data->wedEnd : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg time end" name="wedEnd" id="wedEnd" value="<?= (isset($data->wedEnd)) ? $data->wedEnd : "" ;?>" onchange="calc(wedStart, wedEnd, hrsWed)">                    
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -250,7 +258,7 @@ include 'navbar.php';
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsWed" value="<?= (isset($data->hrsWed)) ? $data->hrsWed : "" ;?>">                    
+                                <input readonly type="text" class="form-control form-control-lg time hours" name="hrsWed" id="hrsWed" value="<?= (isset($data->hrsWed)) ? $data->hrsWed : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -269,11 +277,11 @@ include 'navbar.php';
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="thuStart" value="<?= (isset($data->thuStart)) ? $data->thuStart : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg time start" name="thuStart" id="thuStart" value="<?= (isset($data->thuStart)) ? $data->thuStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="thuEnd" value="<?= (isset($data->thuEnd)) ? $data->thuEnd : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg time end" name="thuEnd" id="thuEnd" value="<?= (isset($data->thuEnd)) ? $data->thuEnd : "" ;?>" onchange="calc(thuStart, thuEnd, hrsThu)"> 
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -283,7 +291,7 @@ include 'navbar.php';
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsThu" value="<?= (isset($data->hrsThu)) ? $data->hrsThu : "" ;?>">                    
+                                <input readonly type="text" class="form-control form-control-lg time hours" name="hrsThu" id="hrsThu" value="<?= (isset($data->hrsThu)) ? $data->hrsThu : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -302,11 +310,11 @@ include 'navbar.php';
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="friStart" value="<?= (isset($data->friStart)) ? $data->friStart : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg time start" name="friStart" id="friStart" value="<?= (isset($data->friStart)) ? $data->friStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="friEnd" value="<?= (isset($data->friEnd)) ? $data->friEnd : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg time end" name="friEnd" id="friEnd" value="<?= (isset($data->friEnd)) ? $data->friEnd : "" ;?>" onchange="calc(friStart, friEnd, hrsFri)"> 
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -316,7 +324,7 @@ include 'navbar.php';
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsFri" value="<?= (isset($data->hrsFri)) ? $data->hrsFri : "" ;?>">                    
+                                <input readonly type="text" class="form-control form-control-lg time hours" name="hrsFri" id="hrsFri" value="<?= (isset($data->hrsFri)) ? $data->hrsFri : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
                     
@@ -328,11 +336,11 @@ include 'navbar.php';
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="satStart" value="<?= (isset($data->satStart)) ? $data->satStart : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg time start" name="satStart" id="satStart" value="<?= (isset($data->satStart)) ? $data->satStart : "" ;?>">                    
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="satEnd" value="<?= (isset($data->satEnd)) ? $data->satEnd : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg time end" name="satEnd" id="satEnd" value="<?= (isset($data->satEnd)) ? $data->satEnd : "" ;?>" onchange="calc(satStart, satEnd, hrsSat)"> 
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -342,7 +350,7 @@ include 'navbar.php';
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
-                                <input type="text" class="form-control form-control-lg time hours" name="hrsSat" value="<?= (isset($data->hrsSat)) ? $data->hrsSat : "" ;?>">                    
+                                <input readonly type="text" class="form-control form-control-lg time hours" name="hrsSat" id="hrsSat" value="<?= (isset($data->hrsSat)) ? $data->hrsSat : "" ;?>" >                    
                             </div>                                        
                         </div>                                                                
                     
@@ -354,7 +362,7 @@ include 'navbar.php';
                     
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-12 mb-3">                                
-                                <input type="text" class="form-control form-control-lg time totalWeek" name="totalWeek" value="<?= (isset($data->totalWeek)) ? $data->totalWeek : "" ;?>">                    
+                                <input readonly type="text" class="form-control form-control-lg time totalWeek" name="totalWeek" id="totalWeek" value="<?= (isset($data->totalWeek)) ? $data->totalWeek : "" ;?>">                    
                             </div>
                         </div>                                        
                     
@@ -490,11 +498,67 @@ include 'navbar.php';
 
                 let preHours = $('#preHours').val();
                 $('.hours').not('input[name=hrsSat]').val(preHours);
-
+                /*
                 let preTotalHours = $('#preTotalHours').val();
                 $('.totalWeek').val(preTotalHours);                
-                
+                */
+                $('.end').trigger( "change" );
             });
+            
+            $('.end').focus(function(){
+                $(this).val('');
+            });
+            
+            $('input').focusin(function(){
+                $(this).trigger( "change" );
+            });
+            $('input').focusout(function(){
+                $(this).trigger( "change" );
+            });
+
+
+            calc = function(startHour_param, endHour_param, destination_param) {
+                let startHour = $(startHour_param).val();
+                let endHour = $(endHour_param).val();
+                let destination = $(destination_param);
+                function D(J){ 
+                    return (J<10? '0':'') + J;
+                };
+                var startPiece = startHour.split(':');
+                var startMins = startPiece[0]*60 + +startPiece[1];
+
+                var endPiece = endHour.split(':');
+                var endMins = endPiece[0]*60 + +endPiece[1];
+                var totalMins = endMins - startMins -15;
+                if (!isNaN(totalMins)) {                    
+                    destination.val(D(totalMins%(24*60)/60 | 0) + ':' + D(totalMins%60));                      
+                }
+                
+                calcTotal();
+            }                             
+
+            calcTotal = function() {
+                
+                let totalWeekMins = 0;
+
+                $('.hours').each(function(){
+                    var totalDay = $(this).val().split(':');
+                    var curr = $(this);
+                    var totalMins = 0;
+                    totalMins = totalDay[0]*60 + +totalDay[1];
+                    totalWeekMins += (!isNaN(totalMins) ? totalMins : 0);
+                });
+                
+                function D(J){ 
+                    return (J<10? '0':'') + J;
+                };  
+                var hours = D(totalWeekMins/60 | 0);
+                var minutes = D(totalWeekMins%60);
+                var totalWeek = D(totalWeekMins/60 | 0) + ':' + D(totalWeekMins%60);  
+                $('#totalWeek').val(totalWeek);  
+            }                             
+
+
         });
     </script>
 
