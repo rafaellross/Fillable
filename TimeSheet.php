@@ -130,14 +130,33 @@ include 'navbar.php';
                                 <!--
                                 <input type="text" class="form-control form-control-lg time" id="preStart" name="preStart" value="07:00">
                                 -->
-                                <select class="hour-start form-control form-control-lg custom-select " id="preStart"><option value="00:00">00:00</option><option value="00:15">00:15</option><option value="00:30">00:30</option><option value="00:45">00:45</option><option value="01:00">01:00</option><option value="01:15">01:15</option><option value="01:30">01:30</option><option value="01:45">01:45</option><option value="02:00">02:00</option><option value="02:15">02:15</option><option value="02:30">02:30</option><option value="02:45">02:45</option><option value="03:00">03:00</option><option value="03:15">03:15</option><option value="03:30">03:30</option><option value="03:45">03:45</option><option value="04:00">04:00</option><option value="04:15">04:15</option><option value="04:30">04:30</option><option value="04:45">04:45</option><option value="05:00">05:00</option><option value="05:15">05:15</option><option value="05:30">05:30</option><option value="05:45">05:45</option><option value="06:00">06:00</option><option value="06:15">06:15</option><option value="06:30">06:30</option><option value="06:45">06:45</option><option value="07:00">07:00</option><option value="07:15">07:15</option><option value="07:30">07:30</option><option value="07:45">07:45</option><option value="08:00">08:00</option><option value="08:15">08:15</option><option value="08:30">08:30</option><option value="08:45">08:45</option><option value="09:00">09:00</option><option value="09:15">09:15</option><option value="09:30">09:30</option><option value="09:45">09:45</option><option value="10:00">10:00</option><option value="10:15">10:15</option><option value="10:30">10:30</option><option value="10:45">10:45</option><option value="11:00">11:00</option><option value="11:15">11:15</option><option value="11:30">11:30</option><option value="11:45">11:45</option><option value="12:00">12:00</option><option value="12:15">12:15</option><option value="12:30">12:30</option><option value="12:45">12:45</option><option value="13:00">13:00</option><option value="13:15">13:15</option><option value="13:30">13:30</option><option value="13:45">13:45</option><option value="14:00">14:00</option><option value="14:15">14:15</option><option value="14:30">14:30</option><option value="14:45">14:45</option><option value="15:00">15:00</option><option value="15:15">15:15</option><option value="15:30">15:30</option><option value="15:45">15:45</option><option value="16:00">16:00</option><option value="16:15">16:15</option><option value="16:30">16:30</option><option value="16:45">16:45</option><option value="17:00">17:00</option><option value="17:15">17:15</option><option value="17:30">17:30</option><option value="17:45">17:45</option><option value="18:00">18:00</option><option value="18:15">18:15</option><option value="18:30">18:30</option><option value="18:45">18:45</option><option value="19:00">19:00</option><option value="19:15">19:15</option><option value="19:30">19:30</option><option value="19:45">19:45</option><option value="20:00">20:00</option><option value="20:15">20:15</option><option value="20:30">20:30</option><option value="20:45">20:45</option><option value="21:00">21:00</option><option value="21:15">21:15</option><option value="21:30">21:30</option><option value="21:45">21:45</option><option value="22:00">22:00</option><option value="22:15">22:15</option><option value="22:30">22:30</option><option value="22:45">22:45</option><option value="23:00">23:00</option><option value="23:15">23:15</option><option value="23:30">23:30</option><option value="23:45">23:45</option></select>                                
+                                <select class="hour-start form-control form-control-lg custom-select " id="preStart" onchange="calc(preStart, preEnd, preHours)">                                    
+                                    <?php                                
+                                        for ($i=0; $i <= 23; $i++) {                                         
+                                            $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                            for ($j=0; $j < 60; $j+=15) { 
+                                                $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                                $finalHour = $hour . ':' .$minutes;                                            
+                                                echo '<option value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                            }                                        
+                                        }
+                                    ?>
+                                </select>                                
                             </div>
                             <div class="col-md-6 col-12 mb-3">
                                 <label>End</label>
-                                <select class="hour-start form-control form-control-lg custom-select " id="preEnd" onchange="calc(preStart, preEnd, preHours)"><option value="00:00">00:00</option><option value="00:15">00:15</option><option value="00:30">00:30</option><option value="00:45">00:45</option><option value="01:00">01:00</option><option value="01:15">01:15</option><option value="01:30">01:30</option><option value="01:45">01:45</option><option value="02:00">02:00</option><option value="02:15">02:15</option><option value="02:30">02:30</option><option value="02:45">02:45</option><option value="03:00">03:00</option><option value="03:15">03:15</option><option value="03:30">03:30</option><option value="03:45">03:45</option><option value="04:00">04:00</option><option value="04:15">04:15</option><option value="04:30">04:30</option><option value="04:45">04:45</option><option value="05:00">05:00</option><option value="05:15">05:15</option><option value="05:30">05:30</option><option value="05:45">05:45</option><option value="06:00">06:00</option><option value="06:15">06:15</option><option value="06:30">06:30</option><option value="06:45">06:45</option><option value="07:00">07:00</option><option value="07:15">07:15</option><option value="07:30">07:30</option><option value="07:45">07:45</option><option value="08:00">08:00</option><option value="08:15">08:15</option><option value="08:30">08:30</option><option value="08:45">08:45</option><option value="09:00">09:00</option><option value="09:15">09:15</option><option value="09:30">09:30</option><option value="09:45">09:45</option><option value="10:00">10:00</option><option value="10:15">10:15</option><option value="10:30">10:30</option><option value="10:45">10:45</option><option value="11:00">11:00</option><option value="11:15">11:15</option><option value="11:30">11:30</option><option value="11:45">11:45</option><option value="12:00">12:00</option><option value="12:15">12:15</option><option value="12:30">12:30</option><option value="12:45">12:45</option><option value="13:00">13:00</option><option value="13:15">13:15</option><option value="13:30">13:30</option><option value="13:45">13:45</option><option value="14:00">14:00</option><option value="14:15">14:15</option><option value="14:30">14:30</option><option value="14:45">14:45</option><option value="15:00">15:00</option><option value="15:15">15:15</option><option value="15:30">15:30</option><option value="15:45">15:45</option><option value="16:00">16:00</option><option value="16:15">16:15</option><option value="16:30">16:30</option><option value="16:45">16:45</option><option value="17:00">17:00</option><option value="17:15">17:15</option><option value="17:30">17:30</option><option value="17:45">17:45</option><option value="18:00">18:00</option><option value="18:15">18:15</option><option value="18:30">18:30</option><option value="18:45">18:45</option><option value="19:00">19:00</option><option value="19:15">19:15</option><option value="19:30">19:30</option><option value="19:45">19:45</option><option value="20:00">20:00</option><option value="20:15">20:15</option><option value="20:30">20:30</option><option value="20:45">20:45</option><option value="21:00">21:00</option><option value="21:15">21:15</option><option value="21:30">21:30</option><option value="21:45">21:45</option><option value="22:00">22:00</option><option value="22:15">22:15</option><option value="22:30">22:30</option><option value="22:45">22:45</option><option value="23:00">23:00</option><option value="23:15">23:15</option><option value="23:30">23:30</option><option value="23:45">23:45</option></select>                                
-                                <!--
-                                <input type="text" class="form-control form-control-lg time end" id="preEnd" name="preEnd" value="15:15" onchange="calc(preStart, preEnd, preHours)">
-                                -->
+                                <select class="hour-start form-control form-control-lg custom-select " id="preEnd" onchange="calc(preStart, preEnd, preHours)">                                    
+                                    <?php                                
+                                        for ($i=0; $i <= 23; $i++) {                                         
+                                            $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                            for ($j=0; $j < 60; $j+=15) { 
+                                                $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                                $finalHour = $hour . ':' .$minutes;                                            
+                                                echo '<option value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                            }                                        
+                                        }
+                                    ?>
+                                </select>                                
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -150,12 +169,6 @@ include 'navbar.php';
                                 <input readonly type="text" class="form-control form-control-lg time" id="preHours" value="08:00">
                             </div>                                        
                         </div> 
-                        <div class="form-row" style="text-align: center;">
-                            <div class="col-md-12 mb-3">
-                                <label>Total Hours Week</label>
-                                <input readonly type="text" class="form-control form-control-lg time" id="preTotalHours" value="40:00">
-                            </div>                                        
-                        </div>                                                                                        
                         <div class="col-md-12 mb-3">
                                 <button type="button" class="btn btn-secondary btn-lg btn-block" id="btnPreFill">Autofill Time Sheet</button>
                         </div>
@@ -174,13 +187,39 @@ include 'navbar.php';
                     
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 col-12 mb-3">
-                                <label>Start</label>
-                                
-                                <input type="text" class="form-control form-control-lg time start" name="monStart" id="monStart" value="<?= (isset($data->monStart)) ? $data->monStart : "" ;?>">                    
+                                <label>Start</label>                                
+                                <select class="hour-start form-control form-control-lg custom-select start" id="monStart" name="monStart" onchange="calc(monStart, monEnd, hrsMon)">                                
+                                <option value="">-</option>
+                                <?php                                
+                                    for ($i=0; $i <= 23; $i++) {                                         
+                                        $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                        for ($j=0; $j < 60; $j+=15) { 
+                                            $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                            $finalHour = $hour . ':' .$minutes;
+                                            $selected = (isset($data->monStart) && $data->monStart == $finalHour) ? "selected" : "" ;
+                                            echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                        }                                        
+                                    }
+                                ?>
+                                </select>                                
                             </div>
                             <div class="col-md-6 col-12 mb-3">
                                 <label>End</label>
-                                <input  type="text" class="form-control form-control-lg time end" name="monEnd" id="monEnd" value="<?= (isset($data->monEnd)) ? $data->monEnd : "" ;?>" onchange="calc(monStart, monEnd, hrsMon)">                    
+                                <select class="hour-start form-control form-control-lg custom-select end" id="monEnd" name="monEnd" onchange="calc(monStart, monEnd, hrsMon)">                                
+                                <option value="">-</option>
+                                <?php                                
+                                    for ($i=0; $i <= 23; $i++) {                                         
+                                        $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                        for ($j=0; $j < 60; $j+=15) { 
+                                            $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                            $finalHour = $hour . ':' .$minutes;
+                                            $selected = (isset($data->monEnd) && $data->monEnd == $finalHour) ? "selected" : "" ;
+                                            echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                        }                                        
+                                    }
+                                ?>
+                                </select>                                
+
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -210,11 +249,37 @@ include 'navbar.php';
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="tueStart" id="tueStart" value="<?= (isset($data->tueStart)) ? $data->tueStart : "" ;?>">                    
+                                <select class="hour-start form-control form-control-lg custom-select start" name="tueStart" id="tueStart"  onchange="calc(tueStart, tueEnd, hrsTue)">
+                                    <option value="">-</option>
+                                    <?php                                
+                                        for ($i=0; $i <= 23; $i++) {                                         
+                                            $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                            for ($j=0; $j < 60; $j+=15) { 
+                                                $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                                $finalHour = $hour . ':' .$minutes;
+                                                $selected = (isset($data->tueStart) && $data->tueStart == $finalHour) ? "selected" : "" ;
+                                                echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                            }                                        
+                                        }
+                                    ?>
+                                </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="tueEnd" id="tueEnd" value="<?= (isset($data->tueEnd)) ? $data->hrsMon : "" ;?>" onchange="calc(tueStart, tueEnd, hrsTue)">                    
+                                <label>End</label>                                
+                                <select class="hour-start form-control form-control-lg custom-select end" name="tueEnd" id="tueEnd"  onchange="calc(tueStart, tueEnd, hrsTue)">
+                                    <option value="">-</option>
+                                    <?php                                
+                                        for ($i=0; $i <= 23; $i++) {                                         
+                                            $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                            for ($j=0; $j < 60; $j+=15) { 
+                                                $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                                $finalHour = $hour . ':' .$minutes;
+                                                $selected = (isset($data->tueEnd) && $data->tueEnd == $finalHour) ? "selected" : "" ;
+                                                echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                            }                                        
+                                        }
+                                    ?>
+                                </select>                                
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -243,12 +308,38 @@ include 'navbar.php';
                     
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="wedStart" id="wedStart" value="<?= (isset($data->wedStart)) ? $data->wedStart : "" ;?>">                    
+                                <label>Start</label>                                
+                                <select class="hour-start form-control form-control-lg custom-select start" name="wedStart" id="wedStart"  onchange="calc(wedStart, wedEnd, hrsWed)">
+                                    <option value="">-</option>
+                                    <?php                                
+                                        for ($i=0; $i <= 23; $i++) {                                         
+                                            $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                            for ($j=0; $j < 60; $j+=15) { 
+                                                $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                                $finalHour = $hour . ':' .$minutes;
+                                                $selected = (isset($data->wedStart) && $data->wedStart == $finalHour) ? "selected" : "" ;
+                                                echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                            }                                        
+                                        }
+                                    ?>
+                                </select>                                                                
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="wedEnd" id="wedEnd" value="<?= (isset($data->wedEnd)) ? $data->wedEnd : "" ;?>" onchange="calc(wedStart, wedEnd, hrsWed)">                    
+                                <label>End</label>                                
+                                <select class="hour-start form-control form-control-lg custom-select end" name="wedEnd" id="wedEnd"  onchange="calc(wedStart, wedEnd, hrsWed)">
+                                    <option value="">-</option>
+                                    <?php                                
+                                        for ($i=0; $i <= 23; $i++) {                                         
+                                            $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                            for ($j=0; $j < 60; $j+=15) { 
+                                                $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                                $finalHour = $hour . ':' .$minutes;
+                                                $selected = (isset($data->wedEnd) && $data->wedEnd == $finalHour) ? "selected" : "" ;
+                                                echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                            }                                        
+                                        }
+                                    ?>                           
+                                </select>                                                                                                
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -276,18 +367,46 @@ include 'navbar.php';
                     <h4 style="text-align: center;">Thursday</h4>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="thuStart" id="thuStart" value="<?= (isset($data->thuStart)) ? $data->thuStart : "" ;?>">                    
+                                <label>Start</label>                                
+                                <select class="hour-start form-control form-control-lg custom-select start" name="thuStart" id="thuStart"  onchange="calc(thuStart, thuEnd, hrsThu)">
+                                    <option value="">-</option>
+                                    <?php                                
+                                        for ($i=0; $i <= 23; $i++) {                                         
+                                            $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                            for ($j=0; $j < 60; $j+=15) { 
+                                                $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                                $finalHour = $hour . ':' .$minutes;
+                                                $selected = (isset($data->thuStart) && $data->thuStart == $finalHour) ? "selected" : "" ;
+                                                echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                            }                                        
+                                        }
+                                    ?>
+                                </select>                                                                                                
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="thuEnd" id="thuEnd" value="<?= (isset($data->thuEnd)) ? $data->thuEnd : "" ;?>" onchange="calc(thuStart, thuEnd, hrsThu)"> 
+                                <label>End</label>                                
+                                <select class="hour-start form-control form-control-lg custom-select end" name="thuEnd" id="thuEnd" onchange="calc(thuStart, thuEnd, hrsThu)">
+                                <option value="">-</option>
+                                <?php                                
+                                    for ($i=0; $i <= 23; $i++) {                                         
+                                        $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                        for ($j=0; $j < 60; $j+=15) { 
+                                            $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                            $finalHour = $hour . ':' .$minutes;
+                                            $selected = (isset($data->thuEnd) && $data->thuEnd == $finalHour) ? "selected" : "" ;
+                                            echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                        }                                        
+                                    }
+                                ?>                            
+                                </select>                                                                
+                                
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Job</label>
                                 <input type="text" class="form-control form-control-lg job" name="jobThu" value="<?= (isset($data->jobThu)) ? $data->jobThu : "" ;?>">                    
+                                
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
@@ -309,12 +428,38 @@ include 'navbar.php';
                     
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="friStart" id="friStart" value="<?= (isset($data->friStart)) ? $data->friStart : "" ;?>">                    
+                                <label>Start</label>                                
+                                <select class="hour-start form-control form-control-lg custom-select start" name="friStart" id="friStart"  onchange="calc(friStart, friEnd, hrsFri)">
+                                    <option value="">-</option>
+                                    <?php                                
+                                        for ($i=0; $i <= 23; $i++) {                                         
+                                            $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                            for ($j=0; $j < 60; $j+=15) { 
+                                                $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                                $finalHour = $hour . ':' .$minutes;
+                                                $selected = (isset($data->friStart) && $data->friStart == $finalHour) ? "selected" : "" ;
+                                                echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                            }                                        
+                                        }
+                                    ?>                           
+                                </select>                                                                                                
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="friEnd" id="friEnd" value="<?= (isset($data->friEnd)) ? $data->friEnd : "" ;?>" onchange="calc(friStart, friEnd, hrsFri)"> 
+                                <label>End</label>                                
+                                <select class="hour-start form-control form-control-lg custom-select end" name="friEnd" id="friEnd"  onchange="calc(friStart, friEnd, hrsFri)">
+                                    <option value="">-</option>
+                                    <?php                                
+                                        for ($i=0; $i <= 23; $i++) {                                         
+                                            $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                            for ($j=0; $j < 60; $j+=15) { 
+                                                $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                                $finalHour = $hour . ':' .$minutes;
+                                                $selected = (isset($data->friEnd) && $data->friEnd == $finalHour) ? "selected" : "" ;
+                                                echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                            }                                        
+                                        }
+                                    ?>
+                                </select>                                                                                                                                
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -326,8 +471,7 @@ include 'navbar.php';
                                 <label>Total Hours</label>
                                 <input readonly type="text" class="form-control form-control-lg time hours" name="hrsFri" id="hrsFri" value="<?= (isset($data->hrsFri)) ? $data->hrsFri : "" ;?>">                    
                             </div>                                        
-                        </div>                                                                
-                    
+                        </div>                                                                                    
                 </div>  
                 <!-- Start Group Saturday-->                 
                 <div class="form-group alert alert-success" role="alert" id="groupFriday">                                        
@@ -335,12 +479,38 @@ include 'navbar.php';
                     
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <label>Start</label>
-                                <input type="text" class="form-control form-control-lg time start" name="satStart" id="satStart" value="<?= (isset($data->satStart)) ? $data->satStart : "" ;?>">                    
+                                <label>Start</label>                                
+                                <select class="hour-start form-control form-control-lg custom-select" name="satStart" id="satStart"  onchange="calc(satStart, satEnd, hrsSat)">
+                                    <option value="">-</option>
+                                    <?php                                
+                                        for ($i=0; $i <= 23; $i++) {                                         
+                                            $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                            for ($j=0; $j < 60; $j+=15) { 
+                                                $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                                $finalHour = $hour . ':' .$minutes;
+                                                $selected = (isset($data->satStart) && $data->satStart == $finalHour) ? "selected" : "" ;
+                                                echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                            }                                        
+                                        }
+                                    ?>                              
+                                </select>                                                                                                                                
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>End</label>
-                                <input type="text" class="form-control form-control-lg time end" name="satEnd" id="satEnd" value="<?= (isset($data->satEnd)) ? $data->satEnd : "" ;?>" onchange="calc(satStart, satEnd, hrsSat)"> 
+                                <label>End</label>                                
+                                <select class="hour-start form-control form-control-lg custom-select" name="satEnd" id="satEnd"  onchange="calc(satStart, satEnd, hrsSat)">
+                                <option value="">-</option>
+                                <?php                                
+                                    for ($i=0; $i <= 23; $i++) {                                         
+                                        $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
+                                        for ($j=0; $j < 60; $j+=15) { 
+                                            $minutes = str_pad($j, 2, "0", STR_PAD_LEFT);
+                                            $finalHour = $hour . ':' .$minutes;
+                                            $selected = (isset($data->satEnd) && $data->satEnd == $finalHour) ? "selected" : "" ;
+                                            echo '<option ' . $selected . ' value="' . $finalHour . '">'.$finalHour.'</option>';                                                                            
+                                        }                                        
+                                    }
+                                ?>                           
+                                </select>                                                                                                                                                                
                             </div>                                        
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
@@ -352,20 +522,16 @@ include 'navbar.php';
                                 <label>Total Hours</label>
                                 <input readonly type="text" class="form-control form-control-lg time hours" name="hrsSat" id="hrsSat" value="<?= (isset($data->hrsSat)) ? $data->hrsSat : "" ;?>" >                    
                             </div>                                        
-                        </div>                                                                
-                    
+                        </div>                                                                                   
                 </div>   
-
                 <!-- Start Group Total-->                 
                 <div class="form-group alert alert-success" role="alert">                                        
-                    <h4 style="text-align: center;">Total Week</h4>                    
-                    
+                    <h4 style="text-align: center;">Total Week</h4>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-12 mb-3">                                
                                 <input readonly type="text" class="form-control form-control-lg time totalWeek" name="totalWeek" id="totalWeek" value="<?= (isset($data->totalWeek)) ? $data->totalWeek : "" ;?>">                    
                             </div>
-                        </div>                                        
-                    
+                        </div>                                                            
                 </div>                                             
                 <!--End Group Total -->       
                 <!-- Start Group Signature-->                 
@@ -373,13 +539,11 @@ include 'navbar.php';
                     <h4 style="text-align: center;">Signature</h4>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-12 mb-3">                                
-
                                 <!-- you load jquery somewhere above here ... -->
                                 <!--[if lt IE 9]>
                                 <script type="text/javascript" src="js/flashcanvas.js"></script>
                                 <![endif]-->
-                                <script src="js/jSignature.min.js"></script>
-                                
+                                <script src="js/jSignature.min.js"></script>                                
                                 <input type="hidden" name="empSign" id="output" value="<?= (isset($empSign)) ? $empSign : "" ;?>">
                                 <?php
                                     if (isset($empSign)) {
@@ -388,9 +552,7 @@ include 'navbar.php';
                                        echo '<div id="signature"></div>';
                                        
                                        echo '<input type="button" value="Clear" id="btnClearSign" class="btn btn-danger" >';
-
-                                    }
-                                                                    
+                                    }                                                                    
                                 ?>
                                 <script>
                                     $(document).ready(function() {
@@ -406,10 +568,8 @@ include 'navbar.php';
                                        });
                                     });
                                 </script>                                
-
                             </div>
-                        </div>   
-                                                                              
+                        </div>                                                                                 
                 </div>                                             
                 <!-- Start Group Date-->                 
                 <div class="form-group alert alert-success" role="alert" id="groupFriday">                                        
@@ -417,7 +577,7 @@ include 'navbar.php';
                     
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-12 mb-3">                                
-                                <input type="text" class="form-control form-control-lg date-picker" name="empDate" id="empDate" required value="01/03/2018">                    
+                                <input type="text" class="form-control form-control-lg date-picker" name="empDate" id="empDate" required value="<?= (isset($data->empDate)) ? $data->empDate : date("d/m/Y") ;?>">                    
                             </div>
                         </div>                                                                                    
                 </div>                                             
@@ -442,7 +602,7 @@ include 'navbar.php';
                 <!--End Group Total -->                       
                 <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <a href="index.php" class="btn btn-secondary btn-lg btn-block">Cancel</a>
+                                <a href="view.php?type=TimeSheet.php" class="btn btn-secondary btn-lg btn-block">Cancel</a>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
@@ -486,8 +646,7 @@ include 'navbar.php';
             $('.time').mask('00:00');		
 
             $('#btnPreFill').click(function(){
-                let preStart = $('#preStart').val();
-       
+                let preStart = $('#preStart').val();       
                 $('.start').not('input[name=satStart]').val(preStart);
 
                 let preEnd = $('#preEnd').val();
@@ -498,24 +657,8 @@ include 'navbar.php';
 
                 let preHours = $('#preHours').val();
                 $('.hours').not('input[name=hrsSat]').val(preHours);
-                /*
-                let preTotalHours = $('#preTotalHours').val();
-                $('.totalWeek').val(preTotalHours);                
-                */
-                $('.end').trigger( "change" );
+                calcTotal();
             });
-            
-            $('.end').focus(function(){
-                $(this).val('');
-            });
-            
-            $('input').focusin(function(){
-                $(this).trigger( "change" );
-            });
-            $('input').focusout(function(){
-                $(this).trigger( "change" );
-            });
-
 
             calc = function(startHour_param, endHour_param, destination_param) {
                 let startHour = $(startHour_param).val();
@@ -530,11 +673,13 @@ include 'navbar.php';
                 var endPiece = endHour.split(':');
                 var endMins = endPiece[0]*60 + +endPiece[1];
                 var totalMins = endMins - startMins -15;
-                if (!isNaN(totalMins)) {                    
-                    destination.val(D(totalMins%(24*60)/60 | 0) + ':' + D(totalMins%60));                      
+                if(startHour !== "00:00" && endHour !== "00:00"){
+                    if (!isNaN(totalMins)) {                    
+                        destination.val(D(totalMins%(24*60)/60 | 0) + ':' + D(totalMins%60));                      
+                    }
+                                    
                 }
-                
-                calcTotal();
+                calcTotal();                
             }                             
 
             calcTotal = function() {
@@ -557,10 +702,7 @@ include 'navbar.php';
                 var totalWeek = D(totalWeekMins/60 | 0) + ':' + D(totalWeekMins%60);  
                 $('#totalWeek').val(totalWeek);  
             }                             
-
-
         });
     </script>
-
 </body>
 </html>

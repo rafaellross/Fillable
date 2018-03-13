@@ -32,22 +32,27 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
                 $.each( data.employees, function( key, val ) {
 
                     let emp = `
-                    
+
                         <div class="card">
-                            <a href="TimeSheet.php?type=TimeSheet.php&empId=` + val.id + ` ">
-                            <div class="card-body">
-                                `+ val.name +`                                
-                            </div>                            
-                            </a>
-                        </div>  
-                                          
+                          <div class="card-header" role="tab" id="heading-undefined">    
+                            <h6 class="mb-0">
+                              <div>
+                                  <a class="collapsed" data-toggle="collapse" href="#collapseundefined" aria-expanded="true" aria-controls="collapse-undefined">
+                                  <span> `+ val.name +`</span>
+                                  </a>
+                                 <button type="button" class="btnAdd btn btn-primary float-right" >Add</button>
+                              </div>       
+                            </h6> 
+                          </div>        
+                          </div>                                                                  
                     `;
-
-
-
                     $('#employee').append(emp);
                 });                
             });
+        });
+        $('.btnAdd').click(function(){
+            alert("Add");
+            $(this).parent().parent().parent().css('display', 'none');
         });
     });    
         
@@ -67,9 +72,9 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
         <button type="button" class="btn btn-info btn-lg btn-block" id="btnSearch">Search</button>
   </div>  
   <hr>
-  <div id="employee" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-
-</div>
+  <div id="employee" class="col-xs-12 col-sm-12 col-lg-12 col-md-12"></div>
+  <hr>
+  <div id="selecteds" class="col-xs-12 col-sm-12 col-lg-12 col-md-12"></div>
 
 </div>
 
