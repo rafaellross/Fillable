@@ -37,10 +37,10 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
                           <div class="card-header" role="tab" id="heading-undefined">    
                             <h6 class="mb-0">
                               <div>
-                                  <a class="collapsed" data-toggle="collapse" href="#collapseundefined" aria-expanded="true" aria-controls="collapse-undefined">
+                                <a href="TimeSheet.php?type=TimeSheet.php&empId=` + val.id + ` ">
                                   <span> `+ val.name +`</span>
                                   </a>
-                                 <button type="button" class="btnAdd btn btn-primary float-right" >Add</button>
+                                 <button type="button" class="btnAdd btn btn-primary float-right" style="">Add</button>
                               </div>       
                             </h6> 
                           </div>        
@@ -50,9 +50,14 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
                 });                
             });
         });
-        $('.btnAdd').click(function(){
-            alert("Add");
-            $(this).parent().parent().parent().css('display', 'none');
+        $(document).on( "click", ".btnAdd", function() {
+            var id = $(this).attr('id');  
+            var select = Utilities.loadEmployee(id);
+            if (!Utilities.containsObject(select, selected)){
+                selected.push(select);
+                Utilities.updateSeleteds(selected);
+                $(this).parent().parent().parent().parent().parent().fadeOut();
+            }            
         });
     });    
         

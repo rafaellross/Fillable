@@ -130,7 +130,7 @@ include 'navbar.php';
                                 <!--
                                 <input type="text" class="form-control form-control-lg time" id="preStart" name="preStart" value="07:00">
                                 -->
-                                <select class="hour-start form-control form-control-lg custom-select " id="preStart" onchange="calc(preStart, preEnd, preHours)">                                    
+                                <select class="hour-start form-control form-control-lg custom-select " id="preStart" onchange="calc(preStart, preEnd, preHours, Pre15, Pre20)">                                    
                                     <?php                                
                                         for ($i=0; $i <= 23; $i++) {                                         
                                             $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
@@ -145,7 +145,7 @@ include 'navbar.php';
                             </div>
                             <div class="col-md-6 col-12 mb-3">
                                 <label>End</label>
-                                <select class="hour-start form-control form-control-lg custom-select " id="preEnd" onchange="calc(preStart, preEnd, preHours)">                                    
+                                <select class="hour-start form-control form-control-lg custom-select " id="preEnd" onchange="calc(preStart, preEnd, preHours, Pre15, Pre20)">                                    
                                     <?php                                
                                         for ($i=0; $i <= 23; $i++) {                                         
                                             $hour = str_pad($i, 2, "0", STR_PAD_LEFT);
@@ -169,6 +169,17 @@ include 'navbar.php';
                                 <input readonly type="text" class="form-control form-control-lg time" id="preHours" value="08:00">
                             </div>                                        
                         </div> 
+                        <div class="form-row overtime" style="text-align: center;">
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 1.5</label>
+                                <input type="text" class="form-control form-control-lg time" name="Pre15" id="Pre15" value="00:00">                    
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 2.0</label>
+                                <input type="text" class="form-control form-control-lg time" name="Pre20" id="Pre20" value="00:00">                    
+                            </div>                                        
+                        </div>                                                                                    
+                        
                         <div class="col-md-12 mb-3">
                                 <button type="button" class="btn btn-secondary btn-lg btn-block" id="btnPreFill">Autofill Time Sheet</button>
                         </div>
@@ -188,7 +199,7 @@ include 'navbar.php';
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-6 col-12 mb-3">
                                 <label>Start</label>                                
-                                <select class="hour-start form-control form-control-lg custom-select start" id="monStart" name="monStart" onchange="calc(monStart, monEnd, hrsMon)">                                
+                                <select class="hour-start form-control form-control-lg custom-select start" id="monStart" name="monStart" onchange="calc(monStart, monEnd, hrsMon, Mon15, Mon20, MonNorm)">                                
                                 <option value="">-</option>
                                 <?php                                
                                     for ($i=0; $i <= 23; $i++) {                                         
@@ -205,7 +216,7 @@ include 'navbar.php';
                             </div>
                             <div class="col-md-6 col-12 mb-3">
                                 <label>End</label>
-                                <select class="hour-start form-control form-control-lg custom-select end" id="monEnd" name="monEnd" onchange="calc(monStart, monEnd, hrsMon)">                                
+                                <select class="hour-start form-control form-control-lg custom-select end" id="monEnd" name="monEnd" onchange="calc(monStart, monEnd, hrsMon, Mon15, Mon20, MonNorm)">                                
                                 <option value="">-</option>
                                 <?php                                
                                     for ($i=0; $i <= 23; $i++) {                                         
@@ -221,18 +232,75 @@ include 'navbar.php';
                                 </select>                                
 
                             </div>                                        
-                        </div>                                        
-                        <div class="form-row" style="text-align: center;">
+                        </div>                     
+                        <!-- Job and Hours-->                   
+                        <div class="form-row alert alert-secondary" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobMon" value="<?= (isset($data->jobMon)) ? $data->jobMon : "" ;?>">                    
+                                <input type="text" class="form-control form-control-lg job" name="jobMon1" value="<?= (isset($data->jobMon1)) ? $data->jobMon1 : "" ;?>">                    
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Hours</label>
+                                <input type="text" class="form-control form-control-lg time hours" name="hrsMon1" value="<?= (isset($data->hrsMon1)) ? $data->hrsMon1 : "" ;?>">                    
+                            </div>                                        
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnShowExtra" onclick="showExtra(this, extraJobsMon)">Show More Jobs</button>
+                        </div>                                            
+                        <div id="extraJobsMon" style="display:none;">
+                            <div class="form-row alert alert-secondary" style="text-align: center;">
+                                <div class="col-md-6 mb-3">
+                                    <label>Job 2</label>
+                                    <input type="text" class="form-control form-control-lg" name="jobMon2" value="<?= (isset($data->jobMon2)) ? $data->jobMon2 : "" ;?>">                    
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Hours</label>
+                                    <input type="text" class="form-control form-control-lg time" name="hrsMon2" value="<?= (isset($data->hrsMon2)) ? $data->hrsMon2 : "" ;?>">                    
+                                </div>                                        
+                            </div>                                            
+                            <div class="form-row alert alert-secondary" style="text-align: center;">
+                                <div class="col-md-6 mb-3">
+                                    <label>Job 3</label>
+                                    <input type="text" class="form-control form-control-lg" name="jobMon3" value="<?= (isset($data->jobMon3)) ? $data->jobMon3 : "" ;?>">                    
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Hours</label>
+                                    <input type="text" class="form-control form-control-lg time" name="hrsMon3" value="<?= (isset($data->hrsMon3)) ? $data->hrsMon3 : "" ;?>">                    
+                                </div>                                        
+                            </div>                                                                
+                            <div class="form-row alert alert-secondary" style="text-align: center;">
+                                <div class="col-md-6 mb-3">
+                                    <label>Job 4</label>
+                                    <input type="text" class="form-control form-control-lg" name="jobMon4" value="<?= (isset($data->jobMon4)) ? $data->jobMon4 : "" ;?>">                    
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Hours</label>
+                                    <input type="text" class="form-control form-control-lg time" name="hrsMon4" value="<?= (isset($data->hrsMon4)) ? $data->hrsMon4 : "" ;?>">                    
+                                </div>                                        
+                            </div>                                                                
+
+                        </div>                    
+                                            
+                        <!-- Job and Hours-->                   
+                        <div class="form-row overtime " style="text-align: center;">
+                            <div class="col-md-6 mb-3">
+                                <label>Normal Hours</label>
+                                <input type="text" class="form-control form-control-lg time" name="MonNorm" id="MonNorm" value="<?= (isset($data->MonNorm)) ? $data->MonNorm : "" ;?>">                    
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 1.5</label>
+                                <input type="text" class="form-control form-control-lg time" name="Mon15" id="Mon15" value="<?= (isset($data->Mon15)) ? $data->Mon15 : "" ;?>">                    
+                            </div>
+                        </div>                                                                                    
+                        
+                        <div class="form-row overtime " style="text-align: center;">
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 2.0</label>
+                                <input type="text" class="form-control form-control-lg time" name="Mon20" id="Mon20" value="<?= (isset($data->Mon20)) ? $data->Mon20 : "" ;?>">                    
+                            </div>                                        
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
                                 <input readonly type="text" class="form-control form-control-lg time hours" name="hrsMon" value="<?= (isset($data->hrsMon)) ? $data->hrsMon : "" ;?>">                    
-                            </div>                                        
-                        </div>                                                                
-                    
+                            </div>                                                                    
+                        </div>                                                                                                            
                 </div>
                 <!--End Group Monday -->
                 <!-- Start Group Tuesday-->                 
@@ -290,8 +358,19 @@ include 'navbar.php';
                             <div class="col-md-6 mb-3">
                                 <label>Total Hours</label>
                                 <input readonly type="text" class="form-control form-control-lg time hours" name="hrsTue" value="<?= (isset($data->hrsTue)) ? $data->hrsTue : "" ;?>">                    
+                            </div>  
+                                                          
+                        </div>      
+                        <div class="form-row overtime" style="text-align: center;">
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 1.5</label>
+                                <input type="text" class="form-control form-control-lg time" name="Tue15" id="Tue15" value="00:00">                    
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 2.0</label>
+                                <input type="text" class="form-control form-control-lg time" name="Tue20" id="Tue20" value="00:00">                    
                             </div>                                        
-                        </div>                                                                
+                        </div>                                                                                                                                                                      
                     
                 </div>
                 <!--End Group Tuesday -->
@@ -351,8 +430,17 @@ include 'navbar.php';
                                 <label>Total Hours</label>
                                 <input readonly type="text" class="form-control form-control-lg time hours" name="hrsWed" id="hrsWed" value="<?= (isset($data->hrsWed)) ? $data->hrsWed : "" ;?>">                    
                             </div>                                        
-                        </div>                                                                
-                    
+                        </div>     
+                        <div class="form-row overtime" style="text-align: center;">
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 1.5</label>
+                                <input type="text" class="form-control form-control-lg time" name="Wed15" id="Wed15" value="00:00">                    
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 2.0</label>
+                                <input type="text" class="form-control form-control-lg time" name="Wed20" id="Wed20" value="00:00">                    
+                            </div>                                        
+                        </div>                                                                                                                                                                      
                 </div>
                 <!--End Group Wednesday -->
                 <!-- Start Group Thursday-->                 
@@ -413,6 +501,16 @@ include 'navbar.php';
                                 <input readonly type="text" class="form-control form-control-lg time hours" name="hrsThu" id="hrsThu" value="<?= (isset($data->hrsThu)) ? $data->hrsThu : "" ;?>">                    
                             </div>                                        
                         </div>                                                                
+                        <div class="form-row overtime" style="text-align: center;">
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 1.5</label>
+                                <input type="text" class="form-control form-control-lg time" name="Tue15" id="Thu15" value="00:00">                    
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 2.0</label>
+                                <input type="text" class="form-control form-control-lg time" name="Tue20" id="Thu20" value="00:00">                    
+                            </div>                                        
+                        </div>                                                                                                                                                                      
                     
                 </div>                
                 <!--End Group Thursday -->                
@@ -471,7 +569,19 @@ include 'navbar.php';
                                 <label>Total Hours</label>
                                 <input readonly type="text" class="form-control form-control-lg time hours" name="hrsFri" id="hrsFri" value="<?= (isset($data->hrsFri)) ? $data->hrsFri : "" ;?>">                    
                             </div>                                        
-                        </div>                                                                                    
+                        </div> 
+
+                        <div class="form-row overtime" style="text-align: center;">
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 1.5</label>
+                                <input type="text" class="form-control form-control-lg time" name="Tue15" id="fri15" value="00:00">                    
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Hours 2.0</label>
+                                <input type="text" class="form-control form-control-lg time" name="Tue20" id="fri20" value="00:00">                    
+                            </div>                                        
+                        </div>                                                                                                                                                                      
+                                                                                                           
                 </div>  
                 <!-- Start Group Saturday-->                 
                 <div class="form-group alert alert-success" role="alert" id="groupFriday">                                        
@@ -657,13 +767,17 @@ include 'navbar.php';
 
                 let preHours = $('#preHours').val();
                 $('.hours').not('input[name=hrsSat]').val(preHours);
+
+                let preHours = $('#preHours').val();
+                $('.hours').not('input[name=hrsSat]').val(preHours);
+                
                 calcTotal();
             });
 
-            calc = function(startHour_param, endHour_param, destination_param) {
+            calc = function(startHour_param, endHour_param, destination_total_param, destination_15, destination_20, destination_Normal) {
                 let startHour = $(startHour_param).val();
                 let endHour = $(endHour_param).val();
-                let destination = $(destination_param);
+                let destination = $(destination_total_param);
                 function D(J){ 
                     return (J<10? '0':'') + J;
                 };
@@ -672,9 +786,19 @@ include 'navbar.php';
 
                 var endPiece = endHour.split(':');
                 var endMins = endPiece[0]*60 + +endPiece[1];
-                var totalMins = endMins - startMins -15;
+                var totalMins = ((endMins-startMins-15)<0? 0 : endMins - startMins -15);
                 if(startHour !== "00:00" && endHour !== "00:00"){
-                    if (!isNaN(totalMins)) {                    
+                    if (!isNaN(totalMins)) {   
+                        
+                        var normal_hours = Math.min((8*60), totalMins);                 
+
+                        $(destination_Normal).val(D(normal_hours%(24*60)/60 | 0) + ':' + D(normal_hours%60));
+                        var hours_15 = Math.min((2*60), totalMins-normal_hours);
+                        $(destination_15).val(D(hours_15%(24*60)/60 | 0) + ':' + D(hours_15%60));
+
+                        var hours_20 = totalMins - (normal_hours + hours_15);
+                        $(destination_20).val(D(hours_20%(24*60)/60 | 0) + ':' + D(hours_20%60));
+
                         destination.val(D(totalMins%(24*60)/60 | 0) + ':' + D(totalMins%60));                      
                     }
                                     
@@ -701,7 +825,12 @@ include 'navbar.php';
                 var minutes = D(totalWeekMins%60);
                 var totalWeek = D(totalWeekMins/60 | 0) + ':' + D(totalWeekMins%60);  
                 $('#totalWeek').val(totalWeek);  
-            }                             
+            }   
+
+            showExtra = function(btn, extra_inputs){
+                $(extra_inputs).css('display', 'block');
+                $(btn).fadeOut();
+            }            
         });
     </script>
 </body>
