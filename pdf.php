@@ -110,60 +110,62 @@ while($data = mysqli_fetch_array($query)){
     $pdf->Ln();
     //Start Job/Hrs lines
     //Second line
-    //print_r($data);
+    
+        
+        $pdf->SetFont('Arial','',5);
+        $pdf->Cell($width_first, 5,"JOB/HRS", 'LRB', 0, 'C');
+        $pdf->SetFont('Arial','',8);
+        $pdf->Cell($width_days, 5, $data->{'jobMon1'} .(empty($data->{'jobMon1'}) ? "" : "/") . $data->{'hrsMon1'},'LRB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobTue1'} .(empty($data->{'jobTue1'}) ? "" : "/") . $data->{'hrsTue1'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobWed1'} .(empty($data->{'jobWed1'}) ? "" : "/") . $data->{'hrsWed1'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobThu1'} .(empty($data->{'jobThu1'}) ? "" : "/") . $data->{'hrsThu1'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobFri1'} .(empty($data->{'jobFri1'}) ? "" : "/") . $data->{'hrsFri1'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobSat1'} .(empty($data->{'jobSat1'}) ? "" : "/") . $data->{'hrsSat1'},'RB',0,'C');
+        $pdf->Cell(10,5,'',0,0,'C');
+        $pdf->Cell(25, 5,"",'LRB',0,'C');
+        $pdf->Ln();        
+
+        $pdf->SetFont('Arial','',5);
+        $pdf->Cell($width_first, 5,"JOB/HRS", 'LRB', 0, 'C');
+        $pdf->SetFont('Arial','',8);
+        $pdf->Cell($width_days, 5, $data->{'jobMon2'} .(empty($data->{'jobMon2'}) ? "" : "/") . $data->{'hrsMon2'},'LRB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobTue2'} .(empty($data->{'jobTue2'}) ? "" : "/") . $data->{'hrsTue2'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobWed2'} .(empty($data->{'jobWed2'}) ? "" : "/") . $data->{'hrsWed2'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobThu2'} .(empty($data->{'jobThu2'}) ? "" : "/") . $data->{'hrsThu2'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobFri2'} .(empty($data->{'jobFri2'}) ? "" : "/") . $data->{'hrsFri2'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobSat2'} .(empty($data->{'jobSat2'}) ? "" : "/") . $data->{'hrsSat2'},'RB',0,'C');
+        $pdf->Cell(10,5,'',0,0,'C');
+        $pdf->Cell(25, 5,"",'LRB',0,'C');
+        $pdf->Ln();        
+     
     
         $pdf->SetFont('Arial','',5);
         $pdf->Cell($width_first, 5,"JOB/HRS", 'LRB', 0, 'C');
         $pdf->SetFont('Arial','',8);
-        $pdf->Cell($width_days, 5, $data->{'jobMon'} .(empty($data->{'jobMon'}) ? "" : "/") . $data->{'hrsMon'},'LRB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobTue'} .(empty($data->{'jobTue'}) ? "" : "/") . $data->{'hrsTue'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobWed'} .(empty($data->{'jobWed'}) ? "" : "/") . $data->{'hrsWed'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobThu'} .(empty($data->{'jobThu'}) ? "" : "/") . $data->{'hrsThu'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobFri'} .(empty($data->{'jobFri'}) ? "" : "/") . $data->{'hrsFri'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobSat'} .(empty($data->{'jobSat'}) ? "" : "/") . $data->{'hrsSat'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobMon3'} .(empty($data->{'jobMon3'}) ? "" : "/") . $data->{'hrsMon3'},'LRB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobTue3'} .(empty($data->{'jobTue3'}) ? "" : "/") . $data->{'hrsTue3'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobWed3'} .(empty($data->{'jobWed3'}) ? "" : "/") . $data->{'hrsWed3'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobThu3'} .(empty($data->{'jobThu3'}) ? "" : "/") . $data->{'hrsThu3'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobFri3'} .(empty($data->{'jobFri3'}) ? "" : "/") . $data->{'hrsFri3'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobSat3'} .(empty($data->{'jobSat3'}) ? "" : "/") . $data->{'hrsSat3'},'RB',0,'C');
         $pdf->Cell(10,5,'',0,0,'C');
         $pdf->Cell(25, 5,"",'LRB',0,'C');
         $pdf->Ln();        
-    
-        //Fake lines for table
-        $pdf->SetFont('Arial','',5);
-        $pdf->Cell($width_first, 5,"JOB/HRS", 'LRB', 0, 'C');
-        $pdf->SetFont('Arial','',8);
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell(10,5,'',0,0,'C');
-        $pdf->Cell(25, 5,"",'LRB',0,'C');
-        $pdf->Ln();        
+
     
         $pdf->SetFont('Arial','',5);
         $pdf->Cell($width_first, 5,"JOB/HRS", 'LRB', 0, 'C');
         $pdf->SetFont('Arial','',8);
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobMon4'} .(empty($data->{'jobMon4'}) ? "" : "/") . $data->{'hrsMon4'},'LRB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobTue4'} .(empty($data->{'jobTue4'}) ? "" : "/") . $data->{'hrsTue4'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobWed4'} .(empty($data->{'jobWed4'}) ? "" : "/") . $data->{'hrsWed4'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobThu4'} .(empty($data->{'jobThu4'}) ? "" : "/") . $data->{'hrsThu4'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobFri4'} .(empty($data->{'jobFri4'}) ? "" : "/") . $data->{'hrsFri4'},'RB',0,'C');
+        $pdf->Cell($width_days, 5, $data->{'jobSat4'} .(empty($data->{'jobSat4'}) ? "" : "/") . $data->{'hrsSat4'},'RB',0,'C');
         $pdf->Cell(10,5,'',0,0,'C');
         $pdf->Cell(25, 5,"",'LRB',0,'C');
         $pdf->Ln();        
-    
-        $pdf->SetFont('Arial','',5);
-        $pdf->Cell($width_first, 5,"JOB/HRS", 'LRB', 0, 'C');
-        $pdf->SetFont('Arial','',8);
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell($width_days, 5, "",'LRB',0,'C');
-        $pdf->Cell(10,5,'',0,0,'C');
-        $pdf->Cell(25, 5,"",'LRB',0,'C');
-        $pdf->Ln();        
+
     
     
     
@@ -258,13 +260,13 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell(24,5,'');//Gap
         $pdf->Cell(10,5,'TOTAL HRS',1,0,'C');
         //Total
-        $pdf->Cell(14,5, /*'$data->totalHrsMonOf'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsTueOf'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsWedOf'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsThuOf'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsFriOf'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsSatOf'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsTotOf'*/'',1,0,'C');
+        $pdf->Cell(14,5, $data->hrsMon,1,0,'C');
+        $pdf->Cell(14,5, $data->hrsTue,1,0,'C');
+        $pdf->Cell(14,5, $data->hrsWed,1,0,'C');
+        $pdf->Cell(14,5, $data->hrsThu,1,0,'C');
+        $pdf->Cell(14,5, $data->hrsFri,1,0,'C');
+        $pdf->Cell(14,5, $data->hrsSat,1,0,'C');
+        $pdf->Cell(14,5, $data->totalWeek,1,0,'C');
     
         //Summary
         $pdf->Cell(14,5,'');//Gap
@@ -281,13 +283,13 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell(24,5,'');//Gap
         $pdf->Cell(10,5,'NOR',1,0,'C');
         //Total
-        $pdf->Cell(14,5, /*'$data->totalHrsMonNor'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsTueNor'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsWedNor'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsThuNor'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsFriNor'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsSatNor'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsTotNor'*/'',1,0,'C');
+        $pdf->Cell(14,5, $data->MonNorm,1,0,'C');
+        $pdf->Cell(14,5, $data->TueNorm,1,0,'C');
+        $pdf->Cell(14,5, $data->WedNorm,1,0,'C');
+        $pdf->Cell(14,5, $data->ThuNorm,1,0,'C');
+        $pdf->Cell(14,5, $data->FriNorm,1,0,'C');
+        $pdf->Cell(14,5, $data->SatNorm,1,0,'C');
+        $pdf->Cell(14,5, $data->totalNormal,1,0,'C');
         
         //Summary
         $pdf->Cell(14,5,'');//Gap
@@ -304,13 +306,13 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell(24,5,'');//Gap
         $pdf->Cell(10,5,'1.5',1,0,'C');
         //Total
-        $pdf->Cell(14,5, /*'$data->totalHrsMon15'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsTue15'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsWed15'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsThu15'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsFri15'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsSat15'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsTot15'*/'',1,0,'C');
+        $pdf->Cell(14,5, $data->Mon15,1,0,'C');
+        $pdf->Cell(14,5, $data->Tue15,1,0,'C');
+        $pdf->Cell(14,5, $data->Wed15,1,0,'C');
+        $pdf->Cell(14,5, $data->Thu15,1,0,'C');
+        $pdf->Cell(14,5, $data->Fri15,1,0,'C');
+        $pdf->Cell(14,5, $data->Sat15,1,0,'C');
+        $pdf->Cell(14,5, $data->total15,1,0,'C');
     
             //Summary
         $pdf->Cell(14,5,'');//Gap
@@ -327,13 +329,13 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell(24,5,'');//Gap
         $pdf->Cell(10,5,'2',1,0,'C');
         //Total
-        $pdf->Cell(14,5, /*'$data->totalHrsMon2'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsTue2'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsWed2'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsThu2'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsFri2'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsSat2'*/'',1,0,'C');
-        $pdf->Cell(14,5, /*'$data->totalHrsTot2'*/'',1,0,'C');
+        $pdf->Cell(14,5, $data->Mon20,1,0,'C');
+        $pdf->Cell(14,5, $data->Tue20,1,0,'C');
+        $pdf->Cell(14,5, $data->Wed20,1,0,'C');
+        $pdf->Cell(14,5, $data->Thu20,1,0,'C');
+        $pdf->Cell(14,5, $data->Fri20,1,0,'C');
+        $pdf->Cell(14,5, $data->Sat20,1,0,'C');
+        $pdf->Cell(14,5, $data->total20,1,0,'C');
     
         //Summary
         $pdf->Cell(14,5,'');//Gap
