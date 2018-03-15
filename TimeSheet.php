@@ -58,7 +58,14 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
         $data = json_decode($data['content']);        
         $empName = $data->empname;
     }
-//print_r($data);    
+$list_jobs = [
+    '' => 'Select Job',    
+    'rdo' => 'RDO',
+    'pld' => 'PLD',    
+    'sick' => 'Sick Leave',    
+    '001' => '001 - Office',    
+    '002' => '002 - Job 2'
+]
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -161,8 +168,14 @@ include 'navbar.php';
                         </div>                                        
                         <div class="form-row" style="text-align: center;">
                             <div class="col-md-12 mb-3">
-                                <label>Job</label>
-                                <input type="text" class="form-control form-control-lg" id="preJob" value="001">
+                                <label>Job</label>                                        
+                                <select class="form-control form-control-lg custom-select " id="preJob">                                                                    
+                                <?php
+                                    foreach ($list_jobs as $key => $value) {
+                                        echo '<option '.($key == "001" ? "selected" : "").' value="' . $key . '">'. $value .'</option>';                                                                            
+                                    }
+                                ?>
+                                </select>
                             </div>
                         </div> 
                         <div class="form-row overtime" style="text-align: center;">                        
@@ -240,8 +253,18 @@ include 'navbar.php';
                         <!-- Job and Hours-->                   
                         <div class="form-row alert alert-secondary" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobMon1" value="<?= (isset($data->jobMon1)) ? $data->jobMon1 : "" ;?>">                    
+                                <label>Job</label>                                                                
+                                <select class="form-control form-control-lg custom-select job" name="jobMon1" id="jobMon1">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobMon1) && $key == $data->jobMon1) {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option '.($key == '' && !isset($data->jobMon1) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Hours</label>
@@ -253,7 +276,17 @@ include 'navbar.php';
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
                                     <label>Job 2</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobMon2" value="<?= (isset($data->jobMon2)) ? $data->jobMon2 : "" ;?>">                    
+                                    <select class="form-control form-control-lg custom-select" name="jobMon2" id="jobMon2">                                                                                                        
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobMon2) && $key == $data->jobMon2) {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option '.($key == '' && !isset($data->jobMon2) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                    
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -262,8 +295,19 @@ include 'navbar.php';
                             </div>                                            
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
-                                    <label>Job 3</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobMon3" value="<?= (isset($data->jobMon3)) ? $data->jobMon3 : "" ;?>">                    
+                                    <label>Job 3</label>                                    
+                                    <select class="form-control form-control-lg custom-select" name="jobMon3" id="jobMon3">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobMon3) && $key == $data->jobMon3 && $data->jobMon3 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>
+                                    
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -272,8 +316,19 @@ include 'navbar.php';
                             </div>                                                                
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
-                                    <label>Job 4</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobMon4" value="<?= (isset($data->jobMon4)) ? $data->jobMon4 : "" ;?>">                    
+                                    <label>Job 4</label>                                    
+                                    <select class="form-control form-control-lg custom-select" name="jobMon4" id="jobMon4">                                                                                                        
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobMon4) && $key == $data->jobMon4) {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option '.($key == '' && !isset($data->jobMon4) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>                                    
+                                    
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -359,8 +414,19 @@ include 'navbar.php';
                         <!-- Job and Hours-->                   
                         <div class="form-row alert alert-secondary" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobTue1" value="<?= (isset($data->jobTue1)) ? $data->jobTue1 : "" ;?>">                    
+                                <label>Job</label>                                
+                                <select class="form-control form-control-lg custom-select job" name="jobTue1" id="jobTue1">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobTue1) && $key == $data->jobTue1 && $data->jobTue1 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>
+                                
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Hours</label>
@@ -371,8 +437,18 @@ include 'navbar.php';
                         <div id="extraJobsTue" style="display:none;">
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
-                                    <label>Job 2</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobTue2" value="<?= (isset($data->jobTue2)) ? $data->jobTue2 : "" ;?>">                    
+                                    <label>Job 2</label>                                    
+                                    <select class="form-control form-control-lg custom-select" name="jobTue2" id="jobTue2">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobTue2) && $key == $data->jobTue2 && $data->jobTue2 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                    
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -381,8 +457,18 @@ include 'navbar.php';
                             </div>                                            
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
-                                    <label>Job 3</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobTue3" value="<?= (isset($data->jobTue3)) ? $data->jobTue3 : "" ;?>">                    
+                                    <label>Job 3</label>                                    
+                                    <select class="form-control form-control-lg custom-select" name="jobTue3" id="jobTue3">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobTue3) && $key == $data->jobTue3 && $data->jobTue3 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                    
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -392,7 +478,17 @@ include 'navbar.php';
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
                                     <label>Job 4</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobTue4" value="<?= (isset($data->jobTue4)) ? $data->jobTue4 : "" ;?>">                    
+                                    <select class="form-control form-control-lg custom-select" name="jobTue4" id="jobTue4">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobTue4) && $key == $data->jobTue4 && $data->jobTue4 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                                                        
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -479,7 +575,18 @@ include 'navbar.php';
                         <div class="form-row alert alert-secondary" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobWed1" value="<?= (isset($data->jobWed1)) ? $data->jobWed1 : "" ;?>">                    
+                                <select class="form-control form-control-lg custom-select job" name="jobWed1" id="jobWed1">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobWed1) && $key == $data->jobWed1 && $data->jobWed1 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>                                    
+                                
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Hours</label>
@@ -491,7 +598,17 @@ include 'navbar.php';
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
                                     <label>Job 2</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobWed2" value="<?= (isset($data->jobWed2)) ? $data->jobWed2 : "" ;?>">                    
+                                    <select class="form-control form-control-lg custom-select" name="jobWed2" id="jobWed2">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobWed2) && $key == $data->jobWed2 && $data->jobWed2 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                    
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -500,8 +617,18 @@ include 'navbar.php';
                             </div>                                            
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
-                                    <label>Job 3</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobWed3" value="<?= (isset($data->jobWed3)) ? $data->jobWed3 : "" ;?>">                    
+                                    <label>Job 3</label>                                    
+                                    <select class="form-control form-control-lg custom-select" name="jobWed3" id="jobWed3">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobWed3) && $key == $data->jobWed3 && $data->jobWed3 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                                                        
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -511,7 +638,17 @@ include 'navbar.php';
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
                                     <label>Job 4</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobWed4" value="<?= (isset($data->jobWed4)) ? $data->jobWed4 : "" ;?>">                    
+                                    <select class="form-control form-control-lg custom-select" name="jobWed4" id="jobWed4">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobWed4) && $key == $data->jobWed4 && $data->jobWed4 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                                                                                            
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -596,8 +733,18 @@ include 'navbar.php';
                         <!-- Job and Hours-->                   
                         <div class="form-row alert alert-secondary" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobThu1" value="<?= (isset($data->jobThu1)) ? $data->jobThu1 : "" ;?>">                    
+                                <label>Job</label>                                
+                                <select class="form-control form-control-lg custom-select job" name="jobThu1" id="jobThu1">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobThu1) && $key == $data->jobThu1 && $data->jobThu1 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>                                                                                                                                            
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Hours</label>
@@ -609,7 +756,17 @@ include 'navbar.php';
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
                                     <label>Job 2</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobThu2" value="<?= (isset($data->jobThu2)) ? $data->jobThu2 : "" ;?>">                    
+                                    <select class="form-control form-control-lg custom-select" name="jobThu2" id="jobThu2">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobThu2) && $key == $data->jobThu2 && $data->jobThu2 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                                                                                                                                                                
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -618,8 +775,18 @@ include 'navbar.php';
                             </div>                                            
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
-                                    <label>Job 3</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobThu3" value="<?= (isset($data->jobThu3)) ? $data->jobThu3 : "" ;?>">                    
+                                    <label>Job 3</label>                                    
+                                    <select class="form-control form-control-lg custom-select" name="jobThu3" id="jobThu3">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobThu3) && $key == $data->jobThu3 && $data->jobThu3 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                                                                                                                                                                                                    
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -629,7 +796,17 @@ include 'navbar.php';
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
                                     <label>Job 4</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobThu4" value="<?= (isset($data->jobThu4)) ? $data->jobThu4 : "" ;?>">                    
+                                    <select class="form-control form-control-lg custom-select" name="jobThu4" id="jobThu4">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobThu4) && $key == $data->jobThu4 && $data->jobThu4 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                                                                                                                                                                                                                                        
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -715,7 +892,17 @@ include 'navbar.php';
                         <div class="form-row alert alert-secondary" style="text-align: center;">
                             <div class="col-md-6 mb-3">
                                 <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobFri1" value="<?= (isset($data->jobFri1)) ? $data->jobFri1 : "" ;?>">                    
+                                <select class="form-control form-control-lg custom-select job" name="jobFri1" id="jobFri1">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobFri1) && $key == $data->jobFri1 && $data->jobFri1 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>                                                                                                                                                                                                                                                                                        
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Hours</label>
@@ -726,8 +913,18 @@ include 'navbar.php';
                         <div id="extraJobsFri" style="display:none;">
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
-                                    <label>Job 2</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobFri2" value="<?= (isset($data->jobFri2)) ? $data->jobFri2 : "" ;?>">                    
+                                    <label>Job 2</label>                                    
+                                    <select class="form-control form-control-lg custom-select" name="jobFri2" id="jobFri2">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobFri2) && $key == $data->jobFri2 && $data->jobFri2 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                                                                                                                                                                                                                                                                                                            
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -737,7 +934,17 @@ include 'navbar.php';
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
                                     <label>Job 3</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobFri3" value="<?= (isset($data->jobFri3)) ? $data->jobFri3 : "" ;?>">                    
+                                    <select class="form-control form-control-lg custom-select" name="jobFri3" id="jobFri3">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobFri3) && $key == $data->jobFri3 && $data->jobFri3 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                                                                                                                                                                                                                                                                                                                                                
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -747,7 +954,18 @@ include 'navbar.php';
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
                                     <label>Job 4</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobFri4" value="<?= (isset($data->jobFri4)) ? $data->jobFri4 : "" ;?>">                    
+                                    <select class="form-control form-control-lg custom-select" name="jobFri4" id="jobFri4">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobFri4) && $key == $data->jobFri4 && $data->jobFri4 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                    </select>                                                                                                                                                                                                                                                                                                                            
+                                    
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -832,8 +1050,18 @@ include 'navbar.php';
                         <!-- Job and Hours-->                   
                         <div class="form-row alert alert-secondary" style="text-align: center;">
                             <div class="col-md-6 mb-3">
-                                <label>Job</label>
-                                <input type="text" class="form-control form-control-lg job" name="jobSat1" id="jobSat1" value="<?= (isset($data->jobSat1)) ? $data->jobSat1 : "" ;?>">                    
+                                <label>Job</label>                                
+                                <select class="form-control form-control-lg custom-select" name="jobSat1" id="jobSat1">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobSat1) && $key == $data->jobSat1 && $data->jobSat1 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>                                                                                                                                                                                                                                                                                                                                                            
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Hours</label>
@@ -845,7 +1073,18 @@ include 'navbar.php';
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
                                     <label>Job 2</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobSat2" value="<?= (isset($data->jobSat2)) ? $data->jobSat2 : "" ;?>">                    
+                                    <select class="form-control form-control-lg custom-select" name="jobSat2" id="jobSat2">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobSat2) && $key == $data->jobSat2 && $data->jobSat2 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>                                                                                                                                                                                                                                                                                                                            
+                                    
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -854,8 +1093,19 @@ include 'navbar.php';
                             </div>                                            
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
-                                    <label>Job 3</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobSat3" value="<?= (isset($data->jobSat3)) ? $data->jobSat3 : "" ;?>">                    
+                                    <label>Job 3</label>                                    
+                                    <select class="form-control form-control-lg custom-select" name="jobSat3" id="jobSat3">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobSat3) && $key == $data->jobSat3 && $data->jobSat3 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>                                                                                                                                                                                                                                                                                                                            
+                                    
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
@@ -864,8 +1114,18 @@ include 'navbar.php';
                             </div>                                                                
                             <div class="form-row alert alert-secondary" style="text-align: center;">
                                 <div class="col-md-6 mb-3">
-                                    <label>Job 4</label>
-                                    <input type="text" class="form-control form-control-lg" name="jobSat4" value="<?= (isset($data->jobSat4)) ? $data->jobSat4 : "" ;?>">                    
+                                    <label>Job 4</label>                                    
+                                    <select class="form-control form-control-lg custom-select" name="jobSat4" id="jobSat4">                                                                    
+                                    <?php
+                                        foreach ($list_jobs as $key => $value) {
+                                            if (isset($data->jobSat4) && $key == $data->jobSat4 && $data->jobSat4 !== "") {
+                                                echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                            } else {
+                                                echo '<option value="' . $key . '">'. $value .'</option>';
+                                            }                                                                                
+                                        }
+                                    ?>
+                                </select>                                                                                                                                                                                                                                                                                                                                                                
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Hours</label>
