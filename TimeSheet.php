@@ -62,6 +62,7 @@ $list_jobs = [
     '' => 'Select Job',    
     'rdo' => 'RDO',
     'pld' => 'PLD',    
+    'anl' => 'Annual Leave',        
     'sick' => 'Sick Leave',    
     '001' => '001 - Office',    
     '002' => '002 - Job 2'
