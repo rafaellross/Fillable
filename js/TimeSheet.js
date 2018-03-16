@@ -41,12 +41,20 @@ $(document).ready(function() {
 
     //Define actions on click button Autofill
     $('#btnPreFill').click(function(){
+      //Clear all inputs
+      $('input, select').not('#preStart, #preEnd, #output, #empDate, #preJob, #PreNormal, #Pre15, #Pre20, #preHours, #btnClearSign, #status, #output, #weestart, #empname, input[name=timeSheetId], input[name=empId]').val('');
+
+      let preEnd = $('#preEnd').val();
+      $('.end-1').not('#sat_end_1').val(preEnd);
+
         let preStart = $('#preStart').val();
-        $('.start').not('#satStart').val(preStart);
+        $('.start-1').not('#sat_start_1').val(preStart);
 
-        let preEnd = $('#preEnd').val();
-        $('.end').not('#satEnd').val(preEnd);
+        let preJob = $('#preJob').val();
+        $('.job-1').not('#jobSat1').val(preJob);
 
+        $( ".end-1" ).not('#sat_end_1').trigger( "change" );
+/*
         let preJob = $('#preJob').val();
         $('.job').not('#jobSat1').val(preJob);
 
@@ -61,7 +69,7 @@ $(document).ready(function() {
 
         let pre20 = $('#Pre20').val();
         $('.hor20').not('#Sat20').val(pre20);
-        calcTotal();
+        calcTotal();*/
     });
 
 
