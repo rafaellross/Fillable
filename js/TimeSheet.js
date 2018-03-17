@@ -28,6 +28,22 @@ class Utilities{
 }
 
 $(document).ready(function() {
+
+    $('.btnClear').click(function(){
+        $(this).parent().children().children('select, input').val('');
+        $(this).parent().prev().children().children('select').val('');
+        var hourSelect = $(this).parent().prev().children().children('select');
+        $( hourSelect ).trigger( "change" );
+    });
+
+    $('.job').change(function(){
+      if (["rdo", "sick", "anl", "pld"].indexOf($(this).val()) > -1 ) {
+        var hours = $(this).parent().parent().prev().children();
+        hours.children('.hour-start').val(7*60);
+        hours.children('.hour-end').val(15.25*60);
+        hours.children('.hour-end').trigger( "change" );
+      }
+    });
     //Hide checkbox special leave
     $('.input-group-text').hide();
 
@@ -42,7 +58,7 @@ $(document).ready(function() {
     //Define actions on click button Autofill
     $('#btnPreFill').click(function(){
       //Clear all inputs
-      $('input, select').not('#preStart, #preEnd, #output, #empDate, #preJob, #PreNormal, #Pre15, #Pre20, #preHours, #btnClearSign, #status, #output, #weestart, #empname, input[name=timeSheetId], input[name=empId]').val('');
+      $('input, select').not('#preStart, #preEnd, #output, #empDate, #preJob, #PreNormal, #Pre15, #Pre20, #preHours, #btnClearSign, #status, #output, #weestart, #empname, input[name=timeSheetId], input[name=empId], .btnClear').val('');
 
       let preEnd = $('#preEnd').val();
       $('.end-1').not('#sat_end_1').val(preEnd);
@@ -203,7 +219,7 @@ $(document).ready(function() {
     var start = Number($('#' + day[0] + "_start_" + row).val());
     var end = Number($(this).val());
     var lunch = row == 1 ? 15 : 0;
-    duration.val(Utilities.minutesToHour(end-start-lunch));
+    duration.val((end-start-lunch) > 0 ? Utilities.minutesToHour(end-start-lunch) : "");
 
 
     var hours_job1 = $('#hrs_'+ day[0] +'_1').val();
@@ -253,4 +269,6 @@ $(document).ready(function() {
     calcTotal();
 
   });
+
+
 });

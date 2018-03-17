@@ -68,7 +68,31 @@
         'anl' => 'Annual Leave',
         'sick' => 'Sick Leave',
         '001' => '001 - Office',
-        '002' => '002 - Job 2'
+        '372' => '372 - Harbord Diggers',
+        '401' => '401 - Airport',
+        '417' => '417 - Clovelly Rd Clovelly',
+        '427' => '427 - Elger St Glebe',
+        '429' => '429 - 105 Phillip St Parramatta',
+        '446' => '446 - Woollahra Retirement (ARU)',
+        '458' => '458 - Peppers Pokolbin/Spices',
+        '476' => '476 - 117 Kurraba Rd Neutral Bay',
+        '481' => '481 - 76 Edinburgh Rd Marrickville',
+        '500' => '500 - Telstra Manly Belgrave St',
+        '507' => '507 - Dean Revesby',
+        '511' => '511 - 12 Philip St Parra (Church St)',
+        '514' => '514 - Carr St Coogee',
+        '517' => '517 - Kogarah RSL',
+        '518' => '518 - Syd Olympic Park, Homebush',
+        '525' => '525 - Page St Banksmeadow',
+        '538' => '538 - 80 Pitt Street',
+        '540' => '540 - ASQ Aust Square',
+        '544' => '544 - Ben Pritchard Bronte',
+        '545' => '545 - Barker College',
+        '547' => '547 - 10 Vernon St Lewisham',
+        '548' => '548 - 201 Kent Street',
+        '549' => '549 - Olphest St Vaucluse',
+        '550' => '550 - Marcos Gym',
+        '551' => '551 - Mirvac - Marrickville',
     ];
 ?>
 <!DOCTYPE html>
@@ -261,6 +285,7 @@
                 <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_mon_1" id="hrs_mon_1" value="<?= (isset($data->hrs_mon_1)) ? $data->hrs_mon_1 : "" ;?>">
                 </div>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnShowExtra" onclick="showExtra(this, extraJobsMon)">Show More Jobs</button>
+                <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                 </div>
                 </div
                 <!-- End Job 1  -->
@@ -535,6 +560,7 @@
                 <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_tue_1" id="hrs_tue_1" value="<?= (isset($data->hrs_tue_1)) ? $data->hrs_tue_1 : "" ;?>">
                 </div>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnShowExtra" onclick="showExtra(this, extraJobsTue)">Show More Jobs</button>
+                <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                 </div>
                 </div
                 <!-- End Job 1  -->
@@ -809,6 +835,7 @@
                 <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_wed_1" id="hrs_wed_1" value="<?= (isset($data->hrs_wed_1)) ? $data->hrs_wed_1 : "" ;?>">
                 </div>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnShowExtra" onclick="showExtra(this, extraJobsWed)">Show More Jobs</button>
+                <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                 </div>
                 </div
                 <!-- End Job 1  -->
@@ -1082,6 +1109,7 @@
                 <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_thu_1" id="hrs_thu_1" value="<?= (isset($data->hrs_thu_1)) ? $data->hrs_thu_1 : "" ;?>">
                 </div>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnShowExtra" onclick="showExtra(this, extraJobsThu)">Show More Jobs</button>
+                <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                 </div>
                 </div
                 <!-- End Job 1  -->
@@ -1355,6 +1383,7 @@
                 <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_fri_1" id="hrs_fri_1" value="<?= (isset($data->hrs_fri_1)) ? $data->hrs_fri_1 : "" ;?>">
                 </div>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnShowExtra" onclick="showExtra(this, extraJobsFri)">Show More Jobs</button>
+                <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                 </div>
                 </div
                 <!-- End Job 1  -->
@@ -1628,6 +1657,7 @@
                 <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_sat_1" id="hrs_sat_1" value="<?= (isset($data->hrs_sat_1)) ? $data->hrs_sat_1 : "" ;?>">
                 </div>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnShowExtra" onclick="showExtra(this, extraJobsSat)">Show More Jobs</button>
+                <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                 </div>
                 </div
                 <!-- End Job 1  -->

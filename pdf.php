@@ -103,6 +103,8 @@ while($data = mysqli_fetch_array($query)){
     $width_first = 20;
     $width_days = 35;
     $height = 10;
+
+    $pdf->SetDrawColor(1, 1, 1);
     $pdf->SetFillColor(192, 192, 192);
     $pdf->SetFont('Arial','',5);
     $pdf->Cell($width_first,5,'', 1);
@@ -119,142 +121,190 @@ while($data = mysqli_fetch_array($query)){
 
     $pdf->Ln();
 
-    //Second line
+    //Line show start and end hours of Job 1
     $pdf->Text(17, 37, 'START &');
     $pdf->Text(15, 39, 'FINISH TIME');
-    $pdf->Cell($width_first, 5,"", 'LRB', 'C');
+    $pdf->Cell($width_first, 5,"", 1, 'C');
     $pdf->SetFont('Arial','',$font_regular);
-    $pdf->Cell($width_days,5, minutesToHour($data->mon_start_1) . ($data->mon_end_1 !== "" ? " - " : "") . minutesToHour($data->mon_end_1),'LRB',0,'C');
-    $pdf->Cell($width_days,5, minutesToHour($data->tue_start_1) . ($data->tue_end_1 !== "" ? " - " : "") . minutesToHour($data->tue_end_1),'RB',0,'C');
-    $pdf->Cell($width_days,5, minutesToHour($data->wed_start_1) . ($data->wed_end_1 !== "" ? " - " : "") . minutesToHour($data->wed_end_1),'RB',0,'C');
-    $pdf->Cell($width_days,5, minutesToHour($data->thu_start_1) . ($data->thu_end_1 !== "" ? " - " : "") . minutesToHour($data->thu_end_1),'RB',0,'C');
-    $pdf->Cell($width_days,5, minutesToHour($data->fri_start_1) . ($data->fri_end_1 !== "" ? " - " : "") . minutesToHour($data->fri_end_1),'RB',0,'C');
-    $pdf->Cell($width_days,5, minutesToHour($data->sat_start_1) . ($data->sat_end_1 !== "" ? " - " : "") . minutesToHour($data->sat_end_1),'RB',0,'C');
+    $pdf->Cell($width_days,5, minutesToHour($data->mon_start_1) . ($data->mon_end_1 !== "" ? " - " : "") . minutesToHour($data->mon_end_1),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->tue_start_1) . ($data->tue_end_1 !== "" ? " - " : "") . minutesToHour($data->tue_end_1),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->wed_start_1) . ($data->wed_end_1 !== "" ? " - " : "") . minutesToHour($data->wed_end_1),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->thu_start_1) . ($data->thu_end_1 !== "" ? " - " : "") . minutesToHour($data->thu_end_1),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->fri_start_1) . ($data->fri_end_1 !== "" ? " - " : "") . minutesToHour($data->fri_end_1),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->sat_start_1) . ($data->sat_end_1 !== "" ? " - " : "") . minutesToHour($data->sat_end_1),1,0,'C', true);
     $pdf->Cell(10,5,'',0,0,'C');
-    $pdf->Cell(25,5,$data->totalWeek,'LRB',0,'C');
+    $pdf->Cell(25,5,$data->totalWeek,1,0,'C');
     $pdf->Ln();
-    //Start Job/Hrs lines
-    //Second line
+
+    //Start Job/Hrs lines Job1
+    $pdf->SetFont('Arial','',5);
+    $pdf->Cell($width_first, 5,"JOB/HRS", 1, 0, 'C');
+    $pdf->SetFont('Arial','',$font_regular);
+    $pdf->Cell($width_days, 5, $data->{'jobMon1'} .(empty($data->{'jobMon1'}) ? "" : "/") . $data->{'hrs_mon_1'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobTue1'} .(empty($data->{'jobTue1'}) ? "" : "/") . $data->{'hrs_tue_1'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobWed1'} .(empty($data->{'jobWed1'}) ? "" : "/") . $data->{'hrs_wed_1'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobThu1'} .(empty($data->{'jobThu1'}) ? "" : "/") . $data->{'hrs_thu_1'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobFri1'} .(empty($data->{'jobFri1'}) ? "" : "/") . $data->{'hrs_fri_1'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobSat1'} .(empty($data->{'jobSat1'}) ? "" : "/") . $data->{'hrs_sat_1'},1,0,'C');
+    $pdf->Cell(10,5,'',0,0,'C');
+    $pdf->Cell(25, 5,"",1,0,'C');
+    $pdf->Ln();
 
 
-        //Create
+    //Line show start and end hours of Job 2
+    $pdf->SetFont('Arial','',5);
+    $pdf->Text(17, 47, 'START &');
+    $pdf->Text(15, 49, 'FINISH TIME');
+    $pdf->Cell($width_first, 5,"", 1, 'C');
+    $pdf->SetFont('Arial','',$font_regular);
+    $pdf->Cell($width_days,5, minutesToHour($data->mon_start_2) . ($data->mon_end_2 !== "" ? " - " : "") . minutesToHour($data->mon_end_2),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->tue_start_2) . ($data->tue_end_2 !== "" ? " - " : "") . minutesToHour($data->tue_end_2),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->wed_start_2) . ($data->wed_end_2 !== "" ? " - " : "") . minutesToHour($data->wed_end_2),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->thu_start_2) . ($data->thu_end_2 !== "" ? " - " : "") . minutesToHour($data->thu_end_2),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->fri_start_2) . ($data->fri_end_2 !== "" ? " - " : "") . minutesToHour($data->fri_end_2),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->sat_start_2) . ($data->sat_end_2 !== "" ? " - " : "") . minutesToHour($data->sat_end_2),1,0,'C', true);
+    $pdf->Cell(10,5,'',0,0,'C');
+    $pdf->Cell(25,5,'',1,0,'C');
+    $pdf->Ln();
 
-        $pdf->SetFont('Arial','',5);
-        $pdf->Cell($width_first, 5,"JOB/HRS", 'LRB', 0, 'C');
-        $pdf->SetFont('Arial','',$font_regular);
-        $pdf->Cell($width_days, 5, $data->{'jobMon1'} .(empty($data->{'jobMon1'}) ? "" : "/") . $data->{'hrs_mon_1'},'LRB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobTue1'} .(empty($data->{'jobTue1'}) ? "" : "/") . $data->{'hrs_tue_1'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobWed1'} .(empty($data->{'jobWed1'}) ? "" : "/") . $data->{'hrs_wed_1'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobThu1'} .(empty($data->{'jobThu1'}) ? "" : "/") . $data->{'hrs_thu_1'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobFri1'} .(empty($data->{'jobFri1'}) ? "" : "/") . $data->{'hrs_fri_1'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobSat1'} .(empty($data->{'jobSat1'}) ? "" : "/") . $data->{'hrs_sat_1'},'RB',0,'C');
-        $pdf->Cell(10,5,'',0,0,'C');
-        $pdf->Cell(25, 5,"",'LRB',0,'C');
-        $pdf->Ln();
-
-        $pdf->SetFont('Arial','',5);
-        $pdf->Cell($width_first, 5,"JOB/HRS", 'LRB', 0, 'C');
-        $pdf->SetFont('Arial','',$font_regular);
-        $pdf->Cell($width_days, 5, $data->{'jobMon2'} .(empty($data->{'jobMon2'}) ? "" : "/") . $data->{'hrs_mon_2'},'LRB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobTue2'} .(empty($data->{'jobTue2'}) ? "" : "/") . $data->{'hrs_tue_2'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobWed2'} .(empty($data->{'jobWed2'}) ? "" : "/") . $data->{'hrs_wed_2'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobThu2'} .(empty($data->{'jobThu2'}) ? "" : "/") . $data->{'hrs_thu_2'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobFri2'} .(empty($data->{'jobFri2'}) ? "" : "/") . $data->{'hrs_fri_2'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobSat2'} .(empty($data->{'jobSat2'}) ? "" : "/") . $data->{'hrs_sat_2'},'RB',0,'C');
-        $pdf->Cell(10,5,'',0,0,'C');
-        $pdf->Cell(25, 5,"",'LRB',0,'C');
-        $pdf->Ln();
-
-
-        $pdf->SetFont('Arial','',5);
-        $pdf->Cell($width_first, 5,"JOB/HRS", 'LRB', 0, 'C');
-        $pdf->SetFont('Arial','',$font_regular);
-        $pdf->Cell($width_days, 5, $data->{'jobMon3'} .(empty($data->{'jobMon3'}) ? "" : "/") . $data->{'hrs_mon_3'},'LRB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobTue3'} .(empty($data->{'jobTue3'}) ? "" : "/") . $data->{'hrs_tue_3'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobWed3'} .(empty($data->{'jobWed3'}) ? "" : "/") . $data->{'hrs_wed_3'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobThu3'} .(empty($data->{'jobThu3'}) ? "" : "/") . $data->{'hrs_thu_3'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobFri3'} .(empty($data->{'jobFri3'}) ? "" : "/") . $data->{'hrs_fri_3'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobSat3'} .(empty($data->{'jobSat3'}) ? "" : "/") . $data->{'hrs_sat_3'},'RB',0,'C');
-        $pdf->Cell(10,5,'',0,0,'C');
-        $pdf->Cell(25, 5,"",'LRB',0,'C');
-        $pdf->Ln();
+    //Start Job/Hrs lines Job2
+    $pdf->SetFont('Arial','',5);
+    $pdf->Cell($width_first, 5,"JOB/HRS", 1, 0, 'C');
+    $pdf->SetFont('Arial','',$font_regular);
+    $pdf->Cell($width_days, 5, $data->{'jobMon2'} .(empty($data->{'jobMon2'}) ? "" : "/") . $data->{'hrs_mon_2'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobTue2'} .(empty($data->{'jobTue2'}) ? "" : "/") . $data->{'hrs_tue_2'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobWed2'} .(empty($data->{'jobWed2'}) ? "" : "/") . $data->{'hrs_wed_2'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobThu2'} .(empty($data->{'jobThu2'}) ? "" : "/") . $data->{'hrs_thu_2'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobFri2'} .(empty($data->{'jobFri2'}) ? "" : "/") . $data->{'hrs_fri_2'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobSat2'} .(empty($data->{'jobSat2'}) ? "" : "/") . $data->{'hrs_sat_2'},1,0,'C');
+    $pdf->Cell(10,5,'',0,0,'C');
+    $pdf->Cell(25, 5,"",1,0,'C');
+    $pdf->Ln();
 
 
-        $pdf->SetFont('Arial','',5);
-        $pdf->Cell($width_first, 5,"JOB/HRS", 'LRB', 0, 'C');
-        $pdf->SetFont('Arial','',$font_regular);
-        $pdf->Cell($width_days, 5, $data->{'jobMon4'} .(empty($data->{'jobMon4'}) ? "" : "/") . $data->{'hrs_mon_4'},'LRB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobTue4'} .(empty($data->{'jobTue4'}) ? "" : "/") . $data->{'hrs_tue_4'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobWed4'} .(empty($data->{'jobWed4'}) ? "" : "/") . $data->{'hrs_wed_4'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobThu4'} .(empty($data->{'jobThu4'}) ? "" : "/") . $data->{'hrs_thu_4'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobFri4'} .(empty($data->{'jobFri4'}) ? "" : "/") . $data->{'hrs_fri_4'},'RB',0,'C');
-        $pdf->Cell($width_days, 5, $data->{'jobSat4'} .(empty($data->{'jobSat4'}) ? "" : "/") . $data->{'hrs_sat_4'},'RB',0,'C');
-        $pdf->Cell(10,5,'',0,0,'C');
-        $pdf->Cell(25, 5,"",'LRB',0,'C');
-        $pdf->Ln();
+    //Line show start and end hours of Job 3
+    $pdf->SetFont('Arial','',5);
+    $pdf->Text(17, 57, 'START &');
+    $pdf->Text(15, 59, 'FINISH TIME');
+    $pdf->Cell($width_first, 5,"", 1, 'C');
+    $pdf->SetFont('Arial','',$font_regular);
+    $pdf->Cell($width_days,5, minutesToHour($data->mon_start_3) . ($data->mon_end_3 !== "" ? " - " : "") . minutesToHour($data->mon_end_3),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->tue_start_3) . ($data->tue_end_3 !== "" ? " - " : "") . minutesToHour($data->tue_end_3),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->wed_start_3) . ($data->wed_end_3 !== "" ? " - " : "") . minutesToHour($data->wed_end_3),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->thu_start_3) . ($data->thu_end_3 !== "" ? " - " : "") . minutesToHour($data->thu_end_3),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->fri_start_3) . ($data->fri_end_3 !== "" ? " - " : "") . minutesToHour($data->fri_end_3),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->sat_start_3) . ($data->sat_end_3 !== "" ? " - " : "") . minutesToHour($data->sat_end_3),1,0,'C', true);
+    $pdf->Cell(10,5,'',0,0,'C');
+    $pdf->Cell(25,5,'',1,0,'C');
+    $pdf->Ln();
 
+    //Start Job/Hrs lines Job3
+    $pdf->SetFont('Arial','',5);
+    $pdf->Cell($width_first, 5,"JOB/HRS", 1, 0, 'C');
+    $pdf->SetFont('Arial','',$font_regular);
+    $pdf->Cell($width_days, 5, $data->{'jobMon3'} .(empty($data->{'jobMon3'}) ? "" : "/") . $data->{'hrs_mon_3'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobTue3'} .(empty($data->{'jobTue3'}) ? "" : "/") . $data->{'hrs_tue_3'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobWed3'} .(empty($data->{'jobWed3'}) ? "" : "/") . $data->{'hrs_wed_3'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobThu3'} .(empty($data->{'jobThu3'}) ? "" : "/") . $data->{'hrs_thu_3'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobFri3'} .(empty($data->{'jobFri3'}) ? "" : "/") . $data->{'hrs_fri_3'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobSat3'} .(empty($data->{'jobSat3'}) ? "" : "/") . $data->{'hrs_sat_3'},1,0,'C');
+    $pdf->Cell(10,5,'',0,0,'C');
+    $pdf->Cell(25, 5,"",1,0,'C');
+    $pdf->Ln();
+
+    //Line show start and end hours of Job 4
+    $pdf->SetFont('Arial','',5);
+    $pdf->Text(17, 67, 'START &');
+    $pdf->Text(15, 69, 'FINISH TIME');
+    $pdf->Cell($width_first, 5,"", 1, 'C');
+    $pdf->SetFont('Arial','',$font_regular);
+    $pdf->Cell($width_days,5, minutesToHour($data->mon_start_4) . ($data->mon_end_4 !== "" ? " - " : "") . minutesToHour($data->mon_end_4),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->tue_start_4) . ($data->tue_end_4 !== "" ? " - " : "") . minutesToHour($data->tue_end_4),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->wed_start_4) . ($data->wed_end_4 !== "" ? " - " : "") . minutesToHour($data->wed_end_4),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->thu_start_4) . ($data->thu_end_4 !== "" ? " - " : "") . minutesToHour($data->thu_end_4),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->fri_start_4) . ($data->fri_end_4 !== "" ? " - " : "") . minutesToHour($data->fri_end_4),1,0,'C', true);
+    $pdf->Cell($width_days,5, minutesToHour($data->sat_start_4) . ($data->sat_end_4 !== "" ? " - " : "") . minutesToHour($data->sat_end_4),1,0,'C', true);
+    $pdf->Cell(10,5,'',0,0,'C');
+    $pdf->Cell(25,5,'',1,0,'C');
+    $pdf->Ln();
+
+    //Start Job/Hrs lines Job4
+    $pdf->SetFont('Arial','',5);
+    $pdf->Cell($width_first, 5,"JOB/HRS", 1, 0, 'C');
+    $pdf->SetFont('Arial','',$font_regular);
+    $pdf->Cell($width_days, 5, $data->{'jobMon4'} .(empty($data->{'jobMon4'}) ? "" : "/") . $data->{'hrs_mon_4'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobTue4'} .(empty($data->{'jobTue4'}) ? "" : "/") . $data->{'hrs_tue_4'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobWed4'} .(empty($data->{'jobWed4'}) ? "" : "/") . $data->{'hrs_wed_4'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobThu4'} .(empty($data->{'jobThu4'}) ? "" : "/") . $data->{'hrs_thu_4'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobFri4'} .(empty($data->{'jobFri4'}) ? "" : "/") . $data->{'hrs_fri_4'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobSat4'} .(empty($data->{'jobSat4'}) ? "" : "/") . $data->{'hrs_sat_4'},1,0,'C');
+    $pdf->Cell(10,5,'',0,0,'C');
+    $pdf->Cell(25, 5,"",1,0,'C');
+    $pdf->Ln();
 
     $pdf->SetFont('Arial','',5);
-    $pdf->Cell($width_first, 8,"TOTAL HRS", 'LRB', 0, 'C');
+    $pdf->SetFillColor(255,154,0);
+
+    $pdf->Cell($width_first, 8,"TOTAL HRS", 1, 0, 'C');
     $pdf->SetFont('Arial','',$font_regular);
 
 
-    $pdf->Cell($width_days,8, $data->hrsMon,'LRB',0,'C', true);
-    $pdf->Cell($width_days,8, $data->hrsTue,'LRB',0,'C', true);
-    $pdf->Cell($width_days,8, $data->hrsWed,'LRB',0,'C', true);
-    $pdf->Cell($width_days,8, $data->hrsThu,'LRB',0,'C', true);
-    $pdf->Cell($width_days,8, $data->hrsFri,'LRB',0,'C', true);
-    $pdf->Cell($width_days,8, $data->hrsSat,'LRB',0,'C', true);
+    $pdf->Cell($width_days,8, $data->hrsMon,1,0,'C', true);
+    $pdf->Cell($width_days,8, $data->hrsTue,1,0,'C', true);
+    $pdf->Cell($width_days,8, $data->hrsWed,1,0,'C', true);
+    $pdf->Cell($width_days,8, $data->hrsThu,1,0,'C', true);
+    $pdf->Cell($width_days,8, $data->hrsFri,1,0,'C', true);
+    $pdf->Cell($width_days,8, $data->hrsSat,1,0,'C', true);
 
     $pdf->Cell(10,5,'',0,0,'C');
-    $pdf->Cell(25,8,$data->totalWeek,'LRB',0,'C');
+    $pdf->Cell(25,8,$data->totalWeek,1,0,'C');
 
     $pdf->Ln(10);
 
     $pdf->Cell($width_first, 8,"By signing this form I take full responsibility for the hours stated above and confirm the information is correct and true.");
     $pdf->Ln();
 
-    $pdf->Text(11, 95,'Employee Signature   ');
+    $pdf->Text(11, 105,'Employee Signature   ');
     //$pdf->Image($data->empSign, 150, 85, 40);
     $img = explode(',',$empSign);
 
     $pic = 'data://text/plain;base64,'. $img[1];
 
-    $pdf->Image($pic, 35,87.7,40,0,'png');
+    $pdf->Image($pic, 40,97.7,40,0,'png');
 
 
 
 
 
 
-    $pdf->Text(80, 95,'Date      '. $data->empDate);
-    $pdf->Line(11, 96, 80, 96);
-    $pdf->Line(89, 96, 105, 96);
-
-    $pdf->Text(11, 105,'Authorised By   '. /*'$data->authBy'*/'');
-    $authByDateTemp =  'explode("-", $data->authByDate)';
-
-    $authByDate = (count($authByDateTemp) > 1 ? $authByDateTemp[2] . "/" . $authByDateTemp[1] . "/" . $authByDateTemp[0] : "");
-    $pdf->Text(80, 105,'Date      '. $authByDate);
+    $pdf->Text(75, 105,'Date      '. $data->empDate);
     $pdf->Line(11, 106, 80, 106);
     $pdf->Line(89, 106, 105, 106);
 
-    $pdf->Image('images/Site Diary_img_0.jpg', 150, 85, 40);
+    $pdf->Text(11, 115,'Authorised By   '. /*'$data->authBy'*/'');
+    $authByDateTemp =  'explode("-", $data->authByDate)';
+
+    $authByDate = (count($authByDateTemp) > 1 ? $authByDateTemp[2] . "/" . $authByDateTemp[1] . "/" . $authByDateTemp[0] : "");
+    $pdf->Text(75, 115,'Date      '. $authByDate);
+    $pdf->Line(11, 116, 80, 116);
+    $pdf->Line(89, 116, 105, 116);
+
+    $pdf->Image('images/Site Diary_img_0.jpg', 150, 95, 40);
     $pdf->SetFont('Arial','B',15);
-    $pdf->Text(209, 90,'TIME SHEET');
+    $pdf->Text(209, 100,'TIME SHEET');
     $pdf->SetFont('Arial','',8);
-    $pdf->Text(208, 95,'Fax Number 02 8668 4892');
+    $pdf->Text(208, 105,'Fax Number 02 8668 4892');
     $pdf->SetFont('Arial','',8);
-    $pdf->Text(200, 100,'admin@smartplumbingsolutions.com.au');
+    $pdf->Text(200, 110,'admin@smartplumbingsolutions.com.au');
     $pdf->SetFont('Arial','B',8);
-    $pdf->Text(207, 105,'Call 1800 69 SMART (76278)');
+    $pdf->Text(207, 115,'Call 1800 69 SMART (76278)');
 
     $pdf->Ln();
     $pdf->Ln();
 
     $pdf->SetFont('Arial','',4);
-    $pdf->Text(10, 115,'OFFICE USE ONLY');
-    $pdf->Line(10, 116, 275, 116);
+    $pdf->Text(10, 125,'OFFICE USE ONLY');
+    $pdf->Line(10, 126, 275, 126);
     $pdf->Ln(25);
 
 
@@ -492,7 +542,8 @@ while($data = mysqli_fetch_array($query)){
 
         //Check travel day Sat
         $travel_Sat = false;
-        if (!in_array($job_hourSat1->job, ["sick", "anl", "pld", ""])) {
+
+        if (!in_array($job_hourSat1->job, ["sick", "anl", "pld", ""])) {          
             $travel_Sat = true;
         }
 
@@ -635,13 +686,11 @@ while($data = mysqli_fetch_array($query)){
 
         if($travel_Sat){
             $travel_days +=1;
-
-
         }
 
 
         //Fill left table
-        $startY_job = 128;
+        $startY_job = 143;
         //print_r($arr_jobs_hours);
 
         foreach($arr_jobs_hours as $job => $hour) {
