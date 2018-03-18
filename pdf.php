@@ -19,8 +19,7 @@ $sql = "SELECT fillable.id, fillable.type, fillable.content, fillable.date_creat
 
 $query 	= mysqli_query($con, $sql);
 
-$travel_days = 0;
-$minutes_normal = 0;
+
 
 require('fpdf/fpdf.php');
 
@@ -71,6 +70,8 @@ function BasicTable($header, $data)
 
 }
 
+
+
 $pdf = new PDF();
 
 //Font sizes
@@ -79,6 +80,8 @@ $font_regular = 10;
 $font_sm = 8;
 
 while($data = mysqli_fetch_array($query)){
+    $travel_days = 0;
+    $minutes_normal = 0;    
     $empSign = $data['empSign'];
     $data = json_decode($data[2]);
 
@@ -543,6 +546,7 @@ while($data = mysqli_fetch_array($query)){
         //Check travel day Sat
         $travel_Sat = false;            
             if (!in_array($job_hourSat1->job, ["sick", "anl", "pld", ""])) {
+                $travel_Sat = true;
         }
 
         //Check travel day Mon
@@ -655,8 +659,7 @@ while($data = mysqli_fetch_array($query)){
         //Check travel day Sat
 
 
-        if (!in_array($job_hourSat4->job, ["sick", "anl", "pld", ""])) {
-            
+        if (!in_array($job_hourSat4->job, ["sick", "anl", "pld", ""])) {            
             $travel_Sat = true;
         }
 
@@ -697,7 +700,7 @@ while($data = mysqli_fetch_array($query)){
         echo ($travel_Thu) . ' - Thu<br>';
         echo ($travel_Fri) . ' - Fri<br>';
         echo ($travel_Sat) . ' - Sat<br>';
-  */      
+  */    
         
 
         //Fill left table
