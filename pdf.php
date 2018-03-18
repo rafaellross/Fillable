@@ -508,7 +508,7 @@ while($data = mysqli_fetch_array($query)){
                 }
             }
         }
-
+        
         //Check travel day Mon
         $travel_Mon = false;
         if (!in_array($job_hourMon1->job, ["sick", "anl", "pld", ""])) {
@@ -541,10 +541,8 @@ while($data = mysqli_fetch_array($query)){
         }
 
         //Check travel day Sat
-        $travel_Sat = false;
-
-        if (!in_array($job_hourSat1->job, ["sick", "anl", "pld", ""])) {          
-            $travel_Sat = true;
+        $travel_Sat = false;            
+            if (!in_array($job_hourSat1->job, ["sick", "anl", "pld", ""])) {
         }
 
         //Check travel day Mon
@@ -582,6 +580,7 @@ while($data = mysqli_fetch_array($query)){
 
         if (!in_array($job_hourSat2->job, ["sick", "anl", "pld", ""])) {
             $travel_Sat = true;
+            
         }
 
         //Check travel day Mon
@@ -618,6 +617,7 @@ while($data = mysqli_fetch_array($query)){
         //Check travel day Sat
 
         if (!in_array($job_hourSat3->job, ["sick", "anl", "pld", ""])) {
+            
             $travel_Sat = true;
         }
 
@@ -656,6 +656,7 @@ while($data = mysqli_fetch_array($query)){
 
 
         if (!in_array($job_hourSat4->job, ["sick", "anl", "pld", ""])) {
+            
             $travel_Sat = true;
         }
 
@@ -688,6 +689,16 @@ while($data = mysqli_fetch_array($query)){
             $travel_days +=1;
         }
 
+
+/*
+        echo $travel_Mon . ' - Mon <br>';
+        echo ($travel_Tue) . ' - Tue<br>';
+        echo ($travel_Wed) . ' - Wed<br>';
+        echo ($travel_Thu) . ' - Thu<br>';
+        echo ($travel_Fri) . ' - Fri<br>';
+        echo ($travel_Sat) . ' - Sat<br>';
+  */      
+        
 
         //Fill left table
         $startY_job = 143;
