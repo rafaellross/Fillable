@@ -246,6 +246,8 @@ $(document).ready(function() {
     var hours_20 = 0;
     var hours_nor = 0;
 
+    var job_number = $('#job' + day[0].charAt(0).toUpperCase() + day[0].slice(1) + row).val();    
+    
     if (totalHours > (8*60) && day[0] !== "sat") {
       //If total hours is bigger than 08:00 and day different than sat set 1.5
       hours_15 = Math.min((2*60), totalHours-(8*60));
@@ -253,13 +255,13 @@ $(document).ready(function() {
 
     //If total hours is bigger than 10:00 or day equal sat set 1.5
     if(totalHours > (10*60) || day[0] == "sat"){
-      if (day[0] == "sat") {
+      if (day[0] == "sat" && job_number !== "pld") {
         hours_20 = totalHours;
-      } else {
+      } else if (job_number !== "pld"){
         hours_20 = totalHours - (8*60) - (2*60);
       }
     }
-
+    console.log(hours_20);
     hours_nor = totalHours - hours_15 - hours_20;
 
     $('#' + day[0] + '_15').val(Utilities.minutesToHour(hours_15));
