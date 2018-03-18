@@ -489,7 +489,7 @@ while($data = mysqli_fetch_array($query)){
                     $totalMins = (count($job_mins) > 0) ? ($job_mins[0]*60 + $job_mins[1]) : 0;
 
                     if(isset($arr_jobs_hours[$curr])){
-                        if (in_array($curr, ["rdo", "sick", "anl", "pld"])) {
+                        if (in_array($curr, ["rdo", "sick", "anl", "pld", "tafe"])) {
                             if(isset($arr_jobs_hours['001'])){
                                 $arr_jobs_hours['001'] += $totalMins;
                             } else {
@@ -499,7 +499,7 @@ while($data = mysqli_fetch_array($query)){
 
                         $arr_jobs_hours[$curr] += $totalMins;
                     } else {
-                        if (in_array($curr, ["rdo", "sick", "anl", "pld"])) {
+                        if (in_array($curr, ["rdo", "sick", "anl", "pld", "tafe"])) {
                             if(isset($arr_jobs_hours['001'])){
                                 $arr_jobs_hours['001'] += $totalMins;
                             } else {
@@ -514,152 +514,152 @@ while($data = mysqli_fetch_array($query)){
         
         //Check travel day Mon
         $travel_Mon = false;
-        if (!in_array($job_hourMon1->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourMon1->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Mon = true;
         }
 
         //Check travel day Tue
         $travel_Tue = false;
-        if (!in_array($job_hourTue1->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourTue1->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Tue = true;
         }
 
         //Check travel day Wed
         $travel_Wed = false;
-        if (!in_array($job_hourWed1->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourWed1->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Wed = true;
         }
 
 
         //Check travel day Thu
         $travel_Thu = false;
-        if (!in_array($job_hourThu1->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourThu1->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Thu = true;
         }
 
         //Check travel day Fri
         $travel_Fri = false;
-        if (!in_array($job_hourFri1->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourFri1->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Fri = true;
         }
 
         //Check travel day Sat
         $travel_Sat = false;            
-            if (!in_array($job_hourSat1->job, ["sick", "anl", "pld", ""])) {
+            if (!in_array($job_hourSat1->job, ["sick", "anl", "pld", "", "tafe"])) {
                 $travel_Sat = true;
         }
 
         //Check travel day Mon
 
-        if (!in_array($job_hourMon2->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourMon2->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Mon = true;
         }
 
         //Check travel day Tue
 
-        if (!in_array($job_hourTue2->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourTue2->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Tue = true;
         }
 
         //Check travel day Wed
 
-        if (!in_array($job_hourWed2->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourWed2->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Wed = true;
         }
 
 
         //Check travel day Thu
 
-        if (!in_array($job_hourThu2->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourThu2->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Thu = true;
         }
 
         //Check travel day Fri
 
-        if (!in_array($job_hourFri2->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourFri2->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Fri = true;
         }
 
         //Check travel day Sat
 
-        if (!in_array($job_hourSat2->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourSat2->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Sat = true;
             
         }
 
         //Check travel day Mon
 
-        if (!in_array($job_hourMon3->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourMon3->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Mon = true;
         }
 
         //Check travel day Tue
 
-        if (!in_array($job_hourTue3->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourTue3->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Tue = true;
         }
 
         //Check travel day Wed
 
-        if (!in_array($job_hourWed3->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourWed3->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Wed = true;
         }
 
 
         //Check travel day Thu
 
-        if (!in_array($job_hourThu3->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourThu3->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Thu = true;
         }
 
         //Check travel day Fri
 
-        if (!in_array($job_hourFri3->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourFri3->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Fri = true;
         }
 
         //Check travel day Sat
 
-        if (!in_array($job_hourSat3->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourSat3->job, ["sick", "anl", "pld", "", "tafe"])) {
             
             $travel_Sat = true;
         }
 
         //Check travel day Mon
 
-        if (!in_array($job_hourMon4->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourMon4->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Mon = true;
         }
 
         //Check travel day Tue
 
-        if (!in_array($job_hourTue4->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourTue4->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Tue = true;
         }
 
         //Check travel day Wed
 
-        if (!in_array($job_hourWed4->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourWed4->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Wed = true;
         }
 
 
         //Check travel day Thu
 
-        if (!in_array($job_hourThu4->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourThu4->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Thu = true;
         }
 
         //Check travel day Fri
 
-        if (!in_array($job_hourFri4->job, ["sick", "anl", "pld", ""])) {
+        if (!in_array($job_hourFri4->job, ["sick", "anl", "pld", "", "tafe"])) {
             $travel_Fri = true;
         }
 
         //Check travel day Sat
 
 
-        if (!in_array($job_hourSat4->job, ["sick", "anl", "pld", ""])) {            
+        if (!in_array($job_hourSat4->job, ["sick", "anl", "pld", "", "tafe"])) {            
             $travel_Sat = true;
         }
 
@@ -708,7 +708,7 @@ while($data = mysqli_fetch_array($query)){
         //print_r($arr_jobs_hours);
 
         foreach($arr_jobs_hours as $job => $hour) {
-            if(!in_array($job, ["rdo", "sick", "anl", "pld"])){
+            if(!in_array($job, ["rdo", "sick", "anl", "pld", "tafe"])){
                 $totalMins = $hour;
                 $hours = str_pad(floor($totalMins / 60), 2, "0", STR_PAD_LEFT);
                 $minutes = str_pad(($totalMins % 60), 2, "0", STR_PAD_LEFT);

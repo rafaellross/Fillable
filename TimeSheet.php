@@ -67,6 +67,7 @@
         'pld' => 'PLD',
         'anl' => 'Annual Leave',
         'sick' => 'Sick Leave',
+        'tafe' => 'TAFE',        
         '001' => '001 - Office',
         '372' => '372 - Harbord Diggers',
         '401' => '401 - Airport',
