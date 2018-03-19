@@ -905,12 +905,17 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell($gap_after_tb_left+$gap_after_tb_center+136,5,'');//Gap
         $pdf->Cell($tb_right_width,5,'TOTAL SITE ALLOW.',1,0,'R');
         $pdf->SetFillColor(255,154,0);
-        $site_allow = ($norm_less_rdo_mins[0]*60 + $norm_less_rdo_mins[1]) - $totalMins_rdo_taken - $totalMins_sick_taken - $totalMins_anl_taken - $totalMins_pld_taken;
+        
+
+        $totalWeek_for_site_allow = explode(":", $data->totalWeek);
+
+        //$site_allow = ($norm_less_rdo_mins[0]*60 + $norm_less_rdo_mins[1]) - $totalMins_rdo_taken - $totalMins_sick_taken - $totalMins_anl_taken - $totalMins_pld_taken;
+        $site_allow = $totalWeek_for_site_allow[0]*60 + $totalWeek_for_site_allow[1];
         $totalMins_site = ($site_allow > 0 ? $site_allow : 0);
         $hours_site = str_pad(floor($totalMins_site / 60), 2, "0", STR_PAD_LEFT);
         $minutes_site = str_pad(($totalMins % 60), 2, "0", STR_PAD_LEFT);
 
-        $pdf->Cell(10,5, $hours_site . ':' . $minutes_site,1,0,'C', true);
+        $pdf->Cell(10,5, minutesToHour($site_allow-$totalMins_rdo_taken - $totalMins_sick_taken - $totalMins_anl_taken - $totalMins_pld_taken),1,0,'C', true);
 
     //lines for left table
     $pdf->Ln();
