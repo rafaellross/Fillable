@@ -150,9 +150,9 @@ $resul = array();
 
 ?>
 <div class="container">
-<?php
-    echo '<h2 style="text-align: center;">' .$type. '</h2>';
-?>
+
+    <h2 style="text-align: center;">Time Sheet</h2>
+
 <hr/>
 
     <div class="col-md-12 col-lg-12 col-12">           
