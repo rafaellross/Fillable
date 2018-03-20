@@ -143,6 +143,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $action != 'update'){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="brand.ico" />
+	<link rel="apple-touch-icon" href="brand.ico">	    
     <title>Sign Up</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
