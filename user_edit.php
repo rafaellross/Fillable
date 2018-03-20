@@ -106,7 +106,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" type="image/x-icon" href="brand.ico" />
-    <link rel="apple-touch-icon" href="brand.ico">	            
+    <link rel="apple-touch-icon" href="brand.png">	            
     <title>Change Password</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">

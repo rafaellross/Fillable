@@ -16,7 +16,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <link rel="shortcut icon" type="image/x-icon" href="brand.ico" />
-	<link rel="apple-touch-icon" href="brand.ico">	
+	<link rel="apple-touch-icon" href="brand.png">	
     <title>Fillable Documents</title>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
