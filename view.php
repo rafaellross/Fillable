@@ -210,7 +210,21 @@ $resul = array();
 		echo '<td>'.$data->empname.'</td>';
 		
         echo "<td> $data->weestart</td>";		
-		echo "<td>". $row['status']."</td>";		        
+        
+        switch ($row['status']) {
+            case 'A':
+                echo "<td>Approved</td>";		        
+                break;
+            case 'P':
+                echo "<td>Pending</td>";		        
+                break;
+                case 'C':
+                echo "<td>Cancelled</td>";		        
+                break;            
+            default:
+                echo "<td>Pending</td>";		        
+                break;
+        }
 	}
 
 
