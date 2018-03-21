@@ -41,7 +41,7 @@ $(document).ready(function() {
         var hours = $(this).parent().parent().prev().children();
         hours.children('.hour-start').val(7*60);
         hours.children('.hour-end').val(15.25*60);
-        hours.children('.hour-end').trigger( "change" );
+        //hours.children('.hour-end').trigger( "change" );
       }
     });
     //Hide checkbox special leave
@@ -70,22 +70,6 @@ $(document).ready(function() {
         $('.job-1').not('#jobSat1').val(preJob);
 
         $( ".end-1" ).not('#sat_end_1').trigger( "change" );
-/*
-        let preJob = $('#preJob').val();
-        $('.job').not('#jobSat1').val(preJob);
-
-        let preHours = $('#preHours').val();
-        $('.hours, .job1').not('#hrsSat ').val(preHours);
-
-        let preNormal = $('#PreNormal').val();
-        $('.horNormal').not('#SatNorm').val(preNormal);
-
-        let pre15 = $('#Pre15').val();
-        $('.hor15').not('#Sat15').val(pre15);
-
-        let pre20 = $('#Pre20').val();
-        $('.hor20').not('#Sat20').val(pre20);
-        calcTotal();*/
     });
 
 
