@@ -355,8 +355,10 @@
                       <label>Hours</label>
                       <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_mon_2" id="hrs_mon_2" value="<?= (isset($data->hrs_mon_2)) ? $data->hrs_mon_2 : "" ;?>">
                     </div>
+                    <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
+                  
                   <!-- Start Job 3 -->
                   <div class="alert alert-secondary" style="text-align: center;">
                   <h4>Job 3</h4>
@@ -414,7 +416,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_mon_3" id="hrs_mon_3" value="<?= (isset($data->hrs_mon_3)) ? $data->hrs_mon_3 : "" ;?>">
                   </div>
-
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
 
@@ -476,6 +478,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_mon_4" id="hrs_mon_4" value="<?= (isset($data->hrs_mon_4)) ? $data->hrs_mon_4 : "" ;?>">
                   </div>
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                 </div>
@@ -631,6 +634,7 @@
                       <label>Hours</label>
                       <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_tue_2" id="hrs_tue_2" value="<?= (isset($data->hrs_tue_2)) ? $data->hrs_tue_2 : "" ;?>">
                     </div>
+                    <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                   <!-- Start Job 3 -->
@@ -690,7 +694,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_tue_3" id="hrs_tue_3" value="<?= (isset($data->hrs_tue_3)) ? $data->hrs_tue_3 : "" ;?>">
                   </div>
-
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
 
@@ -751,6 +755,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_tue_4" id="hrs_tue_4" value="<?= (isset($data->hrs_tue_4)) ? $data->hrs_tue_4 : "" ;?>">
                   </div>
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                 </div>
@@ -905,6 +910,7 @@
                       <label>Hours</label>
                       <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_wed_2" id="hrs_wed_2" value="<?= (isset($data->hrs_wed_2)) ? $data->hrs_wed_2 : "" ;?>">
                     </div>
+                    <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                   <!-- Start Job 3 -->
@@ -964,7 +970,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_wed_3" id="hrs_wed_3" value="<?= (isset($data->hrs_wed_3)) ? $data->hrs_wed_3 : "" ;?>">
                   </div>
-
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
 
@@ -1025,6 +1031,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_wed_4" id="hrs_wed_4" value="<?= (isset($data->hrs_wed_4)) ? $data->hrs_wed_4 : "" ;?>">
                   </div>
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                 </div>
@@ -1118,6 +1125,7 @@
                 <label>Hours</label>
                 <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_thu_1" id="hrs_thu_1" value="<?= (isset($data->hrs_thu_1)) ? $data->hrs_thu_1 : "" ;?>">
                 </div>
+                
                 <button type="button" class="btn btn-secondary btn-sm" id="btnShowExtra" onclick="showExtra(this, extraJobsThu)">Show More Jobs</button>
                 <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                 </div>
@@ -1179,6 +1187,7 @@
                       <label>Hours</label>
                       <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_thu_2" id="hrs_thu_2" value="<?= (isset($data->hrs_thu_2)) ? $data->hrs_thu_2 : "" ;?>">
                     </div>
+                    <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                   <!-- Start Job 3 -->
@@ -1238,7 +1247,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_thu_3" id="hrs_thu_3" value="<?= (isset($data->hrs_thu_3)) ? $data->hrs_thu_3 : "" ;?>">
                   </div>
-
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
 
@@ -1299,6 +1308,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_thu_4" id="hrs_thu_4" value="<?= (isset($data->hrs_thu_4)) ? $data->hrs_thu_4 : "" ;?>">
                   </div>
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                 </div>
@@ -1391,7 +1401,7 @@
                 <div class="col-md-6 mb-3">
                 <label>Hours</label>
                 <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_fri_1" id="hrs_fri_1" value="<?= (isset($data->hrs_fri_1)) ? $data->hrs_fri_1 : "" ;?>">
-                </div>
+                </div>                
                 <button type="button" class="btn btn-secondary btn-sm" id="btnShowExtra" onclick="showExtra(this, extraJobsFri)">Show More Jobs</button>
                 <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                 </div>
@@ -1453,6 +1463,7 @@
                       <label>Hours</label>
                       <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_fri_2" id="hrs_fri_2" value="<?= (isset($data->hrs_fri_2)) ? $data->hrs_fri_2 : "" ;?>">
                     </div>
+                    <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                   <!-- Start Job 3 -->
@@ -1512,7 +1523,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_fri_3" id="hrs_fri_3" value="<?= (isset($data->hrs_fri_3)) ? $data->hrs_fri_3 : "" ;?>">
                   </div>
-
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
 
@@ -1573,6 +1584,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_fri_4" id="hrs_fri_4" value="<?= (isset($data->hrs_fri_4)) ? $data->hrs_fri_4 : "" ;?>">
                   </div>
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                 </div>
@@ -1596,6 +1608,7 @@
                       <label>Total Hours</label>
                       <input readonly type="text" class="form-control form-control-lg time hours-total" name="hrsFri" id="hrs_fri" value="<?= (isset($data->hrsFri)) ? $data->hrsFri : "" ;?>">
                     </div>
+                    
                   </div>
                   <!-- End Total day -->
                 </div>
@@ -1727,6 +1740,7 @@
                       <label>Hours</label>
                       <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_sat_2" id="hrs_sat_2" value="<?= (isset($data->hrs_sat_2)) ? $data->hrs_sat_2 : "" ;?>">
                     </div>
+                    <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                   <!-- Start Job 3 -->
@@ -1786,7 +1800,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_sat_3" id="hrs_sat_3" value="<?= (isset($data->hrs_sat_3)) ? $data->hrs_sat_3 : "" ;?>">
                   </div>
-
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
 
@@ -1847,6 +1861,7 @@
                   <label>Hours</label>
                   <input readonly type="text" class="form-control form-control-lg time job1 hours" name="hrs_sat_4" id="hrs_sat_4" value="<?= (isset($data->hrs_sat_4)) ? $data->hrs_sat_4 : "" ;?>">
                   </div>
+                  <input type="button" class="btn btn-danger btn-sm ml-2 btnClear" value="Clear"/>
                   </div>
                   </div>
                 </div>
