@@ -42,6 +42,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
     <div class="container">
         <div class="table-striped">            
             <a href="view.php?type=TimeSheet.php" class="list-group-item list-group-item-action ">Time Sheet</a>            
+            <a href="employee_application.php" class="list-group-item list-group-item-action ">Employee Application Form</a>                        
         </div>
     
     </div>
