@@ -35,13 +35,21 @@ $(document).ready(function() {
         var hourSelect = $(this).parent().prev().children().children('select');
         $( hourSelect ).trigger( "change" );
     });
-
+//Deleted this part due the confusion users are having with this
+/*
     $('.job').change(function(){
-      if (["rdo", "sick", "anl", "pld"].indexOf($(this).val()) > -1 ) {
+      if (["rdo", "sick", "anl", "pld", "tafe"].indexOf($(this).val()) > -1 ) {
         var hours = $(this).parent().parent().prev().children();
         hours.children('.hour-start').val(7*60);
         hours.children('.hour-end').val(15.25*60);
-        //hours.children('.hour-end').trigger( "change" );
+        hours.children('.hour-end').trigger( "change" );
+      }
+    });
+*/
+    $('.job').change(function(){
+      if (["rdo", "sick", "anl", "pld", "tafe"].indexOf($(this).val()) > -1 ) {
+        var hours = $(this).parent().parent().prev().children();       
+        hours.children('.hour-end').trigger( "change" );
       }
     });
     //Hide checkbox special leave
@@ -239,13 +247,13 @@ $(document).ready(function() {
 
     //If total hours is bigger than 10:00 or day equal sat set 1.5
     if(totalHours > (10*60) || day[0] == "sat"){
-      if (day[0] == "sat" && job_number !== "pld") {
+      if (day[0] == "sat") {
         hours_20 = totalHours;
       } else if (job_number !== "pld"){
         hours_20 = totalHours - (8*60) - (2*60);
       }
     }
-    console.log(hours_20);
+
     hours_nor = totalHours - hours_15 - hours_20;
 
     $('#' + day[0] + '_15').val(Utilities.minutesToHour(hours_15));

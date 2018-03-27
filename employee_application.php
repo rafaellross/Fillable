@@ -47,6 +47,8 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                         reader.onload = function (e) {
                             var destination = $(input).prop('name') + "-img";
                             $("#" + destination).attr('src', e.target.result).show();
+                            $('input[name=whiteCard-front-image]').val(e.target.result);
+                            
                         }
                         reader.readAsDataURL(input.files[0]);
                     }
@@ -465,6 +467,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input" name="whiteCard-front" accept="image/*">
+                                                    <input type="hidden" class="custom-file-input" name="whiteCard-front-image"/>
                                                     <label class="custom-file-label">Choose file</label>
                                                 </div>
                                             </div>

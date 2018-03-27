@@ -61,6 +61,7 @@
         $empName = $data->empname;
     }
 
+
     $list_jobs = [
       '' => 'Select Job',
       'rdo' => 'RDO',
@@ -70,6 +71,8 @@
       'tafe' => 'TAFE',        
       '001' => '001 - Office',
       '002' => '002 - Belfield',		
+	    '099' => '099 - Office',		
+	    '270' => '270 - 253-255 Oxford St - Bondi',			
       '314' => '314 - Warriewood',		
       '381' => '381 - Warriewood - Stage 2',				
       '372' => '372 - Harbord Diggers',
@@ -80,14 +83,17 @@
       '445' => '445 - Anzac Memorial',        		
       '446' => '446 - Woollahra Retirement (ARU)',
       '458' => '458 - Peppers Pokolbin/Spices',
+      '463' => '463 - UBS Chifley',
       '476' => '476 - 117 Kurraba Rd Neutral Bay',
       '481' => '481 - 76 Edinburgh Rd Marrickville',
       '500' => '500 - Telstra Manly Belgrave St',
+      '506' => '506 - 175 Pitt St',		
       '507' => '507 - Dean Revesby',
       '511' => '511 - 12 Philip St Parra (Church St)',
       '514' => '514 - Carr St Coogee',
       '517' => '517 - Kogarah RSL',
       '518' => '518 - Syd Olympic Park, Homebush',
+	    '520' => '520 - The Crescent Vaucluse',		
       '525' => '525 - Page St Banksmeadow',
       '528' => '528 - AMP 7 Macquarie Place',		
       '535' => '535 - Randwick',		
@@ -100,8 +106,17 @@
       '549' => '549 - Olphest St Vaucluse',
       '550' => '550 - Marcos Gym',
       '551' => '551 - Mirvac - Marrickville',
+    '554' => '554 - Point Piper',				
       '555' => '555 - TBS Hurstville Stage 2',		
   ];
+
+$special_list = [
+      'rdo' => 'RDO',
+      'pld' => 'PLD',
+      'anl' => 'Annual Leave',
+      'sick' => 'Sick Leave',
+      'tafe' => 'TAFE'
+    ];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -1666,11 +1681,13 @@
                 <select class="form-control form-control-lg custom-select job" name="jobSat1" id="jobSat1">
                 <?php
                 foreach ($list_jobs as $key => $value) {
-                if (isset($data->jobSat1) && $key == $data->jobSat1) {
-                echo '<option selected value="' . $key . '">'. $value .'</option>';
-                } else {
-                echo '<option '.($key == '' && !isset($data->jobSat1) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
-                }
+                    if(!in_array($value, $special_list)) {
+                        if (isset($data->jobSat1) && $key == $data->jobSat1) {
+                        echo '<option selected value="' . $key . '">'. $value .'</option>';
+                        } else {
+                        echo '<option '.($key == '' && !isset($data->jobSat1) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
+                        }                        
+                    }
                 }
                 ?>
                 </select>
@@ -1726,11 +1743,13 @@
                       <label>Job</label>
                       <select class="form-control form-control-lg custom-select job" name="jobSat2" id="jobSat2">
                         <?php
-                          foreach ($list_jobs as $key => $value) {
-                            if (isset($data->jobSat2) && $key == $data->jobSat2) {
-                              echo '<option selected value="' . $key . '">'. $value .'</option>';
-                            } else {
-                              echo '<option '.($key == '' && !isset($data->jobSat2) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
+                          foreach ($list_jobs as $key => $value) {                                                            
+                            if(!in_array($value, $special_list)) {
+                                if (isset($data->jobSat2) && $key == $data->jobSat2) {
+                                  echo '<option selected value="' . $key . '">'. $value .'</option>';
+                                } else {
+                                  echo '<option '.($key == '' && !isset($data->jobSat2) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
+                                }
                             }
                           }
                         ?>
@@ -1787,11 +1806,13 @@
                   <select class="form-control form-control-lg custom-select job" name="jobSat3" id="jobSat3">
                   <?php
                   foreach ($list_jobs as $key => $value) {
-                  if (isset($data->jobSat3) && $key == $data->jobSat3) {
-                  echo '<option selected value="' . $key . '">'. $value .'</option>';
-                  } else {
-                  echo '<option '.($key == '' && !isset($data->jobSat3) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
-                  }
+                      if(!in_array($value, $special_list)) {
+                            if (isset($data->jobSat3) && $key == $data->jobSat3) {
+                            echo '<option selected value="' . $key . '">'. $value .'</option>';
+                            } else {
+                            echo '<option '.($key == '' && !isset($data->jobSat3) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
+                            }
+                      }
                   }
                   ?>
                   </select>
@@ -1848,11 +1869,13 @@
                   <select class="form-control form-control-lg custom-select job" name="jobSat4" id="jobSat4">
                   <?php
                   foreach ($list_jobs as $key => $value) {
-                  if (isset($data->jobSat4) && $key == $data->jobSat4) {
-                  echo '<option selected value="' . $key . '">'. $value .'</option>';
-                  } else {
-                  echo '<option '.($key == '' && !isset($data->jobSat4) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
-                  }
+                    if(!in_array($value, $special_list)) {                      
+                        if (isset($data->jobSat4) && $key == $data->jobSat4) {
+                        echo '<option selected value="' . $key . '">'. $value .'</option>';
+                        } else {
+                        echo '<option '.($key == '' && !isset($data->jobSat4) ? "selected" : "").' value="' . $key . '">'. $value .'</option>';
+                        }
+                    }
                   }
                   ?>
                   </select>
@@ -1889,6 +1912,61 @@
                   <!-- End Total day -->
                 </div>
                 <!--End Group Saturday -->
+                <!-- Group Special Request -->
+<div class="form-group alert alert-info" role="alert" id="groupPre">
+                    <h4 style="text-align: center;">Special Requests</h4>
+                    <br>
+                        <div class="form-row" style="text-align: center;">
+                            <div class="col-md-12 col-12 mb-3">
+                                <label><strong>PLD</strong></label>
+                                <select class="form-control form-control-lg custom-select " name="req_pld">
+                                    <?php
+                                    for ($i = 0; $i <= (40*60); $i += 60) {
+                                    $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
+                                    $minutes = str_pad($i%60, 2, "0", STR_PAD_LEFT);
+                                    $finalHour = $hour . ':' .$minutes;
+                                    $selected = (isset($data->req_pld) && $data->req_pld == $i) ? "selected" : "" ;
+                                    echo '<option ' . $selected . ' value="' . $i . '">'.$finalHour.'</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row" style="text-align: center;">
+                            <div class="col-md-12 col-12 mb-3">
+                                <label><strong>RDO</strong></label>
+                                <select class="form-control form-control-lg custom-select " name="req_rdo">
+                                    <?php
+                                    for ($i = 0; $i <= (40*60); $i += 60) {
+                                    $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
+                                    $minutes = str_pad($i%60, 2, "0", STR_PAD_LEFT);
+                                    $finalHour = $hour . ':' .$minutes;
+                                    $selected = (isset($data->req_rdo) && $data->req_rdo == $i) ? "selected" : "" ;
+                                    echo '<option ' . $selected . ' value="' . $i . '">'.$finalHour.'</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row" style="text-align: center;">
+                            <div class="col-md-12 col-12 mb-3">
+                                <label><strong>Annual Leave</strong></label>
+                                <select class="form-control form-control-lg custom-select " name="req_anl">
+                                    <?php
+                                    for ($i = 0; $i <= (40*60); $i += 60) {
+                                    $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
+                                    $minutes = str_pad($i%60, 2, "0", STR_PAD_LEFT);
+                                    $finalHour = $hour . ':' .$minutes;
+                                    $selected = (isset($data->req_anl) && $data->req_anl == $i) ? "selected" : "" ;
+                                    echo '<option ' . $selected . ' value="' . $i . '">'.$finalHour.'</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                </div>                
+                <!-- End Group Special Request -->
                 <!-- Start Group Total-->
                 <div class="form-group alert alert-success" role="alert">
                     <h4 style="text-align: center;">Total Week</h4>

@@ -33,10 +33,16 @@ function minutesToHour($minutes = 0){
      } else {
      }
      return "";
-
-
 }
 
+function hourToMinutes($hour){
+    $piece = explode(":", $hour);
+    if (count($piece) > 1) {
+      return $piece[0]*60 + +$piece[1];
+    } else {
+      return 0;
+    }
+}
 
 
 
@@ -713,8 +719,7 @@ while($data = mysqli_fetch_array($query)){
                 $hours = str_pad(floor($totalMins / 60), 2, "0", STR_PAD_LEFT);
                 $minutes = str_pad(($totalMins % 60), 2, "0", STR_PAD_LEFT);
                 $pdf->Text(15, $startY_job, $job);
-                $pdf->Text(28, $startY_job, $hours . ":" . $minutes);
-                //echo $job . " - " .$hours . ":" . $minutes . "<br>";
+                $pdf->Text(28, $startY_job, $hours . ":" . $minutes);                
                 $startY_job += 5;
 
             }
@@ -739,18 +744,20 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell($tb_right_width,5,'TOTAL NORMAL PAY LESS 4HR RDO',1,0,'R');
 
         $totalMins_rdo_taken = (isset($arr_jobs_hours['rdo']) ? $arr_jobs_hours['rdo'] : 0);
+        
+        
         $totalMins_sick_taken = (isset($arr_jobs_hours['sick']) ? $arr_jobs_hours['sick'] : 0);
         $totalMins_anl_taken = (isset($arr_jobs_hours['anl']) ? $arr_jobs_hours['anl'] : 0);
         $totalMins_pld_taken = (isset($arr_jobs_hours['pld']) ? $arr_jobs_hours['pld'] : 0);
-
+        $totalMins_tafe_taken = (isset($arr_jobs_hours['tafe']) ? $arr_jobs_hours['tafe'] : 0);
         $norm_less_rdo_mins = explode(":", $data->totalNormal);
-        $totalMins = ($norm_less_rdo_mins[0]*60 + $norm_less_rdo_mins[1]) - (4*60) - $totalMins_rdo_taken - $totalMins_sick_taken - $totalMins_pld_taken - $totalMins_anl_taken;
+        $totalMins = ($norm_less_rdo_mins[0]*60 + $norm_less_rdo_mins[1]) - (4*60) - $totalMins_rdo_taken - $totalMins_sick_taken - $totalMins_pld_taken - $totalMins_anl_taken - $data->req_rdo;
         $totalMins = ($totalMins > 0 ? $totalMins : 0);
         $hours_normal = str_pad(floor($totalMins / 60), 2, "0", STR_PAD_LEFT);
         $minutes_normal = str_pad(($totalMins % 60), 2, "0", STR_PAD_LEFT);
 
         $pdf->SetFillColor(255,154,0);
-        $pdf->Cell(10,5, $hours_normal . ':' . $minutes_normal,1,0,'C', true);
+        $pdf->Cell(10,5, ($totalMins > 0 ? hourToMinutes($hours_normal . ':' . $minutes_normal)/60 : ""),1,0,'C', true);
 
 
     $pdf->Ln();
@@ -773,7 +780,7 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell($gap_after_tb_center,5,'');//Gap
         $pdf->Cell($tb_right_width,5,'TOTAL TIME AND HALF (1.5)',1,0,'R');
         $pdf->SetFillColor(255,154,0);
-        $pdf->Cell($tb_right_width_col2,5, $data->total15,1,0,'C', true);
+        $pdf->Cell($tb_right_width_col2,5, hourToMinutes($data->total15) > 0 ? hourToMinutes($data->total15)/60 : "",1,0,'C', true);
 
 
 
@@ -796,7 +803,7 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell($gap_after_tb_center,5,'');//Gap
         $pdf->Cell($tb_right_width,5,'TOTAL DOUBLE TIME (2T)',1,0,'R');
         $pdf->SetFillColor(255,154,0);
-        $pdf->Cell(10,5, $data->total20,1,0,'C', true);
+        $pdf->Cell(10,5, hourToMinutes($data->total20) > 0 ? hourToMinutes($data->total20)/60 : "",1,0,'C', true);
 
 
     $pdf->Ln();
@@ -818,21 +825,22 @@ while($data = mysqli_fetch_array($query)){
             //Summary
         $pdf->Cell($gap_after_tb_center,5,'');//Gap
 
-        $totalMins_pld = (isset($arr_jobs_hours['pld']) ? $arr_jobs_hours['pld'] : 0);
+        $totalMins_pld = (isset($arr_jobs_hours['pld']) ? $arr_jobs_hours['pld'] : 0)  + (isset($data->req_pld) ? $data->req_pld : 0);
         $hours_pld = str_pad(floor($totalMins_pld / 60), 2, "0", STR_PAD_LEFT);
         $minutes_pld = str_pad(($totalMins_pld % 60), 2, "0", STR_PAD_LEFT);
 
         $pdf->Cell($tb_right_width,5,'TOTAL PLD',1,0,'R');
         $pdf->SetFillColor(255,154,0);
-        $pdf->Cell(10,5, $hours_pld . ":" . $minutes_pld ,1,0,'C', true);
+        $pdf->Cell(10,5, ($totalMins_pld > 0 ? $totalMins_pld/60 : ""),1,0,'C', true);
 
 
     $pdf->Ln();
     $pdf->Cell($tb_left_width,5, /*'$data->job4'*/'',1,0,'C');
     $pdf->Cell($tb_left_width,5, /*'$data->hours4'*/'',1,0,'C');
-
+    
         //Center Table
         $pdf->Cell($gap_after_tb_left,5,'');//Gap
+        
         $pdf->Cell($tb_center_width,5,'2',1,0,'C');
         //Total
         $pdf->Cell($tb_center_width,5, ($data->Mon20 !== "00:00" ? $data->Mon20 : ""),1,0,'C');
@@ -849,11 +857,12 @@ while($data = mysqli_fetch_array($query)){
         $pdf->SetFillColor(255,154,0);
 
         $totalMins_rdo = (isset($arr_jobs_hours['rdo']) ? $arr_jobs_hours['rdo'] : 0);
+        
         $hours_rdo = str_pad(floor($totalMins_rdo / 60), 2, "0", STR_PAD_LEFT);
         $minutes_rdo = str_pad(($totalMins_rdo % 60), 2, "0", STR_PAD_LEFT);
 
 
-        $pdf->Cell(10,5, $hours_rdo . ":" . $minutes_rdo,1,0,'C', true);
+        $pdf->Cell(10,5, $totalMins_rdo + $data->req_rdo > 0 ? ($totalMins_rdo + $data->req_rdo)/60 : "",1,0,'C', true);
 
 
 
@@ -869,30 +878,46 @@ while($data = mysqli_fetch_array($query)){
         $hours_sick = str_pad(floor($totalMins_sick / 60), 2, "0", STR_PAD_LEFT);
         $minutes_sick = str_pad(($totalMins_sick % 60), 2, "0", STR_PAD_LEFT);
 
-        $pdf->Cell(10,5, $hours_sick . ":" . $minutes_sick ,1,0,'C', true);
+        $pdf->Cell(10,5,$totalMins_sick > 0 ? $totalMins_sick/60 :  "",1,0,'C', true);
 
 
     $pdf->Ln();
     $pdf->Cell($tb_left_width,5, /*'$data->job6*/'',1,0,'C');
     $pdf->Cell($tb_left_width,5,/* '$data->hours6'*/'',1,0,'C');
+    
         //Summary
-        $pdf->Cell($gap_after_tb_left+$gap_after_tb_center+136,5,'');//Gap
+        $pdf->Cell($gap_after_tb_left,5,'');//Gap
+
+        $special_request_width = 20;
+        //Special Request
+        $pdf->Cell($special_request_width * 2,5, 'Special Requests',1,0,'C', true);
+        
+        //Gap after special table
+        $pdf->Cell($gap_after_tb_left+$gap_after_tb_center+82,5,'');//Gap
+        
         $pdf->Cell($tb_right_width,5,'TOTAL HOLIDAY TAKEN',1,0,'R');
         $pdf->SetFillColor(255,154,0);
 
-        $totalMins_anl = (isset($arr_jobs_hours['anl']) ? $arr_jobs_hours['anl'] : 0);
+        $totalMins_anl = (isset($arr_jobs_hours['anl']) ? $arr_jobs_hours['anl'] : 0) + $data->req_anl;
         $hours_anl = str_pad(floor($totalMins_anl / 60), 2, "0", STR_PAD_LEFT);
         $minutes_anl = str_pad(($totalMins_anl % 60), 2, "0", STR_PAD_LEFT);
 
 
-        $pdf->Cell(10,5, $hours_anl . ":" . $minutes_anl,1,0,'C', true);
+        $pdf->Cell(10,5, $totalMins_anl > 0 ? $totalMins_anl/60 : "",1,0,'C', true);
 
 
     $pdf->Ln();
     $pdf->Cell($tb_left_width,5, /*'$data->job7'*/'',1,0,'C');
     $pdf->Cell($tb_left_width,5, /*'$data->hours7'*/'',1,0,'C');
         //Summary
-        $pdf->Cell($gap_after_tb_left+$gap_after_tb_center+136,5,'');//Gap
+        $pdf->Cell($gap_after_tb_left,5,'');//Gap
+        
+        //Special Request
+        $pdf->Cell($special_request_width,5, 'PLD',1,0,'C');
+        $pdf->Cell($special_request_width,5, !isset($data->req_pld) || $data->req_pld == "0" ? "" : $data->req_pld/60  ,1,0,'C');
+                //Gap after special table
+        $pdf->Cell($gap_after_tb_left+$gap_after_tb_center+82,5,'');//Gap
+
         $pdf->Cell($tb_right_width,5,'TOTAL TRAVEL DAYS',1,0,'R');
         $pdf->SetFillColor(255,154,0);
         $pdf->Cell(10,5,$travel_days,1,0,'C', true);
@@ -902,7 +927,13 @@ while($data = mysqli_fetch_array($query)){
         //Summary
         $pdf->Cell($tb_left_width,5, /*'$data->job7'*/'',1,0,'C');
         $pdf->Cell($tb_left_width,5, /*'$data->job7'*/'',1,0,'C');
-        $pdf->Cell($gap_after_tb_left+$gap_after_tb_center+136,5,'');//Gap
+        $pdf->Cell($gap_after_tb_left,5,'');//Gap
+        $pdf->Cell($special_request_width,5, 'RDO',1,0,'C');
+        $pdf->Cell($special_request_width,5, !isset($data->req_rdo) || $data->req_rdo == "0" ? "" : $data->req_rdo/60  ,1,0,'C');
+        //Gap after special table
+        $pdf->Cell($gap_after_tb_left+$gap_after_tb_center+82,5,'');//Gap
+        
+        
         $pdf->Cell($tb_right_width,5,'TOTAL SITE ALLOW.',1,0,'R');
         $pdf->SetFillColor(255,154,0);
         
@@ -910,27 +941,28 @@ while($data = mysqli_fetch_array($query)){
         $totalWeek_for_site_allow = explode(":", $data->totalWeek);
 
         //$site_allow = ($norm_less_rdo_mins[0]*60 + $norm_less_rdo_mins[1]) - $totalMins_rdo_taken - $totalMins_sick_taken - $totalMins_anl_taken - $totalMins_pld_taken;
-        $site_allow = $totalWeek_for_site_allow[0]*60 + $totalWeek_for_site_allow[1];
+        $site_allow = ($totalWeek_for_site_allow[0]*60 + $totalWeek_for_site_allow[1])-$totalMins_rdo_taken - $totalMins_sick_taken - $totalMins_anl_taken - $totalMins_pld_taken - $totalMins_tafe_taken;
         $totalMins_site = ($site_allow > 0 ? $site_allow : 0);
         $hours_site = str_pad(floor($totalMins_site / 60), 2, "0", STR_PAD_LEFT);
         $minutes_site = str_pad(($totalMins % 60), 2, "0", STR_PAD_LEFT);
 
-        $pdf->Cell(10,5, minutesToHour($site_allow-$totalMins_rdo_taken - $totalMins_sick_taken - $totalMins_anl_taken - $totalMins_pld_taken),1,0,'C', true);
+        
+        $pdf->Cell(10,5, $site_allow > 0 ? $site_allow/60 : "",1,0,'C', true);
 
     //lines for left table
     $pdf->Ln();
     $pdf->Cell($tb_left_width,5, /*'$data->job7'*/'',1,0,'C');
     $pdf->Cell($tb_left_width,5, /*'$data->hours7'*/'',1,0,'C');
+    $pdf->Cell($gap_after_tb_left,5,'');//Gap
+    $pdf->Cell($special_request_width,5, 'Annual Leave',1,0,'C');
+    $pdf->Cell($special_request_width,5, !isset($data->req_anl) || $data->req_anl == "0" ? "" : $data->req_anl/60  ,1,0,'C');
+    
     $pdf->Ln();
     $pdf->Cell($tb_left_width,5, /*'$data->job7'*/'',1,0,'C');
     $pdf->Cell($tb_left_width,5, /*'$data->hours7'*/'',1,0,'C');
 }
 
 
-
-
-//var_dump($data);
 $pdf->Output();
-//echo '<img src="' . $_POST['empSign'] . '"/>';
-//print_r($_POST);
+
 ?>
