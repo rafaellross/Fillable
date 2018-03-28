@@ -210,7 +210,7 @@ $(document).ready(function() {
     var duration = $('#hrs_' + day[0] + '_' + row);
     var start = Number($('#' + day[0] + "_start_" + row).val());
     var end = Number($(this).val());
-    var lunch = row == 1 ? 15 : 0;
+    var lunch = (row === 1 && day[0] !== "sat") ? 15 : 0;
     duration.val((end-start-lunch) > 0 ? Utilities.minutesToHour(end-start-lunch) : "");
 
 
@@ -263,6 +263,74 @@ $(document).ready(function() {
     calcTotal();
 
   });
+
+    $('form').submit(function(event){
+       
+       var days = [
+           {
+               description: "Monday",
+               short: "mon",
+               shortCap: "Mon"
+           },
+           {
+               description: "Tuesday",
+               short: "tue",
+               shortCap: "Tue"
+           },
+           {
+               description: "Wednesday",
+               short: "wed",
+               shortCap: "Wed"
+           },
+           {
+               description: "Thursday",
+               short: "thu",
+               shortCap: "Thu"
+           },
+           {
+               description: "Friday",
+               short: "fri",
+               shortCap: "Fri"
+           },
+           {
+               description: "Saturday",
+               short: "sat",
+               shortCap: "Sat"
+           }                      
+       ];
+       
+       var jobs = [1, 2, 3, 4];
+       $.each(days, function(keyDay, day){           
+            $.each( jobs, function( key, jobNumber ) {
+        //Check if job was selected
+        
+         
+         let start = $("#" + day.short + "_start_" + jobNumber).val();
+         let end = $("#" + day.short + "_end_" + jobNumber).val();
+         let job = $("#job" + day.shortCap + jobNumber).val();
+         let hours = $("#hrs_" + day.short + "_" + jobNumber).val();
+         
+         if ((hours !== "") && (start === "" && end === "" || job === "")) {
+             event.preventDefault();
+             alert("Select start, end time and job " + jobNumber + " for " + day.description);
+             $("#job" + day.shortCap + jobNumber).focus();
+             return false;
+         }
+         if (
+                 (job.length > 0) && 
+                 (
+                    (start.length === 0 || end.length === 0) || 
+                    (start === "0" && end === "0")
+                 )
+            ) {
+                event.preventDefault();
+                alert("Select start, end time and job " + jobNumber + " for " + day.description);
+                $("#job" + day.shortCap + jobNumber).focus();
+                return false;
+            }        
+        });
+       });        
+    });
 
 
 });

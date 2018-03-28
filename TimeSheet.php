@@ -162,7 +162,7 @@ $special_list = [
                     <label for="empname">
                         <h5>Week End:</h5>
                     </label>
-                    <input type="text" class="form-control form-control-lg date-picker" name="weestart" id="weestart" required value="<?= (isset($data->weestart)) ? $data->weestart : "" ;?>">
+                    <input type="text" class="form-control form-control-lg date-picker" name="weestart" data-date-days-of-week-disabled="1,2,3,4,5,6" id="weestart" required value="<?= (isset($data->weestart)) ? $data->weestart : "" ;?>">
                 </div>
                 <!-- Start Group Prefill-->
                 <div class="form-group alert alert-info" role="alert" id="groupPre">
@@ -258,7 +258,7 @@ $special_list = [
                 <label>Start</label>
 
                 <select class="hour-start start-1 form-control form-control-lg custom-select start" id="mon_start_1" name="mon_start_1">
-                <option value="">-</option>
+                
 
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
@@ -274,7 +274,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>End</label>
                 <select  class="hour-end end-1 form-control form-control-lg custom-select end" id="mon_end_1" name="mon_end_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -322,7 +322,7 @@ $special_list = [
                       <div class="col-md-6 col-12 mb-3">
                         <label>Start</label>
                           <select  class="hour-start form-control form-control-lg custom-select start" id="mon_start_2" name="mon_start_2">
-                            <option value="">-</option>
+                            
                             <?php
                               for ($i = 0; $i <= (24*60)-15; $i += 15) {
                                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -337,7 +337,7 @@ $special_list = [
                     <div class="col-md-6 col-12 mb-3">
                       <label>End</label>
                       <select  class="hour-end form-control form-control-lg custom-select end" id="mon_end_2" name="mon_end_2">
-                      <option value="">-</option>
+                      
                       <?php
                       for ($i = 0; $i <= (24*60)-15; $i += 15) {
                       $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -381,7 +381,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select  class="hour-start form-control form-control-lg custom-select start" id="mon_start_3" name="mon_start_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -396,7 +396,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select  class="hour-end form-control form-control-lg custom-select end" id="mon_end_3" name="mon_end_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -442,7 +442,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select  class="hour-start form-control form-control-lg custom-select start" id="mon_start_4" name="mon_start_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -457,7 +457,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select  class="hour-end form-control form-control-lg custom-select end" id="mon_end_4" name="mon_end_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -537,7 +537,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>Start</label>
                 <select class="hour-start start-1 form-control form-control-lg custom-select start" id="tue_start_1" name="tue_start_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -552,7 +552,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>End</label>
                 <select  class="hour-end end-1 form-control form-control-lg custom-select end" id="tue_end_1" name="tue_end_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -600,7 +600,7 @@ $special_list = [
                       <div class="col-md-6 col-12 mb-3">
                         <label>Start</label>
                           <select  class="hour-start form-control form-control-lg custom-select start" id="tue_start_2" name="tue_start_2">
-                            <option value="">-</option>
+                            
                             <?php
                               for ($i = 0; $i <= (24*60)-15; $i += 15) {
                                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -615,7 +615,7 @@ $special_list = [
                     <div class="col-md-6 col-12 mb-3">
                       <label>End</label>
                       <select  class="hour-end form-control form-control-lg custom-select end" id="tue_end_2" name="tue_end_2">
-                      <option value="">-</option>
+                      
                       <?php
                         for ($i = 0; $i <= (24*60)-15; $i += 15) {
                           $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -659,7 +659,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select  class="hour-start form-control form-control-lg custom-select start" id="tue_start_3" name="tue_start_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -674,7 +674,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select class="hour-end form-control form-control-lg custom-select end" id="tue_end_3" name="tue_end_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -720,7 +720,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select class="hour-start form-control form-control-lg custom-select start" id="tue_start_4" name="tue_start_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -735,7 +735,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select class="hour-end form-control form-control-lg custom-select end" id="tue_end_4" name="tue_end_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -814,7 +814,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>Start</label>
                 <select class="hour-start start-1 form-control form-control-lg custom-select start" id="wed_start_1" name="wed_start_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -829,7 +829,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>End</label>
                 <select class="hour-end end-1 form-control form-control-lg custom-select end" id="wed_end_1" name="wed_end_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -877,7 +877,7 @@ $special_list = [
                       <div class="col-md-6 col-12 mb-3">
                         <label>Start</label>
                           <select class="hour-start form-control form-control-lg custom-select start" id="wed_start_2" name="wed_start_2">
-                            <option value="">-</option>
+                            
                             <?php
                               for ($i = 0; $i <= (24*60)-15; $i += 15) {
                                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -892,7 +892,7 @@ $special_list = [
                     <div class="col-md-6 col-12 mb-3">
                       <label>End</label>
                       <select class="hour-end form-control form-control-lg custom-select end" id="wed_end_2" name="wed_end_2">
-                      <option value="">-</option>
+                      
                       <?php
                         for ($i = 0; $i <= (24*60)-15; $i += 15) {
                           $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -935,7 +935,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select class="hour-start form-control form-control-lg custom-select start" id="wed_start_3" name="wed_start_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -950,7 +950,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select class="hour-end form-control form-control-lg custom-select end" id="wed_end_3" name="wed_end_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -996,7 +996,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select class="hour-start form-control form-control-lg custom-select start" id="wed_start_4" name="wed_start_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1011,7 +1011,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select class="hour-end form-control form-control-lg custom-select end" id="wed_end_4" name="wed_end_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1090,7 +1090,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>Start</label>
                 <select class="hour-start start-1 form-control form-control-lg custom-select start" id="thu_start_1" name="thu_start_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1105,7 +1105,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>End</label>
                 <select class="hour-end end-1 form-control form-control-lg custom-select end" id="thu_end_1" name="thu_end_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1154,7 +1154,7 @@ $special_list = [
                       <div class="col-md-6 col-12 mb-3">
                         <label>Start</label>
                           <select class="hour-start form-control form-control-lg custom-select start" id="thu_start_2" name="thu_start_2">
-                            <option value="">-</option>
+                            
                             <?php
                               for ($i = 0; $i <= (24*60)-15; $i += 15) {
                                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1169,7 +1169,7 @@ $special_list = [
                     <div class="col-md-6 col-12 mb-3">
                       <label>End</label>
                       <select class="hour-end form-control form-control-lg custom-select end" id="thu_end_2" name="thu_end_2">
-                      <option value="">-</option>
+                      
                       <?php
                         for ($i = 0; $i <= (24*60)-15; $i += 15) {
                           $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1212,7 +1212,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select class="hour-start form-control form-control-lg custom-select start" id="thu_start_3" name="thu_start_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1227,7 +1227,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select class="hour-end form-control form-control-lg custom-select end" id="thu_end_3" name="thu_end_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1273,7 +1273,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select class="hour-start form-control form-control-lg custom-select start" id="thu_start_4" name="thu_start_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1288,7 +1288,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select class="hour-end form-control form-control-lg custom-select end" id="thu_end_4" name="thu_end_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1367,7 +1367,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>Start</label>
                 <select class="hour-start start-1 form-control form-control-lg custom-select start" id="fri_start_1" name="fri_start_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1382,7 +1382,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>End</label>
                 <select class="hour-end end-1 form-control form-control-lg custom-select end" id="fri_end_1" name="fri_end_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1430,7 +1430,7 @@ $special_list = [
                       <div class="col-md-6 col-12 mb-3">
                         <label>Start</label>
                           <select class="hour-start form-control form-control-lg custom-select start" id="fri_start_2" name="fri_start_2">
-                            <option value="">-</option>
+                            
                             <?php
                               for ($i = 0; $i <= (24*60)-15; $i += 15) {
                                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1445,7 +1445,7 @@ $special_list = [
                     <div class="col-md-6 col-12 mb-3">
                       <label>End</label>
                       <select class="hour-end form-control form-control-lg custom-select end" id="fri_end_2" name="fri_end_2">
-                      <option value="">-</option>
+                      
                       <?php
                         for ($i = 0; $i <= (24*60)-15; $i += 15) {
                           $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1488,7 +1488,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select class="hour-start form-control form-control-lg custom-select start" id="fri_start_3" name="fri_start_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1503,7 +1503,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select class="hour-end form-control form-control-lg custom-select end" id="fri_end_3" name="fri_end_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1549,7 +1549,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select class="hour-start form-control form-control-lg custom-select start" id="fri_start_4" name="fri_start_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1564,7 +1564,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select class="hour-end form-control form-control-lg custom-select end" id="fri_end_4" name="fri_end_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1644,7 +1644,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>Start</label>
                 <select class="hour-start form-control form-control-lg custom-select start" id="sat_start_1" name="sat_start_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1659,7 +1659,7 @@ $special_list = [
                 <div class="col-md-6 col-12 mb-3">
                 <label>End</label>
                 <select class="hour-end form-control form-control-lg custom-select end" id="sat_end_1" name="sat_end_1">
-                <option value="">-</option>
+                
                 <?php
                 for ($i = 0; $i <= (24*60)-15; $i += 15) {
                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1709,7 +1709,7 @@ $special_list = [
                       <div class="col-md-6 col-12 mb-3">
                         <label>Start</label>
                           <select class="hour-start form-control form-control-lg custom-select start" id="sat_start_2" name="sat_start_2">
-                            <option value="">-</option>
+                            
                             <?php
                               for ($i = 0; $i <= (24*60)-15; $i += 15) {
                                 $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1724,7 +1724,7 @@ $special_list = [
                     <div class="col-md-6 col-12 mb-3">
                       <label>End</label>
                       <select class="hour-end form-control form-control-lg custom-select end" id="sat_end_2" name="sat_end_2">
-                      <option value="">-</option>
+                      
                       <?php
                         for ($i = 0; $i <= (24*60)-15; $i += 15) {
                           $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1769,7 +1769,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select class="hour-start form-control form-control-lg custom-select start" id="sat_start_3" name="sat_start_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1784,7 +1784,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select class="hour-end form-control form-control-lg custom-select end" id="sat_end_3" name="sat_end_3">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1832,7 +1832,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>Start</label>
                   <select class="hour-start form-control form-control-lg custom-select start" id="sat_start_4" name="sat_start_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);
@@ -1847,7 +1847,7 @@ $special_list = [
                   <div class="col-md-6 col-12 mb-3">
                   <label>End</label>
                   <select class="hour-end form-control form-control-lg custom-select end" id="sat_end_4" name="sat_end_4">
-                  <option value="">-</option>
+                  
                   <?php
                   for ($i = 0; $i <= (24*60)-15; $i += 15) {
                   $hour = str_pad(floor($i/60), 2, "0", STR_PAD_LEFT);

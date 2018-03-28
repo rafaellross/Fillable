@@ -1,4 +1,22 @@
 <?php
+    error_reporting(0);
+/*
+ * Total Normal Pay Less 4HR RDO 
+ * 
+ *  This is the total of hours worked on the week without overtime (1.5 & 2.0)
+ * Formula = [Total Hours] + [Tafe]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ *  */
+
+
 
 require_once 'config.php';
 
@@ -44,6 +62,19 @@ function hourToMinutes($hour){
     }
 }
 
+function hourToDecimal($hour){
+    $piece = explode(":", $hour);
+    if (count($piece) > 1) {
+        if($piece[1] > 0) {
+           return $piece[0] + $piece[1]/60;            
+        } else {
+            return $piece[0] + 0;            
+        }
+      
+    } else {
+      return "";
+    }
+}
 
 
 
@@ -142,19 +173,19 @@ while($data = mysqli_fetch_array($query)){
     $pdf->Cell($width_days,5, minutesToHour($data->fri_start_1) . ($data->fri_end_1 !== "" ? " - " : "") . minutesToHour($data->fri_end_1),1,0,'C', true);
     $pdf->Cell($width_days,5, minutesToHour($data->sat_start_1) . ($data->sat_end_1 !== "" ? " - " : "") . minutesToHour($data->sat_end_1),1,0,'C', true);
     $pdf->Cell(10,5,'',0,0,'C');
-    $pdf->Cell(25,5,$data->totalWeek,1,0,'C');
+    $pdf->Cell(25,5,hourToDecimal($data->totalWeek),1,0,'C');
     $pdf->Ln();
 
     //Start Job/Hrs lines Job1
     $pdf->SetFont('Arial','',5);
     $pdf->Cell($width_first, 5,"JOB/HRS", 1, 0, 'C');
     $pdf->SetFont('Arial','',$font_regular);
-    $pdf->Cell($width_days, 5, $data->{'jobMon1'} .(empty($data->{'jobMon1'}) ? "" : "/") . $data->{'hrs_mon_1'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobTue1'} .(empty($data->{'jobTue1'}) ? "" : "/") . $data->{'hrs_tue_1'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobWed1'} .(empty($data->{'jobWed1'}) ? "" : "/") . $data->{'hrs_wed_1'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobThu1'} .(empty($data->{'jobThu1'}) ? "" : "/") . $data->{'hrs_thu_1'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobFri1'} .(empty($data->{'jobFri1'}) ? "" : "/") . $data->{'hrs_fri_1'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobSat1'} .(empty($data->{'jobSat1'}) ? "" : "/") . $data->{'hrs_sat_1'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobMon1'} .(empty($data->{'jobMon1'}) ? "" : "/") . hourToDecimal($data->{'hrs_mon_1'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobTue1'} .(empty($data->{'jobTue1'}) ? "" : "/") . hourToDecimal($data->{'hrs_tue_1'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobWed1'} .(empty($data->{'jobWed1'}) ? "" : "/") . hourToDecimal($data->{'hrs_wed_1'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobThu1'} .(empty($data->{'jobThu1'}) ? "" : "/") . hourToDecimal($data->{'hrs_thu_1'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobFri1'} .(empty($data->{'jobFri1'}) ? "" : "/") . hourToDecimal($data->{'hrs_fri_1'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobSat1'} .(empty($data->{'jobSat1'}) ? "" : "/") . hourToDecimal($data->{'hrs_sat_1'}),1,0,'C');
     $pdf->Cell(10,5,'',0,0,'C');
     $pdf->Cell(25, 5,"",1,0,'C');
     $pdf->Ln();
@@ -180,12 +211,12 @@ while($data = mysqli_fetch_array($query)){
     $pdf->SetFont('Arial','',5);
     $pdf->Cell($width_first, 5,"JOB/HRS", 1, 0, 'C');
     $pdf->SetFont('Arial','',$font_regular);
-    $pdf->Cell($width_days, 5, $data->{'jobMon2'} .(empty($data->{'jobMon2'}) ? "" : "/") . $data->{'hrs_mon_2'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobTue2'} .(empty($data->{'jobTue2'}) ? "" : "/") . $data->{'hrs_tue_2'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobWed2'} .(empty($data->{'jobWed2'}) ? "" : "/") . $data->{'hrs_wed_2'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobThu2'} .(empty($data->{'jobThu2'}) ? "" : "/") . $data->{'hrs_thu_2'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobFri2'} .(empty($data->{'jobFri2'}) ? "" : "/") . $data->{'hrs_fri_2'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobSat2'} .(empty($data->{'jobSat2'}) ? "" : "/") . $data->{'hrs_sat_2'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobMon2'} .(empty($data->{'jobMon2'}) ? "" : "/") . hourToDecimal($data->{'hrs_mon_2'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobTue2'} .(empty($data->{'jobTue2'}) ? "" : "/") . hourToDecimal($data->{'hrs_tue_2'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobWed2'} .(empty($data->{'jobWed2'}) ? "" : "/") . hourToDecimal($data->{'hrs_wed_2'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobThu2'} .(empty($data->{'jobThu2'}) ? "" : "/") . hourToDecimal($data->{'hrs_thu_2'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobFri2'} .(empty($data->{'jobFri2'}) ? "" : "/") . hourToDecimal($data->{'hrs_fri_2'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobSat2'} .(empty($data->{'jobSat2'}) ? "" : "/") . hourToDecimal($data->{'hrs_sat_2'}),1,0,'C');
     $pdf->Cell(10,5,'',0,0,'C');
     $pdf->Cell(25, 5,"",1,0,'C');
     $pdf->Ln();
@@ -211,12 +242,12 @@ while($data = mysqli_fetch_array($query)){
     $pdf->SetFont('Arial','',5);
     $pdf->Cell($width_first, 5,"JOB/HRS", 1, 0, 'C');
     $pdf->SetFont('Arial','',$font_regular);
-    $pdf->Cell($width_days, 5, $data->{'jobMon3'} .(empty($data->{'jobMon3'}) ? "" : "/") . $data->{'hrs_mon_3'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobTue3'} .(empty($data->{'jobTue3'}) ? "" : "/") . $data->{'hrs_tue_3'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobWed3'} .(empty($data->{'jobWed3'}) ? "" : "/") . $data->{'hrs_wed_3'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobThu3'} .(empty($data->{'jobThu3'}) ? "" : "/") . $data->{'hrs_thu_3'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobFri3'} .(empty($data->{'jobFri3'}) ? "" : "/") . $data->{'hrs_fri_3'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobSat3'} .(empty($data->{'jobSat3'}) ? "" : "/") . $data->{'hrs_sat_3'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobMon3'} .(empty($data->{'jobMon3'}) ? "" : "/") . hourToDecimal($data->{'hrs_mon_3'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobTue3'} .(empty($data->{'jobTue3'}) ? "" : "/") . hourToDecimal($data->{'hrs_tue_3'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobWed3'} .(empty($data->{'jobWed3'}) ? "" : "/") . hourToDecimal($data->{'hrs_wed_3'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobThu3'} .(empty($data->{'jobThu3'}) ? "" : "/") . hourToDecimal($data->{'hrs_thu_3'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobFri3'} .(empty($data->{'jobFri3'}) ? "" : "/") . hourToDecimal($data->{'hrs_fri_3'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobSat3'} .(empty($data->{'jobSat3'}) ? "" : "/") . hourToDecimal($data->{'hrs_sat_3'}),1,0,'C');
     $pdf->Cell(10,5,'',0,0,'C');
     $pdf->Cell(25, 5,"",1,0,'C');
     $pdf->Ln();
@@ -241,12 +272,12 @@ while($data = mysqli_fetch_array($query)){
     $pdf->SetFont('Arial','',5);
     $pdf->Cell($width_first, 5,"JOB/HRS", 1, 0, 'C');
     $pdf->SetFont('Arial','',$font_regular);
-    $pdf->Cell($width_days, 5, $data->{'jobMon4'} .(empty($data->{'jobMon4'}) ? "" : "/") . $data->{'hrs_mon_4'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobTue4'} .(empty($data->{'jobTue4'}) ? "" : "/") . $data->{'hrs_tue_4'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobWed4'} .(empty($data->{'jobWed4'}) ? "" : "/") . $data->{'hrs_wed_4'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobThu4'} .(empty($data->{'jobThu4'}) ? "" : "/") . $data->{'hrs_thu_4'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobFri4'} .(empty($data->{'jobFri4'}) ? "" : "/") . $data->{'hrs_fri_4'},1,0,'C');
-    $pdf->Cell($width_days, 5, $data->{'jobSat4'} .(empty($data->{'jobSat4'}) ? "" : "/") . $data->{'hrs_sat_4'},1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobMon4'} .(empty($data->{'jobMon4'}) ? "" : "/") . hourToDecimal($data->{'hrs_mon_4'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobTue4'} .(empty($data->{'jobTue4'}) ? "" : "/") . hourToDecimal($data->{'hrs_tue_4'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobWed4'} .(empty($data->{'jobWed4'}) ? "" : "/") . hourToDecimal($data->{'hrs_wed_4'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobThu4'} .(empty($data->{'jobThu4'}) ? "" : "/") . hourToDecimal($data->{'hrs_thu_4'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobFri4'} .(empty($data->{'jobFri4'}) ? "" : "/") . hourToDecimal($data->{'hrs_fri_4'}),1,0,'C');
+    $pdf->Cell($width_days, 5, $data->{'jobSat4'} .(empty($data->{'jobSat4'}) ? "" : "/") . hourToDecimal($data->{'hrs_sat_4'}),1,0,'C');
     $pdf->Cell(10,5,'',0,0,'C');
     $pdf->Cell(25, 5,"",1,0,'C');
     $pdf->Ln();
@@ -258,15 +289,15 @@ while($data = mysqli_fetch_array($query)){
     $pdf->SetFont('Arial','',$font_regular);
 
 
-    $pdf->Cell($width_days,8, $data->hrsMon,1,0,'C', true);
-    $pdf->Cell($width_days,8, $data->hrsTue,1,0,'C', true);
-    $pdf->Cell($width_days,8, $data->hrsWed,1,0,'C', true);
-    $pdf->Cell($width_days,8, $data->hrsThu,1,0,'C', true);
-    $pdf->Cell($width_days,8, $data->hrsFri,1,0,'C', true);
-    $pdf->Cell($width_days,8, $data->hrsSat,1,0,'C', true);
+    $pdf->Cell($width_days,8, hourToDecimal($data->hrsMon),1,0,'C', true);
+    $pdf->Cell($width_days,8, hourToDecimal($data->hrsTue),1,0,'C', true);
+    $pdf->Cell($width_days,8, hourToDecimal($data->hrsWed),1,0,'C', true);
+    $pdf->Cell($width_days,8, hourToDecimal($data->hrsThu),1,0,'C', true);
+    $pdf->Cell($width_days,8, hourToDecimal($data->hrsFri),1,0,'C', true);
+    $pdf->Cell($width_days,8, hourToDecimal($data->hrsSat),1,0,'C', true);
 
     $pdf->Cell(10,5,'',0,0,'C');
-    $pdf->Cell(25,8,$data->totalWeek,1,0,'C');
+    $pdf->Cell(25,8,hourToDecimal($data->totalWeek),1,0,'C');
 
     $pdf->Ln(10);
 
@@ -719,7 +750,7 @@ while($data = mysqli_fetch_array($query)){
                 $hours = str_pad(floor($totalMins / 60), 2, "0", STR_PAD_LEFT);
                 $minutes = str_pad(($totalMins % 60), 2, "0", STR_PAD_LEFT);
                 $pdf->Text(15, $startY_job, $job);
-                $pdf->Text(28, $startY_job, $hours . ":" . $minutes);                
+                $pdf->Text(28, $startY_job, hourToDecimal($hours . ":" . $minutes));                
                 $startY_job += 5;
 
             }
@@ -750,8 +781,9 @@ while($data = mysqli_fetch_array($query)){
         $totalMins_anl_taken = (isset($arr_jobs_hours['anl']) ? $arr_jobs_hours['anl'] : 0);
         $totalMins_pld_taken = (isset($arr_jobs_hours['pld']) ? $arr_jobs_hours['pld'] : 0);
         $totalMins_tafe_taken = (isset($arr_jobs_hours['tafe']) ? $arr_jobs_hours['tafe'] : 0);
+        
         $norm_less_rdo_mins = explode(":", $data->totalNormal);
-        $totalMins = ($norm_less_rdo_mins[0]*60 + $norm_less_rdo_mins[1]) - (4*60) - $totalMins_rdo_taken - $totalMins_sick_taken - $totalMins_pld_taken - $totalMins_anl_taken - (isset($data->req_rdo) ? $data->req_rdo : 0);
+        $totalMins = ($norm_less_rdo_mins[0]*60 + $norm_less_rdo_mins[1]) - (4*60) - $totalMins_rdo_taken - $totalMins_sick_taken - $totalMins_pld_taken - $totalMins_anl_taken;
         $totalMins = ($totalMins > 0 ? $totalMins : 0);
         $hours_normal = str_pad(floor($totalMins / 60), 2, "0", STR_PAD_LEFT);
         $minutes_normal = str_pad(($totalMins % 60), 2, "0", STR_PAD_LEFT);
@@ -768,13 +800,13 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell($tb_center_width,5,'TOTAL HRS',1,0,'C');
 
         //Total
-        $pdf->Cell($tb_center_width,5, $data->hrsMon,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->hrsTue,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->hrsWed,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->hrsThu,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->hrsFri,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->hrsSat,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->totalWeek,1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->hrsMon),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->hrsTue),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->hrsWed),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->hrsThu),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->hrsFri),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->hrsSat),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->totalWeek),1,0,'C');
 
         //Summary
         $pdf->Cell($gap_after_tb_center,5,'');//Gap
@@ -791,13 +823,13 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell($gap_after_tb_left,5,'');//Gap
         $pdf->Cell($tb_center_width,5,'NOR',1,0,'C');
         //Total
-        $pdf->Cell($tb_center_width,5, $data->MonNorm,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->TueNorm,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->WedNorm,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->ThuNorm,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->FriNorm,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->SatNorm,1,0,'C');
-        $pdf->Cell($tb_center_width,5, $data->totalNormal,1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->MonNorm),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->TueNorm),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->WedNorm),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->ThuNorm),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->FriNorm),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->SatNorm),1,0,'C');
+        $pdf->Cell($tb_center_width,5, hourToDecimal($data->totalNormal),1,0,'C');
 
         //Summary
         $pdf->Cell($gap_after_tb_center,5,'');//Gap
@@ -814,13 +846,13 @@ while($data = mysqli_fetch_array($query)){
         $pdf->Cell($gap_after_tb_left,5,'');//Gap
         $pdf->Cell($tb_center_width,5,'1.5',1,0,'C');
         //Total
-        $pdf->Cell($tb_center_width,5, ($data->Mon15 !== "00:00" ? $data->Mon15 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->Tue15 !== "00:00" ? $data->Tue15 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->Wed15 !== "00:00" ? $data->Wed15 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->Thu15 !== "00:00" ? $data->Thu15 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->Fri15 !== "00:00" ? $data->Fri15 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->Sat15 !== "00:00" ? $data->Sat15 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->total15 !== "00:00" ? $data->total15 : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Mon15 !== "00:00" ? hourToDecimal($data->Mon15) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Tue15 !== "00:00" ? hourToDecimal($data->Tue15) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Wed15 !== "00:00" ? hourToDecimal($data->Wed15) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Thu15 !== "00:00" ? hourToDecimal($data->Thu15) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Fri15 !== "00:00" ? hourToDecimal($data->Fri15) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Sat15 !== "00:00" ? hourToDecimal($data->Sat15) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->total15 !== "00:00" ? hourToDecimal($data->total15) : ""),1,0,'C');
 
             //Summary
         $pdf->Cell($gap_after_tb_center,5,'');//Gap
@@ -843,12 +875,12 @@ while($data = mysqli_fetch_array($query)){
         
         $pdf->Cell($tb_center_width,5,'2',1,0,'C');
         //Total
-        $pdf->Cell($tb_center_width,5, ($data->Mon20 !== "00:00" ? $data->Mon20 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->Tue20 !== "00:00" ? $data->Tue20 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->Wed20 !== "00:00" ? $data->Wed20 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->Thu20 !== "00:00" ? $data->Thu20 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->Fri20 !== "00:00" ? $data->Fri20 : ""),1,0,'C');
-        $pdf->Cell($tb_center_width,5, ($data->Sat20 !== "00:00" ? $data->Sat20 : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Mon20 !== "00:00" ? hourToDecimal($data->Mon20) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Tue20 !== "00:00" ? hourToDecimal($data->Tue20) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Wed20 !== "00:00" ? hourToDecimal($data->Wed20) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Thu20 !== "00:00" ? hourToDecimal($data->Thu20) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Fri20 !== "00:00" ? hourToDecimal($data->Fri20) : ""),1,0,'C');
+        $pdf->Cell($tb_center_width,5, ($data->Sat20 !== "00:00" ? hourToDecimal($data->Sat20) : ""),1,0,'C');
         $pdf->Cell($tb_center_width,5, ($data->total20 !== "00:00" ? $data->total20 : ""),1,0,'C');
 
         //Summary
@@ -920,7 +952,16 @@ while($data = mysqli_fetch_array($query)){
 
         $pdf->Cell($tb_right_width,5,'TOTAL TRAVEL DAYS',1,0,'R');
         $pdf->SetFillColor(255,154,0);
-        $pdf->Cell(10,5,$travel_days,1,0,'C', true);
+        
+        
+        //Check if there is Request RDO and add 1 more day to travel days
+        if(isset($data->req_rdo) && $data->req_rdo > 0) {
+        
+            $pdf->Cell(10,5,$travel_days+1,1,0,'C', true);
+        } else {
+            $pdf->Cell(10,5,$travel_days,1,0,'C', true);
+        }
+        
 
     $pdf->Ln();
 
