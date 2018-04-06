@@ -28,19 +28,23 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
             let name = $('#search').val();
 
             $.getJSON( "list-employees.php?name=" + name, function( data ) {
-
+				
                 $.each( data.employees, function( key, val ) {
-
+					console.log(val);
                     let emp = `
 
-                        <div class="card">
+                        <div class="card ` + (val.last_ts === null ? "" : "bg-warning") + `">
                           <div class="card-header" role="tab" id="heading-undefined">
                             <h6 class="mb-0">
                               <div>
-                                <a href="TimeSheet.php?type=TimeSheet.php&empId=` + val.id + ` ">
+                                <a href="TimeSheet.php?type=TimeSheet.php&empId=` + val.id + ` " style="` + (val.last_ts === null ? "" : "color: white;") + `">
                                   <span> `+ val.name +`</span>
                                   </a>
-                                 <button type="button" class="btnAdd btn btn-primary float-right" style="display: none;">Add</button>
+								<div class="float-right" style="` + (val.last_ts === null ? "display: none" : "display: block;") + `">
+								 <i style="margin-right: 20px;">This employee already have a Time Sheet for this week 	&#32;</i>
+								<a href="pdf.php?id=` + val.last_ts + `" class="btnAdd btn btn-primary float-right" style="color: white;display:` + (val.last_ts === null ? "none" : "block") + `;" target="_blank">View</a>
+								</div>
+                                 
                               </div>
                             </h6>
                           </div>

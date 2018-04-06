@@ -7,6 +7,7 @@ $con = $link;
 
 // Define variables and initialize with empty values
 $name = $phone = "";
+$casual = "false";
 $name_err = $phone_err = "";
 
 //Get params
@@ -22,26 +23,26 @@ if ($action == 'delete') {
     echo " window.location.href='employees.php';
          </script>";               
 } else if($action == 'update' && $_SERVER["REQUEST_METHOD"] != "POST") {
-    $sql = "SELECT id, name, phone from employees where id=" . $id . ";";
+    $sql = "SELECT id, name, phone, casual from employees where id=" . $id . ";";
     $query = mysqli_fetch_array(mysqli_query($con, $sql));
     $name = $query['name'];
     $phone = $query['phone'];    
+    $casual = $query['casual'];    
 } else if($action == 'update' && $_SERVER["REQUEST_METHOD"] == "POST") {
-    $sql = "UPDATE employees Set Name = '" . $_POST['name'] . "', phone ='" . $_POST['phone'] . "' where id = " . $id . ";";
+    $sql = "UPDATE employees Set Name = '" . $_POST['name'] . "', phone ='" . $_POST['phone'] . "', casual=".(isset($_POST['chkCasual']) ?$_POST['chkCasual'] : 0) . " where id = " . $id . ";";
     
     if (mysqli_query($con, $sql)) {
         // Close connection
         mysqli_close ($con);    
+
         echo "<script>";
         echo " window.location.href='employees.php';
             </script>";               
         
     }
-;
+
     
 }
-
-
 
 
 // Processing form data when form is submitted
@@ -60,6 +61,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $action != 'update'){
             
             // Set parameters
             $param_name = trim($_POST["name"]);
+            $param_casual = $_POST["chkCasual"];
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -111,20 +113,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $action != 'update'){
     if(empty($name_err) && empty($phone_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO employees (name, phone) VALUES (UPPER(?), ?)";
+        $sql = "INSERT INTO employees (name, phone, casual) VALUES (UPPER(?), ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_name, $param_phone);
+            mysqli_stmt_bind_param($stmt, "sss", $param_name, $param_phone, $param_casual);
             
             // Set parameters
             $param_name = $name;
             $param_phone = $phone;
-            
+            $param_casual = $casual;
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Redirect to login page
-                //header("location: employees.php");
+                header("location: employees.php");
             } else{
                 echo "Something went wrong. Please try again later.";
             }
@@ -159,6 +161,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $action != 'update'){
 <body>
 
     <div class="wrapper">
+        
         <h2>Register Employee</h2>
         <p>Please fill this form to register or update employee.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?action=" . $action . "&id=" . $id; ?>" method="post">
@@ -172,6 +175,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $action != 'update'){
                 <input type="text" name="phone"class="form-control" value="<?php echo $phone; ?>">
                 <span class="help-block"><?php echo $phone_err; ?></span>
             </div>    
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="chkCasual" value="<?= $casual;?>"/>
+                <label class="form-check-label" for="chkCasual">Casual?</label>
+            </div>
             
             <hr>
             <div class="form-group">

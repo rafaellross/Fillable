@@ -134,7 +134,17 @@ $type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
 include 'navbar.php';
 include 'config.php';
 
-$filter_status = (isset($_GET['status']) && $_GET['status'] != 'all') ? "= '" . $_GET['status'] . "' " : "is not null" ;
+
+
+	if(!isset($_GET['status'])){
+		$filter_status = "= 'P'";
+	} else if($_GET['status'] == 'all'){
+		$filter_status = "is not null";
+	} else {
+		$filter_status = "= '" . $_GET['status'] . "' ";	
+	}
+
+
 
 if ($_SESSION['administrator']) {
     $sql = "SELECT id, type, DATE_FORMAT(date_created,'%d/%m/%Y') date_created, username, content, ts_status as status FROM fillable WHERE ts_status " . $filter_status . " and type='". $type ."' order by id desc";
@@ -149,7 +159,7 @@ $query 	= mysqli_query($link, $sql);
 $resul = array();
 
 ?>
-<div class="container">
+<div class="container-fluid">
 
     <h2 style="text-align: center;">Time Sheet</h2>
 

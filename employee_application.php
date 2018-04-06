@@ -22,11 +22,31 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="js/jquery.mask.js"></script>
+        <script src="js/simpleUpload.min.js"></script>                
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">
         <title>Employee Application Form</title>
         <script type="text/javascript">
             $(document).ready(function(){
+                var date = new Date();
+                $('input[type=file]').change(function(){
+                    
+                    var file = {
+                        name : $(this).prop('name'),
+                        session: date.getYear().toString().concat(date.getMonth(),
+                                date.getDate(),
+                                date.getHours(),
+                                date.getMinutes(),
+                                date.getSeconds(),
+                                date.getMilliseconds())
+                    
+                    };
+                    
+                    $(this).simpleUpload("upload.php", {
+                        data: file
+                    });
+                });
+
                 //Initiate date-picker
                 $('.date-picker').datepicker({
                     format: 'dd/mm/yyyy'
@@ -45,13 +65,20 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                     if (input.files && input.files[0]) {
                         var reader = new FileReader();
                         reader.onload = function (e) {
-                            var destination = $(input).prop('name') + "-img";
-                            $("#" + destination).attr('src', e.target.result).show();
-                            $('input[name=whiteCard-front-image]').val(e.target.result);
                             
+                            var destination = $(input).prop('name');
+                            var preview = $("[id*='"+ destination +"']");
+                            
+                            preview.attr('src', e.target.result).show();
+                            
+                            var hidden = $("input[name*='" + destination + "'][type=hidden]");
+                            hidden.val(e.target.result);
+                            
+                            //console.log(hidden);
                         }
                         reader.readAsDataURL(input.files[0]);
                     }
+                    
                 }
 
                 $(document).on("change", "input[type=file]", function(){
@@ -76,19 +103,19 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                           <label>
                         <strong>Issue Date:</strong>
                         </label>
-                        <input type="text" class="form-control form-control-lg date-picker" name="` + code + `Date" placeholder="dd/mm/yyyy" value="" required maxlength="10">
+                        <input type="text" class="form-control form-control-lg date-picker" name=license[` + code + `][date]" placeholder="dd/mm/yyyy" value=""  maxlength="10">
                       </div>
                         <div class="col-md-4 col-12 mb-3 ml-auto">
                           <label>
                         <strong>State / Issuer *:</strong>
                         </label>
-                        <input type="text" class="form-control form-control-lg" name="` + code + `Issuer" placeholder="Issued by" value="" required>
+                        <input type="text" class="form-control form-control-lg" name=license[` + code + `][issuer]" placeholder="Issued by" value="" >
                       </div>
                         <div class="col-md-4 col-12 ml-auto">
                           <label>
                         <strong>Card / Licence No *:</strong>
                         </label>
-                        <input type="text" class="form-control form-control-lg" name="` + code + `Number" placeholder="Issued by" value="" required>
+                        <input type="text" class="form-control form-control-lg" name=license[` + code + `][number]" placeholder="Issued by" value="" >
                     </div>
                       </div>
                       <div class="form-row">
@@ -98,13 +125,14 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                         </label>
                           <div class="input-group mb-3">
                             <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="` + code + `-front" accept="image/*" required>
+                            <input type="file" class="custom-file-input" name="license[` + code + `][image][front]" accept="image/*" >
                             <label class="custom-file-label">Choose file</label>
+                            <input type="hidden" name="license[` + code + `][image][front][img]"/>
                         </div>
                       </div>
                       </div>
                       <div class="col-md-2 col-12 mb-3">
-                            <img id="` + code + `-front-img" class="img-thumbnail" style="max-width: 35%;display: none;">
+                            <img id="license[` + code + `][image][front]" class="img-thumbnail" style="max-width: 35%;display: none;">
                       </div>
                       <div class="col-md-4 col-12 mb-3">
                         <label>
@@ -112,13 +140,14 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                         </label>
                         <div class="input-group mb-3">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="` + code + `-back" accept="image/*">
+                            <input type="file" class="custom-file-input" name="license[` + code + `][image][back]" accept="image/*" >
                             <label class="custom-file-label">Choose file</label>
+                            <input type="hidden" name="license[` + code + `][image][back][img]"/>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-2 col-12 mb-3">
-                            <img class="img-thumbnail" id="` + code + `-back-img" style="max-width: 35%;display: none;">
+                        <img id="license[` + code + `][image][back]" class="img-thumbnail" style="max-width: 35%;display: none;">
                       </div>
                       </div>
                       </div>
@@ -135,6 +164,8 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
               var select = $('select[name=licenseId] :selected');
               $('#licenses-list').append(newLicense(select.text(), select.val()));
             });
+
+               
 
           });
         </script>
@@ -170,7 +201,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                 </div>
             </div>
             <br>
-            <form action="employee_application_submit.php" method="post">
+            <form action="employee_application_submit.php" method="post" enctype="multipart/form-data">
                 <div class="row "  style="padding: 0;">
                     
                 <div id="content" class="col-xs-12 col-sm-12 col-md-10 col-12" style="padding: 0;">
@@ -185,7 +216,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>First Name:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="firstName" placeholder="Type your first name" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="firstName" placeholder="Type your first name" value="" >
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -193,7 +224,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Last Name:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="lastName" placeholder="Type your last name" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="lastName" placeholder="Type your last name" value="" >
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -201,7 +232,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Date of Birth:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg date-picker" name="dateBirth"required value="">
+                                            <input type="text" class="form-control form-control-lg date-picker" name="dateBirth" value="">
                                         </div>
                                     </div>
                                     <!-- End Card -->
@@ -229,13 +260,13 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Suburb:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="suburb" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="suburb" value="" >
                                         </div>
                                         <div class="col-md-2 col-12 mb-3">
                                             <label>
                                                 <strong>Post Code:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="postCode" required value="" maxlength="4">
+                                            <input type="text" class="form-control form-control-lg" name="postCode"  value="" maxlength="4">
                                         </div>
                                     </div>
 
@@ -273,7 +304,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Mobile:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="mobile" value="" required maxlength="10">
+                                            <input type="text" class="form-control form-control-lg" name="mobile" value=""  maxlength="10">
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -281,7 +312,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Phone:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="phone" value="" required maxlength="20">
+                                            <input type="text" class="form-control form-control-lg" name="phone" value=""  maxlength="20">
                                         </div>
                                     </div>
 
@@ -290,7 +321,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>E-mail:</strong>
                                             </label>
-                                            <input type="email" class="form-control form-control-lg" name="email" value="" required>
+                                            <input type="email" class="form-control form-control-lg" name="email" value="" >
                                         </div>
 
                                     </div>
@@ -313,7 +344,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Name:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="emergencyName" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="emergencyName" value="" >
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -321,7 +352,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Phone:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="emergencyPhone" value="" required maxlength="20">
+                                            <input type="text" class="form-control form-control-lg" name="emergencyPhone" value=""  maxlength="20">
                                         </div>
                                     </div>
 
@@ -330,7 +361,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Relationship:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="emergencyRelationship" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="emergencyRelationship" value="" >
                                         </div>
                                     </div>
                                     <!-- End Card -->
@@ -351,7 +382,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Tax File Number:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="taxFileNumber" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="taxFileNumber" value="" >
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -359,7 +390,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Date Employment Commenced:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg date-picker" name="dateCommenced" value="" required>
+                                            <input type="text" class="form-control form-control-lg date-picker" name="dateCommenced" value="" >
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -367,7 +398,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Bank A/C Name:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="bankAccName" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="bankAccName" value="" >
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label>
@@ -387,7 +418,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Superannuation Details:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="superannuation" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="superannuation" value="" >
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -395,7 +426,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Redundancy Details:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="redundancy" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="redundancy" value="" >
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -403,7 +434,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Long Service Nº:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="longServiceNumber" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="longServiceNumber" value="" >
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -437,26 +468,26 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                             <h5 class="card-header">Current Licenses</h5>
                             <div class="card-body">
                                 <!-- Start Card -->
-                                <h5 class="card-title">CIC Construction Induction Card (Required) :</h5>
+                                <h5 class="card-title">CIC Construction Induction Card () :</h5>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-row">
                                         <div class="col-md-2 col-12 mb-3">
                                             <label>
                                                 <strong>Issue Date:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg date-picker" name="whiteCardDate" placeholder="dd/mm/yyyy" value="" required maxlength="10">
+                                            <input type="text" class="form-control form-control-lg date-picker" name="license[whiteCard][date]" placeholder="dd/mm/yyyy" value=""  maxlength="10">
                                         </div>
                                         <div class="col-md-4 col-12 mb-3 ml-auto">
                                             <label>
                                                 <strong>State / Issuer *:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="whiteCardIssuer" placeholder="Issued by" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="license[whiteCard][issuer]" placeholder="Issued by" value="" >
                                         </div>
                                         <div class="col-md-4 col-12 ml-auto">
                                             <label>
                                                 <strong>Card / Licence No *:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="whiteCardNumber" placeholder="License Number" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="license[whiteCard][number]" placeholder="License Number" value="" >
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -466,14 +497,14 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             </label>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" name="whiteCard-front" accept="image/*">
-                                                    <input type="hidden" class="custom-file-input" name="whiteCard-front-image"/>
+                                                    <input type="file" class="custom-file-input" name="license[whiteCard][image][front]" accept="image/*">                                                    
                                                     <label class="custom-file-label">Choose file</label>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-2 col-12 mb-3">
-                                            <img id="whiteCard-front-img" class="img-thumbnail" style="max-width: 35%;display: none;"/>
+                                            <img id="license[whiteCard][image][front][preview]" class="img-thumbnail" style="max-width: 35%;display: none;"/>
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label>
@@ -481,13 +512,14 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             </label>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" name="whiteCard-back" accept="image/*">
+                                                    <input type="file" class="custom-file-input" name="license[whiteCard][image][back]" accept="image/*">
                                                     <label class="custom-file-label">Choose file</label>
+                                                    <input type="hidden" name="license[whiteCard][image][back][img]"/>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-2 col-12 mb-3">
-                                            <img class="img-thumbnail" id="whiteCard-back-img" style="max-width: 35%;display: none;"/>
+                                            <img class="img-thumbnail" id="license[whiteCard][image][back][preview]" style="max-width: 35%;display: none;"/>
                                         </div>
                                     </div>
                                     <!-- End Card -->
@@ -498,26 +530,26 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                             <div class="card-body">
 
                                 <!-- Start Card -->
-                                <h5 class="card-title">DLPI Driver's Licence/Photo I.D (Required) :</h5>
+                                <h5 class="card-title">DLPI Driver's Licence/Photo I.D () :</h5>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-row">
                                         <div class="col-md-2 col-12 mb-3">
                                             <label>
                                                 <strong>Issue Date:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg date-picker" name="idDate" placeholder="dd/mm/yyyy" value="" required maxlength="10">
+                                            <input type="text" class="form-control form-control-lg date-picker" name="license[id][date]" placeholder="dd/mm/yyyy" value=""  maxlength="10">
                                         </div>
                                         <div class="col-md-4 col-12 mb-3 ml-auto">
                                             <label>
                                                 <strong>State / Issuer *:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="idIssuer" placeholder="Issued by" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="license[id][issuer]" placeholder="Issued by" value="" >
                                         </div>
                                         <div class="col-md-4 col-12 ml-auto">
                                             <label>
                                                 <strong>Card / Licence No *:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="idNumber" placeholder="License Number" value="" required>
+                                            <input type="text" class="form-control form-control-lg" name="license[id][number]" placeholder="License Number" value="" >
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -527,13 +559,14 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             </label>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" name="id-front" accept="image/*" required>
+                                                    <input type="file" class="custom-file-input" name="license[id][image][front]" accept="image/*" >
                                                     <label class="custom-file-label">Choose file</label>
+                                                    <input type="hidden" name="license[id][image][front][img]"/>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-2 col-12 mb-3">
-                                            <img id="id-front-img" class="img-thumbnail" style="max-width: 35%;display: none;">
+                                            <img id="license[id][image][front][img]" class="img-thumbnail" style="max-width: 35%;display: none;">
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label>
@@ -541,13 +574,14 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             </label>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" name="id-back" accept="image/*">
+                                                    <input type="file" class="custom-file-input" name="license[id][image][back]" accept="image/*">
                                                     <label class="custom-file-label">Choose file</label>
+                                                    <input type="hidden" name="license[id][image][back][img]"/>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-2 col-12 mb-3">
-                                            <img class="img-thumbnail" id="id-back-img" style="max-width: 35%;display: none;">
+                                            <img class="img-thumbnail" id="license[id][image][back][img]" style="max-width: 35%;display: none;">
                                         </div>
                                     </div>
                                     <!-- End Card -->
@@ -661,6 +695,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                     <div class="form-row">
                                         <div class="col-md-5 col-12 mb-3">
                                             <input type="submit" class="btn btn-warning" value="Submit"/>
+                                            <input type="button" id="btnUpload" value="Upload"/>
                                             <a href="index.php" class="btn btn-secondary">Cancel</a>                                    
                                         </div>
                                     </div>
@@ -674,5 +709,6 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                 </div>
             </form>                
         </div>
+        <div class="logs"></div>
     </body>
 </html>

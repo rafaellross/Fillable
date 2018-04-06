@@ -15,11 +15,11 @@ $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
 
 if (!is_null($name)) {
-    $sql = sprintf("select id, name, phone from employees where name like '%%%s%%' order by name",$name);
+    $sql = sprintf("select emp.id, emp.name, emp.phone, (select id from fillable where YEARWEEK(end_week) = YEARWEEK(now()) and employee  = emp.id order by id desc limit 1) as last_ts from employees emp where name like '%%%s%%' order by name",$name);
      
  } else {
 
-         $sql = "select id, name, phone from employees order by name";
+         $sql = "select emp.id, emp.name, emp.phone, (select id from fillable where YEARWEEK(end_week) = YEARWEEK(now()) and employee  = emp.id order by id desc limit 1) as last_ts from employees emp order by name";
      
  } 
  
@@ -33,7 +33,7 @@ $resul = array();
 while ($row = mysqli_fetch_array($query))
 {
     
-    $myOjb = new Employee($row['id'], $row['name'], $row['phone']);
+    $myOjb = new Employee($row['id'], $row['name'], $row['phone'], $row['last_ts']);
     array_push($resul, $myOjb);	    
 }
 

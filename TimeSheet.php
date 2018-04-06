@@ -69,6 +69,7 @@
       'anl' => 'Annual Leave',
       'sick' => 'Sick Leave',
       'tafe' => 'TAFE',        
+      'holiday' => 'Public Holiday',                
       '001' => '001 - Office',
       '002' => '002 - Belfield',		
 	    '099' => '099 - Office',		
@@ -134,6 +135,14 @@ $special_list = [
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">
     <title>Time Sheet</title>
+    <style>
+        @media (max-width: 575.98px) { 
+            .container, #form-timesheet {
+                width: 100%;
+                padding: 0;
+            }
+        }        
+    </style>
 </head>
 <body>
     <?php
@@ -148,7 +157,7 @@ $special_list = [
         <div class="col-xs-12 col-sm-12 col-md-12" style="text-align: center">
             <h2>Time Sheet</h2>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-12" id="form-timesheet">
             <form method="post" name="fillable_form" action="submit.php?type=<?= $type.'&user='.$_SESSION['username'];?>">
                 <input type="hidden" name="timeSheetId" value="<?= ($id != "") ? $id : "" ;?>">
                 <input type="hidden" name="empId" value="<?= ($empId != "") ? $empId : "" ;?>">

@@ -16,9 +16,10 @@ class Employee {
     public $name;
     public $phone;
 
-    public function __construct($id, $name, $phone) {
+    public function __construct($id, $name, $phone, $last_ts) {
         $this->id = $id;
         $this->name = $name;
         $this->phone = $phone;        
+		$this->last_ts = $last_ts;
     }
 }
