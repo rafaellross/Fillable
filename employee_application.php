@@ -38,11 +38,26 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                 date.getSeconds(),
                                 date.getMilliseconds());
 
-                $('form').submit(function(){
-                    $('input[type=file]').replaceWith(input.val('').clone(true));
-                });
+                var application_id;
+                $("input[type=submit]").click(function(){
+                    //e.preventDefault();
+                    $.post( 'employee_application_submit.php', $('form#details').serialize(), function(data) {
+                        application_id = data;                        
+                    },
+                        'json' // I expect a JSON response
+                    ) .done(function() {
+                        $( ".licenses" ).each(function() {
+                            $.post( 'employee_application_submit.php?type=license&&application=' + application_id, $(this).serialize(), function(data) {
+                                console.log(data);                        
+                            },
+                            'json' // I expect a JSON response
+                            );
+                        });                                                    
+                        });                            
+                    });                        
+                
 
-
+                
 
                 //Initiate date-picker
                 $('.date-picker').datepicker({
@@ -68,8 +83,8 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                             
                             preview.attr('src', e.target.result).show();
                             
-                            //var hidden = $("input[name*='" + destination + "'][type=hidden]");
-                            //hidden.val(e.target.result);
+                            var hidden = $("input[name*='" + destination + "'][type=hidden]");
+                            hidden.val(e.target.result);
                             
                             //console.log(hidden);
                         }
@@ -94,6 +109,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
               
                   <!-- Start Card -->
                   <h5 class="card-title">` + description + ` :</h5>
+                  <form action="" class="licenses" method="post" enctype="multipart/form-data">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                       <div class="form-row">
                         <div class="col-md-2 col-12 mb-3">
@@ -150,6 +166,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                       </div>
                       <button type="button" class="btn btn-danger btn-remove">Remove</button>
                       <hr>
+                      </form>
                     </div>
 
                     <!-- End Card -->
@@ -198,10 +215,11 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                 </div>
             </div>
             <br>
-            <form action="employee_application_submit.php" method="post" enctype="multipart/form-data">
+            
                 <div class="row "  style="padding: 0;">
 
                 <div id="content" class="col-xs-12 col-sm-12 col-md-10 col-12" style="padding: 0;">
+                <form action="" method="post" id="details">
                         <!-- Personal Details -->
                         <div class="card" style="padding: 0;"  id="personalDetails">
                             <h5 class="card-header">Personal Details</h5>
@@ -459,13 +477,15 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                 </div>
                             </div>
                         </div>
+                        </form>
                         <br>
-
+                        
                         <div class="card" style="padding: 0;" id="licenses-list">
                             <h5 class="card-header">Current Licenses</h5>
                             <div class="card-body">
                                 <!-- Start Card -->
                                 <h5 class="card-title">CIC Construction Induction Card () :</h5>
+                                <form action="" class="licenses" method="post" enctype="multipart/form-data">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-row">
                                         <div class="col-md-2 col-12 mb-3">
@@ -521,6 +541,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                     </div>
                                     <!-- End Card -->
                                 </div>
+                                </form>
                                 <hr>
                             </div>
 
@@ -528,6 +549,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
 
                                 <!-- Start Card -->
                                 <h5 class="card-title">DLPI Driver's Licence/Photo I.D () :</h5>
+                                <form action="" class="licenses" method="post" enctype="multipart/form-data">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-row">
                                         <div class="col-md-2 col-12 mb-3">
@@ -584,6 +606,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                     <!-- End Card -->
                                     <hr>
                                 </div>
+                                </form>
                             </div>
                         </div>     
                         <br>                        
@@ -692,7 +715,6 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                     <div class="form-row">
                                         <div class="col-md-5 col-12 mb-3">
                                             <input type="submit" class="btn btn-warning" value="Submit"/>
-                                            <input type="button" id="btnUpload" value="Upload"/>
                                             <a href="index.php" class="btn btn-secondary">Cancel</a>                                    
                                         </div>
                                     </div>
@@ -704,8 +726,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                         <br>
                     </div>
                 </div>
-            </form>                
-        </div>
-        <div class="logs"></div>
+
+        </div>        
     </body>
 </html>
