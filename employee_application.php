@@ -1,6 +1,7 @@
 <?php
 require_once 'config.php';
-
+//ini_set('memory_limit','160M');
+error_reporting(E_ALL);
 // Initialize the session
 session_start();
 
@@ -29,23 +30,19 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
         <script type="text/javascript">
             $(document).ready(function(){
                 var date = new Date();
-                $('input[type=file]').change(function(){
-                    
-                    var file = {
-                        name : $(this).prop('name'),
-                        session: date.getYear().toString().concat(date.getMonth(),
+                var session = date.getYear().toString()
+                        .concat(date.getMonth(),
                                 date.getDate(),
                                 date.getHours(),
                                 date.getMinutes(),
                                 date.getSeconds(),
-                                date.getMilliseconds())
-                    
-                    };
-                    
-                    $(this).simpleUpload("upload.php", {
-                        data: file
-                    });
+                                date.getMilliseconds());
+
+                $('form').submit(function(){
+                    $('input[type=file]').replaceWith(input.val('').clone(true));
                 });
+
+
 
                 //Initiate date-picker
                 $('.date-picker').datepicker({
@@ -71,8 +68,8 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                             
                             preview.attr('src', e.target.result).show();
                             
-                            var hidden = $("input[name*='" + destination + "'][type=hidden]");
-                            hidden.val(e.target.result);
+                            //var hidden = $("input[name*='" + destination + "'][type=hidden]");
+                            //hidden.val(e.target.result);
                             
                             //console.log(hidden);
                         }
@@ -203,7 +200,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
             <br>
             <form action="employee_application_submit.php" method="post" enctype="multipart/form-data">
                 <div class="row "  style="padding: 0;">
-                    
+
                 <div id="content" class="col-xs-12 col-sm-12 col-md-10 col-12" style="padding: 0;">
                         <!-- Personal Details -->
                         <div class="card" style="padding: 0;"  id="personalDetails">
@@ -499,7 +496,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input" name="license[whiteCard][image][front]" accept="image/*">                                                    
                                                     <label class="custom-file-label">Choose file</label>
-                                                    
+                                                    <input type="hidden" name="license[whiteCard][image][front][img]"/>
                                                 </div>
                                             </div>
                                         </div>
