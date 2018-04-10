@@ -23,7 +23,9 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="js/jquery.mask.js"></script>
-        <script src="js/simpleUpload.min.js"></script>                
+        <script src="js/simpleUpload.min.js"></script>      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>      
+                  
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">
         <title>Employee Application Form</title>
@@ -39,21 +41,44 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                 date.getMilliseconds());
 
                 var application_id;
+
+            // just for the demos, avoids form submit
+            jQuery.validator.setDefaults({
+            debug: true,
+            success: "valid"
+            });
+                
                 $("input[type=submit]").click(function(){
+                    var isValid = true;
+                    $("form, form.licensesAdd").each(function() {
+                        var form = $(this);
+                        form.validate();                    
+                        if (!form.valid()) {
+                            isValid = false;
+                        }                        
+                    });  
+           
+                    
                     //e.preventDefault();
-                    $.post( 'employee_application_submit.php', $('form#details').serialize(), function(data) {
-                        application_id = data;                        
-                    },
-                        'json' // I expect a JSON response
-                    ) .done(function() {
-                        $( ".licenses" ).each(function() {
-                            $.post( 'employee_application_submit.php?type=license&&application=' + application_id, $(this).serialize(), function(data) {
-                                console.log(data);                        
-                            },
+                    if (isValid) {
+                        $.post( 'employee_application_submit.php', $('form#details').serialize(), function(data) {
+                            application_id = data;                        
+                        },
                             'json' // I expect a JSON response
-                            );
-                        });                                                    
+                        ) .done(function() {
+                            $( ".licenses" ).each(function() {
+                                $.post( 'employee_application_submit.php?type=license&&application=' + application_id, $(this).serialize(), function(data) {
+                                    console.log(data);                        
+                                },
+                                'json' // I expect a JSON response
+                                );
+                            });                                                    
                         });                            
+                        
+                    } else {
+                        alert('Please, review your informations');
+                    }
+
                     });                        
                 
 
@@ -109,26 +134,26 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
               
                   <!-- Start Card -->
                   <h5 class="card-title">` + description + ` :</h5>
-                  <form action="" class="licenses" method="post" enctype="multipart/form-data">
+                  <form action="" class="licensesAdd" method="post" enctype="multipart/form-data">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                       <div class="form-row">
                         <div class="col-md-2 col-12 mb-3">
                           <label>
                         <strong>Issue Date:</strong>
                         </label>
-                        <input type="text" class="form-control form-control-lg date-picker" name=license[` + code + `][date]" placeholder="dd/mm/yyyy" value=""  maxlength="10">
+                        <input type="text" class="form-control form-control-lg date-picker" name=license[` + code + `][date]" placeholder="dd/mm/yyyy" value=""  maxlength="10" required>
                       </div>
                         <div class="col-md-4 col-12 mb-3 ml-auto">
                           <label>
                         <strong>State / Issuer *:</strong>
                         </label>
-                        <input type="text" class="form-control form-control-lg" name=license[` + code + `][issuer]" placeholder="Issued by" value="" >
+                        <input type="text" class="form-control form-control-lg" name=license[` + code + `][issuer]" placeholder="Issued by" value="" required>
                       </div>
                         <div class="col-md-4 col-12 ml-auto">
                           <label>
                         <strong>Card / Licence No *:</strong>
                         </label>
-                        <input type="text" class="form-control form-control-lg" name=license[` + code + `][number]" placeholder="Issued by" value="" >
+                        <input type="text" class="form-control form-control-lg" name=license[` + code + `][number]" placeholder="Issued by" value="" required>
                     </div>
                       </div>
                       <div class="form-row">
@@ -138,7 +163,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                         </label>
                           <div class="input-group mb-3">
                             <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="license[` + code + `][image][front]" accept="image/*" >
+                            <input type="file" class="custom-file-input" name="license[` + code + `][image][front]" accept="image/*" required>
                             <label class="custom-file-label">Choose file</label>
                             <input type="hidden" name="license[` + code + `][image][front][img]"/>
                         </div>
@@ -153,7 +178,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                         </label>
                         <div class="input-group mb-3">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="license[` + code + `][image][back]" accept="image/*" >
+                            <input type="file" class="custom-file-input" name="license[` + code + `][image][back]" accept="image/*" required>
                             <label class="custom-file-label">Choose file</label>
                             <input type="hidden" name="license[` + code + `][image][back][img]"/>
                           </div>
@@ -183,9 +208,15 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
 
           });
         </script>
+        
         <style media="screen">
             .card-body {
                 background-color: #e8e8e8;
+            }
+
+            .error {
+                color: red;
+                font-weight: bold;
             }
 
             @media only screen and (min-width: 569px){
@@ -231,7 +262,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>First Name:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="firstName" placeholder="Type your first name" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="firstName" placeholder="Type your first name" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -239,7 +270,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Last Name:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="lastName" placeholder="Type your last name" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="lastName" placeholder="Type your last name" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -247,7 +278,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Date of Birth:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg date-picker" name="dateBirth" value="">
+                                            <input type="text" class="form-control form-control-lg date-picker" name="dateBirth" value="" required>
                                         </div>
                                     </div>
                                     <!-- End Card -->
@@ -267,7 +298,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Street Address:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="streetAddress" value="">
+                                            <input type="text" class="form-control form-control-lg" name="streetAddress" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -275,13 +306,13 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Suburb:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="suburb" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="suburb" value="" required>
                                         </div>
                                         <div class="col-md-2 col-12 mb-3">
                                             <label>
                                                 <strong>Post Code:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="postCode"  value="" maxlength="4">
+                                            <input type="text" class="form-control form-control-lg" name="postCode"  value="" maxlength="4" required>
                                         </div>
                                     </div>
 
@@ -290,7 +321,8 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>State:</strong>
                                             </label>
-                                            <select class="form-control form-control-lg custom-select" name="state">
+                                            <select class="form-control form-control-lg custom-select" name="state" required>
+                                                <option value="">Select State</option>
                                                 <option value="Australia Capital Territory">Australia Capital Territory</option>
                                                 <option value="New South Wales" selected>New South Wales</option>
                                                 <option value="Northern Territory">Northern Territory</option>
@@ -319,7 +351,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Mobile:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="mobile" value=""  maxlength="10">
+                                            <input type="text" class="form-control form-control-lg" name="mobile" value=""  maxlength="10" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -327,7 +359,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Phone:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="phone" value=""  maxlength="20">
+                                            <input type="text" class="form-control form-control-lg" name="phone" value=""  maxlength="20" required>
                                         </div>
                                     </div>
 
@@ -336,7 +368,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>E-mail:</strong>
                                             </label>
-                                            <input type="email" class="form-control form-control-lg" name="email" value="" >
+                                            <input type="email" class="form-control form-control-lg" name="email" value="" required>
                                         </div>
 
                                     </div>
@@ -359,7 +391,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Name:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="emergencyName" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="emergencyName" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -367,7 +399,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Phone:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="emergencyPhone" value=""  maxlength="20">
+                                            <input type="text" class="form-control form-control-lg" name="emergencyPhone" value=""  maxlength="20" required>
                                         </div>
                                     </div>
 
@@ -376,7 +408,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Relationship:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="emergencyRelationship" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="emergencyRelationship" value="" required>
                                         </div>
                                     </div>
                                     <!-- End Card -->
@@ -397,7 +429,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Tax File Number:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="taxFileNumber" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="taxFileNumber" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -405,7 +437,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Date Employment Commenced:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg date-picker" name="dateCommenced" value="" >
+                                            <input type="text" class="form-control form-control-lg date-picker" name="dateCommenced" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -413,19 +445,19 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Bank A/C Name:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="bankAccName" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="bankAccName" value="" required>
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label>
                                                 <strong>BSB Nº:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="bsb" value="">
+                                            <input type="text" class="form-control form-control-lg" name="bsb" value="" required>
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label>
                                                 <strong>A/C Nº:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="accountNumber" value="">
+                                            <input type="text" class="form-control form-control-lg" name="accountNumber" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -433,7 +465,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Superannuation Details:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="superannuation" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="superannuation" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -441,7 +473,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Redundancy Details:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="redundancy" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="redundancy" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -449,7 +481,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Long Service Nº:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="longServiceNumber" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="longServiceNumber" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -492,19 +524,19 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Issue Date:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg date-picker" name="license[whiteCard][date]" placeholder="dd/mm/yyyy" value=""  maxlength="10">
+                                            <input type="text" class="form-control form-control-lg date-picker" name="license[whiteCard][date]" placeholder="dd/mm/yyyy" value=""  maxlength="10" required>
                                         </div>
                                         <div class="col-md-4 col-12 mb-3 ml-auto">
                                             <label>
                                                 <strong>State / Issuer *:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="license[whiteCard][issuer]" placeholder="Issued by" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="license[whiteCard][issuer]" placeholder="Issued by" value="" required>
                                         </div>
                                         <div class="col-md-4 col-12 ml-auto">
                                             <label>
                                                 <strong>Card / Licence No *:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="license[whiteCard][number]" placeholder="License Number" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="license[whiteCard][number]" placeholder="License Number" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -514,7 +546,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             </label>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" name="license[whiteCard][image][front]" accept="image/*">                                                    
+                                                    <input type="file" class="custom-file-input" name="license[whiteCard][image][front]" accept="image/*" required>                                                    
                                                     <label class="custom-file-label">Choose file</label>
                                                     <input type="hidden" name="license[whiteCard][image][front][img]"/>
                                                 </div>
@@ -529,7 +561,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             </label>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" name="license[whiteCard][image][back]" accept="image/*">
+                                                    <input type="file" class="custom-file-input" name="license[whiteCard][image][back]" accept="image/*" required>
                                                     <label class="custom-file-label">Choose file</label>
                                                     <input type="hidden" name="license[whiteCard][image][back][img]"/>
                                                 </div>
@@ -556,19 +588,19 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             <label>
                                                 <strong>Issue Date:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg date-picker" name="license[id][date]" placeholder="dd/mm/yyyy" value=""  maxlength="10">
+                                            <input type="text" class="form-control form-control-lg date-picker" name="license[id][date]" placeholder="dd/mm/yyyy" value=""  maxlength="10" required>
                                         </div>
                                         <div class="col-md-4 col-12 mb-3 ml-auto">
                                             <label>
                                                 <strong>State / Issuer *:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="license[id][issuer]" placeholder="Issued by" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="license[id][issuer]" placeholder="Issued by" value="" required>
                                         </div>
                                         <div class="col-md-4 col-12 ml-auto">
                                             <label>
                                                 <strong>Card / Licence No *:</strong>
                                             </label>
-                                            <input type="text" class="form-control form-control-lg" name="license[id][number]" placeholder="License Number" value="" >
+                                            <input type="text" class="form-control form-control-lg" name="license[id][number]" placeholder="License Number" value="" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -578,7 +610,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             </label>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" name="license[id][image][front]" accept="image/*" >
+                                                    <input type="file" class="custom-file-input" name="license[id][image][front]" accept="image/*" required>
                                                     <label class="custom-file-label">Choose file</label>
                                                     <input type="hidden" name="license[id][image][front][img]"/>
                                                 </div>
@@ -593,7 +625,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
                                             </label>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" name="license[id][image][back]" accept="image/*">
+                                                    <input type="file" class="custom-file-input" name="license[id][image][back]" accept="image/*" required>
                                                     <label class="custom-file-label">Choose file</label>
                                                     <input type="hidden" name="license[id][image][back][img]"/>
                                                 </div>
